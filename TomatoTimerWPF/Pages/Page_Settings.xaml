@@ -1,0 +1,118 @@
+﻿<UserControl
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:System="clr-namespace:System;assembly=mscorlib" xmlns:Emit="clr-namespace:System.Reflection.Emit;assembly=mscorlib" x:Class="TomatoTimerWPF.Page_Settings" 
+      mc:Ignorable="d" 
+      xmlns:local="clr-namespace:TomatoTimerWPF"
+      xmlns:Controls="clr-namespace:TomatoTimerWPF"
+      d:DesignHeight="300" d:DesignWidth="265" Loaded="UserControl_Loaded">
+
+    <Grid VerticalAlignment="Center">
+
+        <StackPanel x:Name="spSettingStackPanel" HorizontalAlignment="Left" Orientation="Horizontal" Grid.ColumnSpan="3">
+
+
+
+            <!--Label HorizontalAlignment="Left" Margin="0" VerticalAlignment="Center" Content="Work"/-->
+            <Button x:Name="btnGotoButtons" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Stretch" HorizontalAlignment="Left" Click="Button_GotoButtons_Click">
+                <Image Source="../Resourse/Android_JellyBean/10-device-access-time.png" Stretch="Fill" Width="32" Height="32" ToolTip="Go back" />
+            </Button>
+
+
+
+            <!--Label HorizontalAlignment="Left" Margin="0" VerticalAlignment="Center" Content="Work"/-->
+            <Image Source="../Resourse/Android_JellyBean/4-collections-view-as-list.png" Stretch="Fill" Height="24" Width="24" ToolTip="Work" />
+            <ComboBox x:Name="cbWorkTimeComboBox" HorizontalAlignment="Right" Height="26" Margin="0" VerticalAlignment="Center" Width="45" SelectedIndex="0" BorderThickness="0">
+                <ComboBoxItem Content="30"/>
+                <ComboBoxItem Content="25"/>
+                <TextBox Width="32" Text="60" PreviewTextInput="TextBox_PreviewTextInput"/>
+            </ComboBox>
+            <!--Label HorizontalAlignment="Left" Margin="0,6" VerticalAlignment="Center" Content=" "/-->
+
+            <!--Label HorizontalAlignment="Left" Margin="0" VerticalAlignment="Center" Content="Relax"/-->
+            <!--Image Source="../Resourse/Android_JellyBean/12-hardware-gamepad.png" Stretch="Fill" Width="24" Height="24" ToolTip="Relax" /-->
+            <Menu Background="{x:Null}" RenderTransformOrigin="0.578,0.684" VerticalAlignment="Center" HorizontalAlignment="Right">
+                <MenuItem BorderThickness="0" Margin="0">
+                    <MenuItem.Header>
+                        <StackPanel>
+                            <Image Width="24" Height="24" Source="../Resourse/Android_JellyBean/12-hardware-gamepad.png" ToolTip="Rest time" HorizontalAlignment="Left" />
+                            <!--ContentPresenter Content="Reports" /-->
+                        </StackPanel>
+                    </MenuItem.Header>
+                    <StackPanel Orientation="Horizontal" >
+                        <Label Content="Long rest time:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                        <ComboBox  x:Name="cbLongRelaxTimeComboBox" HorizontalAlignment="Right" Height="26" Margin="0,6" VerticalAlignment="Center" Width="45" SelectedIndex="0">
+                            <ComboBoxItem Content="30"/>
+                            <ComboBoxItem Content="15"/>
+                            <TextBox Width="32" Text="20" PreviewTextInput="TextBox_PreviewTextInput"/>
+                        </ComboBox>
+                    </StackPanel>
+                    
+                </MenuItem>
+
+            </Menu>
+            <ComboBox x:Name="cbRelaxTimeComboBox" HorizontalAlignment="Right" Height="26" Margin="0" VerticalAlignment="Center" Width="45" SelectedIndex="0" ToolTip="Short rest time">
+                <ComboBoxItem Content="10"/>
+                <ComboBoxItem Content="5"/>
+                <TextBox Width="32" Text="15" PreviewTextInput="TextBox_PreviewTextInput"/>
+            </ComboBox>
+            <Menu Width="45" Background="{x:Null}" RenderTransformOrigin="0.578,0.684" VerticalAlignment="Center" HorizontalAlignment="Right">
+                <MenuItem>
+                    <MenuItem.Header>
+                        <StackPanel>
+                            <Image Width="32" Height="32" Source="/TomatoTimerWPF;component/Resourse/Android_JellyBean/4-collections-go-to-today.png" ToolTip="Calender Settings" />
+                            <!--ContentPresenter Content="Reports" /-->
+                        </StackPanel>
+                    </MenuItem.Header>
+                    <StackPanel Orientation="Horizontal" >
+                        <CheckBox x:Name="cbEnableGCal" VerticalAlignment="Center" Click="CheckBox_Checked" ></CheckBox>
+                        <Label Content="Enable creating Google Calendar Event after the work is done" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                        
+
+                    </StackPanel>
+                    <StackPanel x:Name="spGoogleID" Orientation="Horizontal" >
+                        <Label Content="Calendar ID" HorizontalAlignment="Right" VerticalAlignment="Top" Width="80"/>
+                        <TextBox x:Name="tbGoogleCal_src" Width="260" Text=""/>
+                        <Menu Background="{x:Null}">
+                            <MenuItem SubmenuOpened="MenuItem_SubmenuOpened" >
+                                <MenuItem.Header>
+                                    <StackPanel>
+                                        <Image Width="24" Height="24" Source="/TomatoTimerWPF;component/Resourse/Android_JellyBean/2-action-help.png" />
+                                        <!--ContentPresenter Content="Reports" /-->
+                                    </StackPanel>
+                                </MenuItem.Header>
+                                <Controls:GifImage x:Name="gifimgDemo" GifSource="/TomatoTimerWPF;component/Resourse/TomatoTimerWPF_HowToGetCalenderID.gif" AutoStart="True" DurationPerFrameMS="1000"/>
+
+                                <!--MediaElement x:Name="myGif" MediaEnded="myGif_MediaEnded" UnloadedBehavior="Manual" Source="./TomatoTimerWPF_HowToGetCalenderID.gif" LoadedBehavior="Play" Stretch="None"/-->
+                              
+                                <!--local:GifImage Width="571" Height="411" x:Name="gifImage" Stretch="None" Source="/Resourse/demo_cal_ID_4_all_1500.gif"/-->
+                                <!--local:GifImage GifSource="/Resourse/demo_cal_ID_4_all_1500.gif" /-->
+                                <!--local:GifImage Width="571" Height="411" x:Name="gifImage" Stretch="None" GifSource="/Resourse/demo_cal_ID_4_all_1500.gif"/-->
+                                <!--Image Width="571" Height="411" Source="/TomatoTimerWPF;component/Resourse/demo_cal_ID_4_all_1500.gif" /-->
+                            </MenuItem>
+                            
+                            
+                        </Menu>
+                    </StackPanel>
+                    <StackPanel x:Name="spGoogleEventTitle" Orientation="Horizontal" >
+                        <Label Content="Event Title" HorizontalAlignment="Right" VerticalAlignment="Top" Width="80"/>
+                        <TextBox x:Name="tbGoogleCal_text" Text="" Width="260"/>
+
+                    </StackPanel>
+                    <MenuItem x:Name="menuTestGoogleCal" Header="Try to create a Google Calendar Event" Click="OnClick_Test_GoogleCalender" Height="32" VerticalAlignment="Center"/>
+                </MenuItem>
+
+            </Menu>
+        </StackPanel>
+        <Button x:Name="btnClose" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Top" HorizontalAlignment="Right" Width="20" Click="Button_Close_Click" Height="20">
+            <Image Source="../Resourse/Android_JellyBean/1-navigation-cancel.png" Stretch="Fill" Height="16" Width="16" />
+        </Button>
+
+        
+
+
+
+    </Grid>
+</UserControl>
