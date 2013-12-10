@@ -582,7 +582,8 @@ namespace TomatoTimerWPF
         public void Pause()
         {
             if (m_bIsPause) return;
-
+            if (m_mode == TimerMode.MODE_RELAX_LONG || m_mode == TimerMode.MODE_RELAX)
+                return;
             m_pauseSound.Play();
             m_bIsPause = true;
             m_TimeSpan = DateTime.Now - m_TimeDateStart;
@@ -611,6 +612,7 @@ namespace TomatoTimerWPF
                 OpenGoogleCalender(m_TimeDateStart, DateTime.Now);
 
             SetWindowFlash(false);
+            m_bIsPause = false;
             m_TimeDateStart = DateTime.Now;
             m_TimeDatePauseStart = DateTime.Now;
             m_TimeSpanPause = TimeSpan.FromMinutes(0);
