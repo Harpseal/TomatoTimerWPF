@@ -4,8 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:System="clr-namespace:System;assembly=mscorlib" xmlns:Emit="clr-namespace:System.Reflection.Emit;assembly=mscorlib" x:Class="TomatoTimerWPF.Page_Settings" 
-      mc:Ignorable="d" 
-      xmlns:local="clr-namespace:TomatoTimerWPF"
+      mc:Ignorable="d"     
       xmlns:Controls="clr-namespace:TomatoTimerWPF"
       d:DesignHeight="300" d:DesignWidth="265" Loaded="UserControl_Loaded">
 
@@ -83,7 +82,7 @@
                                         <!--ContentPresenter Content="Reports" /-->
                                     </StackPanel>
                                 </MenuItem.Header>
-                                <Controls:GifImage x:Name="gifimgDemo" GifSource="/TomatoTimerWPF;component/Resourse/TomatoTimerWPF_HowToGetCalenderID.gif" AutoStart="True" DurationPerFrameMS="1000"/>
+                                <Controls:GifImage x:Name="gifHowToDemo" GifSource="/TomatoTimerWPF;component/Resourse/TomatoTimerWPF_HowToGetCalenderID.gif" AutoStart="True" DurationPerFrameMS="1000"/>
 
                                 <!--MediaElement x:Name="myGif" MediaEnded="myGif_MediaEnded" UnloadedBehavior="Manual" Source="./TomatoTimerWPF_HowToGetCalenderID.gif" LoadedBehavior="Play" Stretch="None"/-->
                               

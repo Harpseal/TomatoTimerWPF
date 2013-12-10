@@ -20,8 +20,15 @@ namespace TomatoTimerWPF
     /// <summary>
     /// Interaction logic for Page_Settings.xaml
     /// </summary>
-    public partial class Page_Settings : UserControl , ISwitchable
+    public partial class Page_Settings : UserControl
     {
+        
+        private MainWindow m_window;
+        public void SetMainWindow(MainWindow window)
+        {
+            m_window = window;
+        }
+
         public Page_Settings()
         {
             InitializeComponent();
@@ -40,7 +47,8 @@ namespace TomatoTimerWPF
         private void Button_GotoButtons_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             SyncUIValueToSettings();
-            Switcher.Switch(new Page_Buttons());
+            m_window.SwitchToButtons();
+            //Switcher.Switch(new Page_Buttons());
             
         }
         #endregion
@@ -192,14 +200,16 @@ namespace TomatoTimerWPF
 
         private void Button_Close_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            Switcher.Close();
+            //Switcher.Close();
+            m_window.Close();
         }
 
         private void OnClick_Test_GoogleCalender(object sender, System.Windows.RoutedEventArgs e)
         {
             TomatoTimerWPF.Properties.Settings.Default.GoogleCal_src = tbGoogleCal_src.Text;
             TomatoTimerWPF.Properties.Settings.Default.GoogleCal_text = tbGoogleCal_text.Text;
-            Switcher.GetBaseWindow().OpenGoogleCalender(DateTime.Now - TimeSpan.FromMinutes(TomatoTimerWPF.Properties.Settings.Default.Work_Time), DateTime.Now);
+            m_window.OpenGoogleCalender(DateTime.Now - TimeSpan.FromMinutes(TomatoTimerWPF.Properties.Settings.Default.Work_Time), DateTime.Now);
+            //Switcher.GetBaseWindow().OpenGoogleCalender(DateTime.Now - TimeSpan.FromMinutes(TomatoTimerWPF.Properties.Settings.Default.Work_Time), DateTime.Now);
         }
 
         Regex NumEx = new Regex(@"^-?\d*\.?\d*$");
@@ -248,9 +258,9 @@ namespace TomatoTimerWPF
 
         private void MenuItem_SubmenuOpened(object sender, RoutedEventArgs e)
         {
-            gifimgDemo.FrameIndex = 0;
-            gifimgDemo.StopAnimation();
-            gifimgDemo.StartAnimation();
+            gifHowToDemo.FrameIndex = 0;
+            gifHowToDemo.StopAnimation();
+            gifHowToDemo.StartAnimation();
         }
 
         private void cbComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

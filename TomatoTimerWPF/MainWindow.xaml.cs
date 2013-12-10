@@ -17,6 +17,7 @@ using Microsoft.WindowsAPICodePack.Taskbar;
 using System.Runtime.InteropServices;
 using System.Drawing;
 using System.Windows.Interop;
+using System.Windows.Media.Animation;
 
 namespace TomatoTimerWPF
 {
@@ -83,30 +84,64 @@ namespace TomatoTimerWPF
         public event Action m_ActionGoToWork = () => { };
         public event Action m_ActionTakeABreak = () => { };
 
+        private Page_Buttons m_pageButtons;
+        private Page_Settings m_pageSettings;
+
+        Storyboard m_sbAniOut;
+        Storyboard m_sbAniIn;
+
+        ThicknessAnimation m_taSlideOut;
+        ThicknessAnimation m_taSlideIn;
+
         public MainWindow()
         {
             InitializeComponent();
-            Switcher.baseWindow = this;
+
             m_OverlayIconLastMin = -99999;
 
-            if (TaskbarManager.IsPlatformSupported)
-            {
+            m_pageButtons = new Page_Buttons();
+            m_pageSettings = new Page_Settings();
 
+            m_pageButtons.SetMainWindow(this);
+            m_pageSettings.SetMainWindow(this);
 
+            //Initialize animations
+            m_sbAniOut = new Storyboard();
+            DoubleAnimation daFadeOut = new DoubleAnimation();
+            daFadeOut.Duration = 200.Milliseconds();
+            daFadeOut.To = 0.0;
 
-                //m_btnReset.DismissOnClick = true;
-                //m_btnPlay.DismissOnClick = true;
-                //m_btnPause.DismissOnClick = true;
-                //m_btnGoToWork.DismissOnClick = true;
-                //m_btnGoToRest.DismissOnClick = true;
+            ThicknessAnimation taSlideOut = new ThicknessAnimation();
+            taSlideOut.Duration = 200.Milliseconds();
+            taSlideOut.To = new Thickness(0, this.Height, 0, 0);
+            taSlideOut.From = new Thickness(0, 0, 0, 0);
 
+            m_sbAniOut.Completed += Storyboard_Completed;
+            m_sbAniOut.Children.Add(daFadeOut);
+            m_sbAniOut.Children.Add(taSlideOut);
+            Storyboard.SetTargetProperty(daFadeOut, new PropertyPath(UIElement.OpacityProperty));
+            Storyboard.SetTargetProperty(taSlideOut, new PropertyPath(FrameworkElement.MarginProperty));
+            
 
+            m_sbAniIn = new Storyboard();
+            DoubleAnimation daFadeIn = new DoubleAnimation();
+            daFadeIn.Duration = 200.Milliseconds();
+            daFadeIn.From = 0.0;
+            daFadeIn.To = 1.0;
 
+            ThicknessAnimation taSlideIn = new ThicknessAnimation();
+            taSlideIn.Duration = 200.Milliseconds();
+            taSlideIn.From = new Thickness(0, -this.Height, 0, 0);
+            taSlideIn.To = new Thickness(0, 0, 0, 0);
 
-            }
-
-
-
+            m_sbAniIn.Completed += Storyboard_Completed;
+            m_sbAniIn.Children.Add(daFadeIn);
+            m_sbAniIn.Children.Add(taSlideIn);
+            Storyboard.SetTargetProperty(daFadeIn, new PropertyPath(UIElement.OpacityProperty));
+            Storyboard.SetTargetProperty(taSlideIn, new PropertyPath(FrameworkElement.MarginProperty));
+            
+            m_taSlideOut = taSlideOut;
+            m_taSlideIn = taSlideIn;
         }
 
         private ThumbnailToolbarButton CreateToolbarButton(Icon icon, string toolTip, Action onClick)
@@ -172,13 +207,17 @@ namespace TomatoTimerWPF
 
             m_TimeDateStart = DateTime.Now;
             m_TimeDatePauseStart = DateTime.Now;
-            Switcher.Switch(new Page_Buttons());
-            //StartWork();
+
+            this.Content = m_pageButtons;
+            UpdateUI();
+
             m_timer = new System.Windows.Forms.Timer();
             m_timer.Interval = 1000;
             m_timer.Tick += new EventHandler(Timer_Tick);
             m_timer.Start();
 
+
+            //SwitchToButtons();
 
 
         }
@@ -193,17 +232,17 @@ namespace TomatoTimerWPF
             this.Content = nextPage;
         }
 
-        public void Navigate(UserControl nextPage, object state)
-        {
-            this.Content = nextPage;
-            ISwitchable s = nextPage as ISwitchable;
+        //public void Navigate(UserControl nextPage, object state)
+        //{
+        //    this.Content = nextPage;
+        //    ISwitchable s = nextPage as ISwitchable;
 
-            if (s != null)
-                s.UtilizeState(state);
-            else
-                throw new ArgumentException("NextPage is not ISwitchable! "
-                  + nextPage.Name.ToString());
-        }
+        //    if (s != null)
+        //        s.UtilizeState(state);
+        //    else
+        //        throw new ArgumentException("NextPage is not ISwitchable! "
+        //          + nextPage.Name.ToString());
+        //}
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -220,11 +259,11 @@ namespace TomatoTimerWPF
 
             TimeSpan timerSpan, modeSpan;
             if (m_mode == TimerMode.MODE_WORK)
-                modeSpan = TimeSpan.FromMinutes(TomatoTimerWPF.Properties.Settings.Default.Work_Time) + 1.Seconds();
+                modeSpan = TimeSpan.FromMinutes(TomatoTimerWPF.Properties.Settings.Default.Work_Time) + 800.Milliseconds();
             else if (m_mode == TimerMode.MODE_RELAX)
-                modeSpan = TimeSpan.FromMinutes(TomatoTimerWPF.Properties.Settings.Default.Relax_Time) + 1.Seconds();
+                modeSpan = TimeSpan.FromMinutes(TomatoTimerWPF.Properties.Settings.Default.Relax_Time) + 800.Milliseconds();
             else if (m_mode == TimerMode.MODE_RELAX_LONG)
-                modeSpan = TimeSpan.FromMinutes(TomatoTimerWPF.Properties.Settings.Default.Relax_Time_Long) + 1.Seconds();
+                modeSpan = TimeSpan.FromMinutes(TomatoTimerWPF.Properties.Settings.Default.Relax_Time_Long) + 800.Milliseconds();
             else
                 modeSpan = 1.Seconds();
 
@@ -249,7 +288,8 @@ namespace TomatoTimerWPF
             
 
 
-            Page_Buttons pageButtons = this.Content as Page_Buttons;
+            //Page_Buttons pageButtons = this.Content as Page_Buttons;
+            Page_Buttons pageButtons = m_pageButtons;//pageTransitionControl.CurrentPage as Page_Buttons;
             if (pageButtons != null)
             {
                 if (m_mode == TimerMode.MODE_WORK)
@@ -625,6 +665,51 @@ namespace TomatoTimerWPF
 
             System.Diagnostics.Process.Start(gcalUrl);
         }
+
+
+        public void SwitchToButtons()
+        {
+            //Storyboard sbSlideAndFadeOut = Resources["FadeOut"] as Storyboard;
+            m_taSlideOut.To = new Thickness(0, this.Height, 0, 0);
+            m_taSlideIn.From = new Thickness(0, -this.Height, 0, 0);
+
+            pages.Push(m_pageButtons);
+            m_sbAniOut.Begin(this.Content as UserControl);
+        }
+
+        Stack<UserControl> pages = new Stack<UserControl>();
+
+        public void SwitchToSettings()
+        {
+            m_taSlideOut.To = new Thickness(0, -this.Height, 0, 0);
+            m_taSlideIn.From = new Thickness(0, this.Height, 0, 0);
+
+            //Storyboard sbAniOut = Resources["FadeOut"] as Storyboard;
+            pages.Push(m_pageSettings);
+            m_sbAniOut.Begin(this.Content as UserControl);
+
+        }
+
+        private void Storyboard_Completed(object sender, EventArgs e)
+        {
+            if (pages.Count != 0)
+            {
+                UserControl page = pages.Pop();
+                //Storyboard sbAniIn = Resources["FadeIn"] as Storyboard;
+
+                Page_Buttons pageButtons = page as Page_Buttons;
+                if (pageButtons != null)
+                    UpdateUI();
+                this.Content = page;
+
+                //sbAniIn.Begin(page);
+                m_sbAniIn.Begin(page);
+                
+
+            }
+        }
+
+        
         //private void Button_Click_1(object sender, RoutedEventArgs e)
         //{
             

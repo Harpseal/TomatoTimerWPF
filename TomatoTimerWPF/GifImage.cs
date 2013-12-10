@@ -59,7 +59,7 @@ namespace TomatoTimerWPF
             set { SetValue(AutoStartProperty, value); }
         }
 
-        public string GifSource
+        public string GifSource 
         {
             get { return (string)GetValue(GifSourceProperty); }
             set { SetValue(GifSourceProperty, value); }

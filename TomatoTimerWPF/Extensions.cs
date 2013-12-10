@@ -37,6 +37,11 @@ namespace TomatoTimerWPF
         //    return stream;
         //}
 
+        public static TimeSpan Milliseconds(this int ms)
+        {
+            return new TimeSpan(0, 0, 0, 0, ms);
+        }
+
         public static TimeSpan Seconds(this int seconds)
         {
             return new TimeSpan(0, 0, seconds);

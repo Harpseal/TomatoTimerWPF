@@ -13,17 +13,28 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using System.Windows.Media.Animation;
+
 namespace TomatoTimerWPF
 {
     /// <summary>
     /// Interaction logic for Page_Buttons.xaml
     /// </summary>
-    public partial class Page_Buttons : UserControl , ISwitchable
+    public partial class Page_Buttons : UserControl
     {
         
         private System.Windows.Point m_MousePosition;
         public DateTime m_MouseDownTime;
         public bool m_bIsMouseDown = false;
+        
+        private MainWindow m_window;
+        public void SetMainWindow(MainWindow window)
+        {
+            m_window = window;
+        }
+
+        Storyboard m_sbAniOut;
+        Storyboard m_sbAniIn;
 
         public Page_Buttons()
         {
@@ -35,18 +46,38 @@ namespace TomatoTimerWPF
             labelTime_small.Opacity = 0;
             grLabelGrid.Opacity = 1;
 
+            
+            m_sbAniOut = new Storyboard();
+            DoubleAnimation daFadeOut = new DoubleAnimation();
+            daFadeOut.Duration = 200.Milliseconds();
+            daFadeOut.To = 0.0;
+
+            m_sbAniOut.Children.Add(daFadeOut);
+            Storyboard.SetTargetProperty(daFadeOut, new PropertyPath(UIElement.OpacityProperty));
+
+            m_sbAniIn = new Storyboard();
+            DoubleAnimation daFadeIn = new DoubleAnimation();
+            daFadeIn.Duration = 200.Milliseconds();
+            daFadeIn.From = 0.0;
+            daFadeIn.To = 1.0;
+
+            m_sbAniIn.Children.Add(daFadeIn);
+            Storyboard.SetTargetProperty(daFadeIn, new PropertyPath(UIElement.OpacityProperty));
+
+
             m_MouseDownTime = DateTime.Now;
         }
 
         #region ISwitchable Members
-        public void UtilizeState(object state)
-        {
-            throw new NotImplementedException();
-        }
+        //public void UtilizeState(object state)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         private void Button_GotoSettings_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            Switcher.Switch(new Page_Settings());
+            //Switcher.Switch(new Page_Settings());
+            m_window.SwitchToSettings();
         }
         #endregion
 
@@ -67,7 +98,7 @@ namespace TomatoTimerWPF
 
         private void Button_Close_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            Switcher.Close();
+            m_window.Close();
         }
 
         private void OnButtonMove_MouseDown_1(object sender, MouseButtonEventArgs e)
@@ -93,7 +124,8 @@ namespace TomatoTimerWPF
                 //MessageBox.Show("DragMove");
                 // Prevent Click from firing
                 btnMove.ReleaseMouseCapture();
-                Switcher.GetBaseWindow().DragMove();
+                //Switcher.GetBaseWindow().DragMove();
+                m_window.DragMove();
             }
 
             
@@ -102,30 +134,44 @@ namespace TomatoTimerWPF
 
         private void Grid_MouseEnter_1(object sender, MouseEventArgs e)
         {
-            btnGotoSetting.Opacity = 1;
-            spWindowControlStackPanel.Opacity = 1;
-            spButtonStackPanel.Opacity = 1;
-            labelTime_small.Opacity = 1;
-            grLabelGrid.Opacity = 0;
+            //btnGotoSetting.Opacity = 1;
+            //spWindowControlStackPanel.Opacity = 1;
+            //spButtonStackPanel.Opacity = 1;
+            //labelTime_small.Opacity = 1;
+            //grLabelGrid.Opacity = 0;
+
+            m_sbAniIn.Begin(btnGotoSetting);
+            m_sbAniIn.Begin(spWindowControlStackPanel);
+            m_sbAniIn.Begin(spButtonStackPanel);
+            m_sbAniIn.Begin(labelTime_small);
+            m_sbAniOut.Begin(grLabelGrid);
         }
 
         private void Grid_MouseLeave_1(object sender, MouseEventArgs e)
         {
-            btnGotoSetting.Opacity = 0;
-            spWindowControlStackPanel.Opacity = 0;
-            spButtonStackPanel.Opacity = 0;
-            labelTime_small.Opacity = 0;
-            grLabelGrid.Opacity = 1;
+            m_sbAniOut.Begin(btnGotoSetting);
+            m_sbAniOut.Begin(spWindowControlStackPanel);
+            m_sbAniOut.Begin(spButtonStackPanel);
+            m_sbAniOut.Begin(labelTime_small);
+            m_sbAniIn.Begin(grLabelGrid);
+
+            //btnGotoSetting.Opacity = 0;
+            //spWindowControlStackPanel.Opacity = 0;
+            //spButtonStackPanel.Opacity = 0;
+            //labelTime_small.Opacity = 0;
+            //grLabelGrid.Opacity = 1;
         }
 
         private void Button_GotoWork_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            Switcher.GetBaseWindow().StartWork();
+            //Switcher.GetBaseWindow().StartWork();
+            m_window.StartWork();
         }
 
         private void Button_GotoRelax_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            Switcher.GetBaseWindow().StartRelax();
+            //Switcher.GetBaseWindow().StartRelax();
+            m_window.StartRelax();
             m_bIsMouseDown = false;
             //TimeSpan downTime = DateTime.Now - m_MouseDownTime;
             //MessageBox.Show(downTime.ToString());
@@ -133,17 +179,18 @@ namespace TomatoTimerWPF
 
         private void Button_Pause_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            Switcher.GetBaseWindow().Pause();
+
+            m_window.Pause();
         }
 
         private void Button_Resume_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            Switcher.GetBaseWindow().Resume();
+            m_window.Resume();
         }
 
         private void Button_Reset_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            Switcher.GetBaseWindow().Reset();
+            m_window.Reset();
         }
 
         private void btnRelax_PreviewMouseDown(object sender, MouseButtonEventArgs e)
