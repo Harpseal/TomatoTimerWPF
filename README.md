@@ -15,13 +15,18 @@ Pomodoro timer for windows 7/8(Desktop) showing countdown on taskbar by using Ov
 ```
 
 ## Buliding Prerequisites & Dependencies
-- Microsoft Visual Studio 2013 Express
+- Microsoft Visual Studio 2012/2013 (Express version is enough)
 
 
-## Authors
+## Author
 
 **Harpseal Tsai**
 
-+ [Google Plus](https://plus.google.com/u/1/104780260310145497080/)
++ [Google Plus](https://plus.google.com/+HarpsealTsai/)
 + [Twitter](https://twitter.com/HarpsealTsai)
+
+
+## Attribution
+
+All icons used in this project are made by android team and downloaded from [deviantart](http://palhaiz.deviantart.com/art/Android-4-1-Jelly-Bean-Icon-Set-311741892). Thanks for their hard work. :)
 
