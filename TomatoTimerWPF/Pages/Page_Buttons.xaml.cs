@@ -31,6 +31,7 @@ namespace TomatoTimerWPF
         public void SetMainWindow(MainWindow window)
         {
             m_window = window;
+            this.ToggleAlwaysOnTop();
         }
 
         Storyboard m_sbAniOut;
@@ -202,6 +203,19 @@ namespace TomatoTimerWPF
         public bool GetIsLongRest()
         {
             return m_bIsMouseDown && !(DateTime.Now - m_MouseDownTime - 3.Seconds()).IsNegativeOrZero();
+        }
+
+        private void btnAlwaysOnTop_Click(object sender, RoutedEventArgs e)
+        {
+            this.ToggleAlwaysOnTop();
+        }
+
+        private void ToggleAlwaysOnTop()
+        {
+            if (this.btnAlwaysOnTop != null && this.m_window != null)
+            {
+                this.m_window.Topmost = btnAlwaysOnTop.IsChecked.HasValue && btnAlwaysOnTop.IsChecked.Value;
+            }
         }
     }
 
