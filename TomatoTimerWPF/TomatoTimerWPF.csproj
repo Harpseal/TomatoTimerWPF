@@ -158,6 +158,7 @@
     <Resource Include="Resourse\Android_JellyBean\10-device-access-alarms_big_wbg.png" />
     <Resource Include="Resourse\Android_JellyBean\10-device-access-alarms_shift.png" />
     <Resource Include="Resourse\Android_JellyBean\10-device-access-alarms_big_wbg.ico" />
+    <Resource Include="Resourse\Android_JellyBean\9-av-make-available-offline.png" />
     <Content Include="Resourse\Audio\system notification.wav" />
     <Content Include="Resourse\Audio\windows logon.wav" />
     <Content Include="Resourse\Audio\windows user account.wav" />
