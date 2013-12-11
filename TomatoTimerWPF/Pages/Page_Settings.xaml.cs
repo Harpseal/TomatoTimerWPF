@@ -29,9 +29,11 @@ namespace TomatoTimerWPF
             m_window = window;
         }
 
-        public Page_Settings()
+        public Page_Settings(MainWindow  window)
         {
             InitializeComponent();
+
+            m_window = window;
             SyncSettingsToUIValue();
             cbRelaxTimeComboBox.SelectionChanged += ComboBox_SelectionChanged;
             cbWorkTimeComboBox.SelectionChanged += ComboBox_SelectionChanged;

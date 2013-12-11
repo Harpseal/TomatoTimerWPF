@@ -37,10 +37,18 @@ namespace TomatoTimerWPF
         Storyboard m_sbAniOut;
         Storyboard m_sbAniIn;
 
-        public Page_Buttons()
+        public Page_Buttons(MainWindow window)
         {
-            m_MousePosition.X = m_MousePosition.Y = 0;
             InitializeComponent();
+
+            m_window = window;
+
+            btnAlwaysOnTop.IsChecked = TomatoTimerWPF.Properties.Settings.Default.AlwaysOnTop;
+            if (btnAlwaysOnTop.IsChecked == true)
+                this.ToggleAlwaysOnTop();
+
+            m_MousePosition.X = m_MousePosition.Y = 0;
+            
             spButtonStackPanel.Opacity = 0;
             btnGotoSetting.Opacity = 0;
             spWindowControlStackPanel.Opacity = 0;
@@ -208,6 +216,7 @@ namespace TomatoTimerWPF
         private void btnAlwaysOnTop_Click(object sender, RoutedEventArgs e)
         {
             this.ToggleAlwaysOnTop();
+            TomatoTimerWPF.Properties.Settings.Default.AlwaysOnTop = this.m_window.Topmost;
         }
 
         private void ToggleAlwaysOnTop()

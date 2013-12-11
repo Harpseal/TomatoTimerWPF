@@ -99,11 +99,8 @@ namespace TomatoTimerWPF
 
             m_OverlayIconLastMin = -99999;
 
-            m_pageButtons = new Page_Buttons();
-            m_pageSettings = new Page_Settings();
-
-            m_pageButtons.SetMainWindow(this);
-            m_pageSettings.SetMainWindow(this);
+            m_pageButtons = new Page_Buttons(this);
+            m_pageSettings = new Page_Settings(this);
 
             //Initialize animations
             m_sbAniOut = new Storyboard();

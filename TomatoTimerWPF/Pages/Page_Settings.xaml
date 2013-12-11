@@ -106,7 +106,7 @@
             </Menu>
         </StackPanel>
 
-        <Button x:Name="btnClose" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Top" HorizontalAlignment="Right" Width="20" Click="Button_Close_Click" Height="20">
+        <Button x:Name="btnClose" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Top" HorizontalAlignment="Right" Width="20" Click="Button_Close_Click" Height="20" ToolTip="Close">
             <Image Source="../Resourse/Android_JellyBean/1-navigation-cancel.png" Stretch="Fill" Height="16" Width="16" />
         </Button>
 
