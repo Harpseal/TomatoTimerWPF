@@ -10,7 +10,7 @@
     <Grid x:Name="grButtonsGrid" MouseEnter="Grid_MouseEnter_1" MouseLeave="Grid_MouseLeave_1">
         <ProgressBar x:Name="pbarTimer" Margin="0" Value="50" />
         <Grid x:Name="grLabelGrid" Opacity="1">
-            <Label x:Name="labelTime" Content="Work: 00:00" Width="158" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Center" FontFamily="Arial">
+            <Label x:Name="labelTime" Content="Work: 00:00:00" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Center" FontFamily="Arial">
                 <Label.Effect>
                     <DropShadowEffect Direction="0" ShadowDepth="0" BlurRadius="5" Color="White"/>
                 </Label.Effect>
@@ -21,7 +21,7 @@
                 </Label.Effect>
             </Label>
         </Grid>
-        <Label x:Name="labelTime_small" Content="Work: 00:00" Width="158" VerticalAlignment="Bottom" HorizontalAlignment="Right" FontSize="11" FontWeight="Bold" HorizontalContentAlignment="Right" FontFamily="Arial">
+        <Label x:Name="labelTime_small" Content="Work: 00:00:00" VerticalAlignment="Bottom" HorizontalAlignment="Right" FontSize="11" FontWeight="Bold" HorizontalContentAlignment="Right" FontFamily="Arial">
             <Label.Effect>
                 <DropShadowEffect Direction="0" ShadowDepth="0" Color="White"/>
             </Label.Effect>
