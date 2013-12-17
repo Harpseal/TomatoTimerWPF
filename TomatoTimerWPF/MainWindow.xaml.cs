@@ -139,6 +139,60 @@ namespace TomatoTimerWPF
             
             m_taSlideOut = taSlideOut;
             m_taSlideIn = taSlideIn;
+
+            try
+            {
+                Rect bounds = Rect.Parse(TomatoTimerWPF.Properties.Settings.Default.WindowRestoreBounds);
+                int iInsideLT, iInsideRB;
+                iInsideLT = iInsideRB = -1;
+                for (int s = 0; s < System.Windows.Forms.Screen.AllScreens.Length;s++ )
+                {
+                    System.Windows.Forms.Screen screen = System.Windows.Forms.Screen.AllScreens[s];
+                    if (bounds.Left >= screen.WorkingArea.Left && bounds.Top >= screen.WorkingArea.Top &&
+                        bounds.Left < screen.WorkingArea.Right && bounds.Top < screen.WorkingArea.Bottom)
+                    {
+                        iInsideLT = s;
+                    }
+
+                    if (bounds.Right >= screen.WorkingArea.Left && bounds.Bottom >= screen.WorkingArea.Top &&
+                        bounds.Right < screen.WorkingArea.Right && bounds.Bottom < screen.WorkingArea.Bottom)
+                    {
+                        iInsideRB = s;
+                    }
+                }
+                if (iInsideLT != -1 || iInsideRB != -1)
+                {
+                    int recheckScreen = -1;
+
+                    if (iInsideLT == -1)
+                        recheckScreen = iInsideRB;
+                    else if (iInsideRB == -1)
+                        recheckScreen = iInsideLT;
+                    
+                    if (recheckScreen!=-1)
+                    {
+                        System.Windows.Forms.Screen screen = System.Windows.Forms.Screen.AllScreens[recheckScreen];
+
+                        if (bounds.X < screen.WorkingArea.Left)
+                            bounds.X = screen.WorkingArea.Left;
+                        if (bounds.Y < screen.WorkingArea.Top)
+                            bounds.Y = screen.WorkingArea.Top;
+                        if (bounds.Right > screen.WorkingArea.Right)
+                            bounds.X -= bounds.Right - screen.WorkingArea.Right;
+                        if (bounds.Bottom > screen.WorkingArea.Bottom)
+                            bounds.Y -= bounds.Bottom - screen.WorkingArea.Bottom;
+                      
+                    }
+                    this.Top = bounds.Top;
+                    this.Left = bounds.Left;
+                    this.Width = bounds.Width;
+                    this.Height = bounds.Height;
+                }
+            }
+            catch (Exception e)
+            {
+                //MessageBox.Show("[" + TomatoTimerWPF.Properties.Settings.Default.WindowRestoreBounds + "]");
+            }
         }
 
         private ThumbnailToolbarButton CreateToolbarButton(Icon icon, string toolTip, Action onClick)
@@ -148,13 +202,6 @@ namespace TomatoTimerWPF
                 DismissOnClick = true
             }
             .Chain(btn => btn.Click += (o, e) => onClick());
-            //ThumbnailToolbarButton resbtn = new ThumbnailToolbarButton(icon, toolTip)
-            //{
-            //    DismissOnClick = true
-            //}
-            //.Chain(btn => btn.Click += (o, e) => onClick());
-            //resbtn.Visible = false;
-            //return resbtn;
         }
 
         private void Window_Loaded_1(object sender, RoutedEventArgs e)
@@ -176,8 +223,6 @@ namespace TomatoTimerWPF
                 m_btnReset = CreateToolbarButton(Res._9_av_replay, "Reset", () => m_ActionReset());
                 m_btnPlay = CreateToolbarButton(Res._9_av_play, "Play", () => m_ActionPlay());
                 m_btnPause = CreateToolbarButton(Res._9_av_pause, "Pause", () => m_ActionPause());
-                //_btnGoToWork = Button(Res.icon_tomato, Res.ToolTip_GoToWork, () => GoToWork());
-                //_btnGoToRest = Button(Res.icon_tomato_rest, Res.ToolTip_GoToRest, () => TakeABreak());
                 m_btnGoToWork = CreateToolbarButton(Res._4_collections_view_as_list, "Go to Work", () => m_ActionGoToWork());
                 m_btnGoToRest = CreateToolbarButton(Res._12_hardware_gamepad, "Take a break", () => m_ActionTakeABreak());
 
@@ -213,10 +258,6 @@ namespace TomatoTimerWPF
             m_timer.Tick += new EventHandler(Timer_Tick);
             m_timer.Start();
 
-
-            //SwitchToButtons();
-
-
         }
 
         void Timer_Tick(object sender, EventArgs e)
@@ -229,20 +270,9 @@ namespace TomatoTimerWPF
             this.Content = nextPage;
         }
 
-        //public void Navigate(UserControl nextPage, object state)
-        //{
-        //    this.Content = nextPage;
-        //    ISwitchable s = nextPage as ISwitchable;
-
-        //    if (s != null)
-        //        s.UtilizeState(state);
-        //    else
-        //        throw new ArgumentException("NextPage is not ISwitchable! "
-        //          + nextPage.Name.ToString());
-        //}
-
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            TomatoTimerWPF.Properties.Settings.Default.WindowRestoreBounds = this.RestoreBounds.ToString();
             TomatoTimerWPF.Properties.Settings.Default.Save();
         }
 
@@ -283,8 +313,6 @@ namespace TomatoTimerWPF
             else if (progressValue > 100)
                 progressValue = 100;
             
-
-
             //Page_Buttons pageButtons = this.Content as Page_Buttons;
             Page_Buttons pageButtons = m_pageButtons;//pageTransitionControl.CurrentPage as Page_Buttons;
             if (pageButtons != null)
@@ -449,24 +477,8 @@ namespace TomatoTimerWPF
                             g.DrawString("{0:00}".ToFormat(Math.Abs(timerSpan.Seconds)), new Font("Courier New", 9), new SolidBrush(timerSpan.Seconds % 2 == 0 ? System.Drawing.Color.White : System.Drawing.Color.Black), -1, 0);
                         else
                             g.DrawString("{0:00}".ToFormat(Math.Abs(timerSpan.Minutes)), new Font("Courier New", 9), new SolidBrush(System.Drawing.Color.White), -1, 0);
-                        //_taskbarManager.SetOverlayIcon(this, /*Res.icon_rest*/System.Drawing.Icon.FromHandle(bmp.GetHicon()), Res.Mode_Rest);
+
                         TaskbarManager.Instance.SetOverlayIcon(System.Drawing.Icon.FromHandle(bmp.GetHicon()), "icon");
-                        //uint result = SetClassLong(_handRef, -14, (uint)bmp.GetHicon().ToInt32());
-                        //if (result != 0)
-                        //{
-                        //    int reCode = Marshal.GetLastWin32Error();
-
-
-                        //    System.Windows.Forms.MessageBox.Show(
-                        //        //(System.Windows.Forms.IWin32Window)this,
-                        //        "{0:00}".ToFormat(reCode),
-                        //        "{0:00}".ToFormat(reCode));
-
-
-
-                        //}
-
-
                     }
                     m_OverlayIconLastMin = (tMin == 0 ? timerSpan.Seconds : tMin) + (timerSpan.IsNegativeOrZero() ? 1 : 0) + (m_bIsPause ? 3 : 1);
                 }
@@ -615,6 +627,8 @@ namespace TomatoTimerWPF
             m_TimeSpanPause = TimeSpan.FromMinutes(0);
             m_TimeSpan = TimeSpan.FromMinutes(0);
             UpdateUI();
+
+
         }
 
         private void SetWindowFlash(bool enable)
@@ -668,7 +682,6 @@ namespace TomatoTimerWPF
 
         public void SwitchToButtons()
         {
-            //Storyboard sbSlideAndFadeOut = Resources["FadeOut"] as Storyboard;
             m_taSlideOut.To = new Thickness(0, this.Height, 0, 0);
             m_taSlideIn.From = new Thickness(0, -this.Height, 0, 0);
 
@@ -683,7 +696,6 @@ namespace TomatoTimerWPF
             m_taSlideOut.To = new Thickness(0, -this.Height, 0, 0);
             m_taSlideIn.From = new Thickness(0, this.Height, 0, 0);
 
-            //Storyboard sbAniOut = Resources["FadeOut"] as Storyboard;
             pages.Push(m_pageSettings);
             m_sbAniOut.Begin(this.Content as UserControl);
 
@@ -694,48 +706,14 @@ namespace TomatoTimerWPF
             if (pages.Count != 0)
             {
                 UserControl page = pages.Pop();
-                //Storyboard sbAniIn = Resources["FadeIn"] as Storyboard;
 
                 Page_Buttons pageButtons = page as Page_Buttons;
                 if (pageButtons != null)
                     UpdateUI();
                 this.Content = page;
 
-                //sbAniIn.Begin(page);
                 m_sbAniIn.Begin(page);
-                
-
             }
         }
-
-        
-        //private void Button_Click_1(object sender, RoutedEventArgs e)
-        //{
-            
-           
-        //}
-
-        //private void OnButtonStackPanel_MouseEnter(object sender, MouseEventArgs e)
-        //{
-        //    spButtonStackPanel.Opacity = 100;
-
-        //}
-
-        //private void OnButtonStackPanel_MouseLeave(object sender, MouseEventArgs e)
-        //{
-        //    spButtonStackPanel.Opacity = 0;
-
-        //}
-
-        //private void Button_Click_2(object sender, RoutedEventArgs e)
-        //{
-        //    var page = new Page_Settings();
-        //    NavigationService svc = NavigationService.GetNavigationService(this);
-
-            
-        //    //this.NavigationService.Navigate(page);
-        //    //this.P
-        //}
-
     }
 }

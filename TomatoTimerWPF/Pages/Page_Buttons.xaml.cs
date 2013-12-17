@@ -154,6 +154,7 @@ namespace TomatoTimerWPF
                 borderHeight = ptClient.Y - rectWindow.Top;
 
                 m_window.WindowState = WindowState.Normal;
+
                 System.Drawing.Point pointMouse = System.Windows.Forms.Control.MousePosition;
                 Point relativePoint = btnMove.TransformToAncestor(m_window)
                                   .Transform(m_MousePosition);

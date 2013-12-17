@@ -142,5 +142,17 @@ namespace TomatoTimerWPF.Properties {
                 this["AlwaysOnTop"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string WindowRestoreBounds {
+            get {
+                return ((string)(this["WindowRestoreBounds"]));
+            }
+            set {
+                this["WindowRestoreBounds"] = value;
+            }
+        }
     }
 }
