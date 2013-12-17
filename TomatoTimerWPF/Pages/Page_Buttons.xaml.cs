@@ -14,6 +14,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using System.Windows.Media.Animation;
+using System.Windows.Interop;
+using System.Runtime.InteropServices;
 
 namespace TomatoTimerWPF
 {
@@ -22,7 +24,29 @@ namespace TomatoTimerWPF
     /// </summary>
     public partial class Page_Buttons : UserControl
     {
-        
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct RECT
+        {
+            public int Left;
+            public int Top;
+            public int Right;
+            public int Bottom;
+        }
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
+
+        // Make sure RECT is actually OUR defined struct, not the windows rect.
+        public static RECT GetWindowRectangle(Window window)
+        {
+            RECT rect;
+            GetWindowRect((new WindowInteropHelper(window)).Handle, out rect);
+
+            return rect;
+        }
+
         private System.Windows.Point m_MousePosition;
         public DateTime m_MouseDownTime;
         public bool m_bIsMouseDown = false;
@@ -113,9 +137,29 @@ namespace TomatoTimerWPF
         private void OnButtonMove_MouseDown_1(object sender, MouseButtonEventArgs e)
         {
             m_MousePosition = e.GetPosition(btnMove);
-            //MessageBox.Show("MD");
-           // Switcher.GetBaseWindow().DragMove();
 
+            if (m_window.WindowState == WindowState.Maximized)
+            {
+                double borderWidth;
+                double borderHeight;
+
+                //The real border size is 7 in my windows 7, but ResizeFrameVerticalBorderWidth is 4 ???
+                //borderWidth = SystemParameters.ResizeFrameVerticalBorderWidth;
+                //borderHeight = SystemParameters.ResizeFrameHorizontalBorderHeight;
+
+                //use window api to get the real border size.
+                var rectWindow = GetWindowRectangle(m_window);
+                Point ptClient = m_window.PointToScreen(new Point(0, 0));
+                borderWidth = ptClient.X - rectWindow.Left;
+                borderHeight = ptClient.Y - rectWindow.Top;
+
+                m_window.WindowState = WindowState.Normal;
+                System.Drawing.Point pointMouse = System.Windows.Forms.Control.MousePosition;
+                Point relativePoint = btnMove.TransformToAncestor(m_window)
+                                  .Transform(m_MousePosition);
+                m_window.Left = (double)pointMouse.X - relativePoint.X - borderWidth;
+                m_window.Top = (double)pointMouse.Y - relativePoint.Y - borderHeight;
+            }
         }
 
         private void OnButtonMove_MouseMove_1(object sender, MouseEventArgs e)
@@ -130,10 +174,8 @@ namespace TomatoTimerWPF
                 Math.Abs(currentPoint.Y - m_MousePosition.Y) >
                     SystemParameters.MinimumVerticalDragDistance))
             {
-                //MessageBox.Show("DragMove");
                 // Prevent Click from firing
                 btnMove.ReleaseMouseCapture();
-                //Switcher.GetBaseWindow().DragMove();
                 m_window.DragMove();
             }
 
@@ -210,7 +252,7 @@ namespace TomatoTimerWPF
 
         public bool GetIsLongRest()
         {
-            return m_bIsMouseDown && !(DateTime.Now - m_MouseDownTime - 3.Seconds()).IsNegativeOrZero();
+            return m_bIsMouseDown && !(DateTime.Now - m_MouseDownTime - 2.Seconds()).IsNegativeOrZero();
         }
 
         private void btnAlwaysOnTop_Click(object sender, RoutedEventArgs e)
