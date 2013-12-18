@@ -140,6 +140,8 @@ namespace TomatoTimerWPF
             m_taSlideOut = taSlideOut;
             m_taSlideIn = taSlideIn;
 
+            
+
             try
             {
                 Rect bounds = Rect.Parse(TomatoTimerWPF.Properties.Settings.Default.WindowRestoreBounds);
@@ -148,14 +150,14 @@ namespace TomatoTimerWPF
                 for (int s = 0; s < System.Windows.Forms.Screen.AllScreens.Length;s++ )
                 {
                     System.Windows.Forms.Screen screen = System.Windows.Forms.Screen.AllScreens[s];
-                    if (bounds.Left >= screen.WorkingArea.Left && bounds.Top >= screen.WorkingArea.Top &&
-                        bounds.Left < screen.WorkingArea.Right && bounds.Top < screen.WorkingArea.Bottom)
+                    if (bounds.Left >= screen.Bounds.Left && bounds.Top >= screen.Bounds.Top &&
+                        bounds.Left < screen.Bounds.Right && bounds.Top < screen.Bounds.Bottom)
                     {
                         iInsideLT = s;
                     }
 
-                    if (bounds.Right >= screen.WorkingArea.Left && bounds.Bottom >= screen.WorkingArea.Top &&
-                        bounds.Right < screen.WorkingArea.Right && bounds.Bottom < screen.WorkingArea.Bottom)
+                    if (bounds.Right >= screen.Bounds.Left && bounds.Bottom >= screen.Bounds.Top &&
+                        bounds.Right < screen.Bounds.Right && bounds.Bottom < screen.Bounds.Bottom)
                     {
                         iInsideRB = s;
                     }
@@ -173,14 +175,14 @@ namespace TomatoTimerWPF
                     {
                         System.Windows.Forms.Screen screen = System.Windows.Forms.Screen.AllScreens[recheckScreen];
 
-                        if (bounds.X < screen.WorkingArea.Left)
-                            bounds.X = screen.WorkingArea.Left;
-                        if (bounds.Y < screen.WorkingArea.Top)
-                            bounds.Y = screen.WorkingArea.Top;
-                        if (bounds.Right > screen.WorkingArea.Right)
-                            bounds.X -= bounds.Right - screen.WorkingArea.Right;
-                        if (bounds.Bottom > screen.WorkingArea.Bottom)
-                            bounds.Y -= bounds.Bottom - screen.WorkingArea.Bottom;
+                        if (bounds.X < screen.Bounds.Left)
+                            bounds.X = screen.Bounds.Left;
+                        if (bounds.Y < screen.Bounds.Top)
+                            bounds.Y = screen.Bounds.Top;
+                        if (bounds.Right > screen.Bounds.Right)
+                            bounds.X -= bounds.Right - screen.Bounds.Right;
+                        if (bounds.Bottom > screen.Bounds.Bottom)
+                            bounds.Y -= bounds.Bottom - screen.Bounds.Bottom;
                       
                     }
                     this.Top = bounds.Top;
@@ -247,8 +249,20 @@ namespace TomatoTimerWPF
             m_endSound = new System.Media.SoundPlayer(Res.windows_user_account);
             m_pauseSound = new System.Media.SoundPlayer(Res.system_notification);
 
-            m_TimeDateStart = DateTime.Now;
-            m_TimeDatePauseStart = DateTime.Now;
+
+            try
+            {
+                DateTime restoreStart = DateTime.Parse(TomatoTimerWPF.Properties.Settings.Default.TimerRestoreDateTime);
+                m_TimeDateStart = restoreStart;
+                m_TimeDatePauseStart = restoreStart;
+                m_mode = (TimerMode)TomatoTimerWPF.Properties.Settings.Default.TimerRestoreMode;
+            }
+            catch(Exception ex)
+            {
+                m_TimeDateStart = DateTime.Now;
+                m_TimeDatePauseStart = DateTime.Now;
+            }
+
 
             this.Content = m_pageButtons;
             UpdateUI();
@@ -273,6 +287,10 @@ namespace TomatoTimerWPF
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             TomatoTimerWPF.Properties.Settings.Default.WindowRestoreBounds = this.RestoreBounds.ToString();
+
+            TomatoTimerWPF.Properties.Settings.Default.TimerRestoreDateTime = m_TimeDateStart.ToString();
+            TomatoTimerWPF.Properties.Settings.Default.TimerRestoreMode = (int)m_mode;
+
             TomatoTimerWPF.Properties.Settings.Default.Save();
         }
 

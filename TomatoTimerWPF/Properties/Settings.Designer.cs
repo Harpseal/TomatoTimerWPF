@@ -154,5 +154,29 @@ namespace TomatoTimerWPF.Properties {
                 this["WindowRestoreBounds"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TimerRestoreDateTime {
+            get {
+                return ((string)(this["TimerRestoreDateTime"]));
+            }
+            set {
+                this["TimerRestoreDateTime"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int TimerRestoreMode {
+            get {
+                return ((int)(this["TimerRestoreMode"]));
+            }
+            set {
+                this["TimerRestoreMode"] = value;
+            }
+        }
     }
 }

@@ -214,6 +214,7 @@ namespace TomatoTimerWPF
             //grLabelGrid.Opacity = 1;
         }
 
+
         private void Button_GotoWork_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             //Switcher.GetBaseWindow().StartWork();
@@ -268,6 +269,11 @@ namespace TomatoTimerWPF
             {
                 this.m_window.Topmost = btnAlwaysOnTop.IsChecked.HasValue && btnAlwaysOnTop.IsChecked.Value;
             }
+        }
+
+        private void btnRelax_MouseLeave(object sender, MouseEventArgs e)
+        {
+            m_bIsMouseDown = false;
         }
     }
 
