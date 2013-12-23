@@ -98,6 +98,17 @@ namespace TomatoTimerWPF
             Storyboard.SetTargetProperty(daFadeIn, new PropertyPath(UIElement.OpacityProperty));
 
 
+            Version win8version = new Version(6, 2, 9200, 0);
+
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT &&
+                Environment.OSVersion.Version >= win8version)
+            {
+                labelTimeWhite.Visibility = Visibility.Visible;
+            }
+            else
+                labelTimeWhite.Visibility = Visibility.Hidden;
+
+
             m_MouseDownTime = DateTime.Now;
         }
 

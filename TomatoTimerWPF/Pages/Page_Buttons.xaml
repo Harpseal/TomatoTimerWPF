@@ -3,22 +3,49 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:localNamespace="clr-namespace:TomatoTimerWPF"
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300">
 
-    
+    <UserControl.Resources>
+
+        <Style x:Key="AlwaysOnTopToggleButtonStyle" BasedOn="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}" TargetType="ToggleButton">
+            <Style.Triggers>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="Background" Value="#80FFFFFF"></Setter>
+                    <Setter Property="BorderBrush" Value="Black"></Setter>
+                </Trigger>
+                <Trigger Property="IsChecked" Value="False">
+                    <Setter Property="Background" Value="#00FFFFFF"></Setter>
+                    <Setter Property="BorderBrush" Value="#00FFFFFF"></Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <localNamespace:RectConverter x:Key="ProgressBarRectConverter"/>
+    </UserControl.Resources>
+
     <Grid x:Name="grButtonsGrid" MouseEnter="Grid_MouseEnter_1" MouseLeave="Grid_MouseLeave_1">
-        <ProgressBar x:Name="pbarTimer" Margin="0" Value="50" />
+        <ProgressBar x:Name="pbarTimer" TextBlock.FontWeight="Bold" Margin="0" Value="50"/>
         <Grid x:Name="grLabelGrid" Opacity="1">
-            <Label x:Name="labelTime" Content="Work: 00:00:00" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Center" FontFamily="Arial">
-                <Label.Effect>
-                    <DropShadowEffect Direction="0" ShadowDepth="0" BlurRadius="5" Color="White"/>
-                </Label.Effect>
+            <Label x:Name="labelTime" Width="{Binding ElementName=pbarTimer, Path=ActualWidth}" 
+                   Content="Work: 00:00:00" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Center" FontFamily="Arial">
+            </Label>
+            <Label x:Name="labelTimeWhite" 
+                   Width="{Binding ElementName=pbarTimer, Path=ActualWidth}"
+                   Foreground="White" Content="Work: 00:00:00" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Center" FontFamily="Arial" Background="Transparent">
+                <Label.Clip>
+                    <RectangleGeometry>
+                        <RectangleGeometry.Rect>
+                            <MultiBinding Converter="{StaticResource ProgressBarRectConverter}">
+                                <Binding ElementName="pbarTimer" Path="Value"/>
+                                <Binding ElementName="labelTimeWhite" Path="ActualWidth" />
+                                <Binding ElementName="labelTimeWhite" Path="ActualHeight"/>
+                            </MultiBinding>
+                        </RectangleGeometry.Rect>
+                    </RectangleGeometry>
+                </Label.Clip>
             </Label>
             <Label x:Name="labelInfo" Content="Start @ 0:00&#xA;Pause: 0:00" Visibility="Collapsed" VerticalContentAlignment="Bottom"  HorizontalAlignment="Left" Margin="0" Width="100" VerticalAlignment="Bottom" FontWeight="Bold" FontFamily="Arial">
-                <Label.Effect>
-                    <DropShadowEffect Direction="0" ShadowDepth="0" BlurRadius="5" Color="White"/>
-                </Label.Effect>
             </Label>
         </Grid>
         <Label x:Name="labelTime_small" Content="Work: 00:00:00" VerticalAlignment="Bottom" HorizontalAlignment="Right" FontSize="11" FontWeight="Bold" HorizontalContentAlignment="Right" FontFamily="Arial">
@@ -36,7 +63,7 @@
             <Button x:Name="btnMove" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Top" HorizontalAlignment="Right" Width="20" PreviewMouseLeftButtonDown="OnButtonMove_MouseDown_1" PreviewMouseMove="OnButtonMove_MouseMove_1" Height="20" ToolTip="Drag Move">
                 <Image Source="/TomatoTimerWPF;component/Resourse/Android_JellyBean/9-av-move.png" Stretch="Fill" Height="16" Width="16" />
             </Button>
-            <ToggleButton IsChecked="True" x:Name="btnAlwaysOnTop" VerticalAlignment="Top" HorizontalAlignment="Right" Width="20" Focusable="False" Click="btnAlwaysOnTop_Click" Height="20" ToolTip="Always On Top">
+            <ToggleButton IsChecked="True" Style="{StaticResource AlwaysOnTopToggleButtonStyle}" x:Name="btnAlwaysOnTop" VerticalAlignment="Top" HorizontalAlignment="Right" Width="20" Click="btnAlwaysOnTop_Click" Height="20" ToolTip="Always On Top">
                 <Image Source="/TomatoTimerWPF;component/Resourse/Android_JellyBean/9-av-make-available-offline.png" Stretch="Fill" Height="16" Width="16" />
             </ToggleButton>
             <Button x:Name="btnClose" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Top" HorizontalAlignment="Right" Width="20" Click="Button_Close_Click" Height="20" ToolTip="Close">
@@ -52,7 +79,7 @@
             <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Stretch" Click="Button_Resume_Click">
                 <Image x:Name="btnPlay" Source="../Resourse/Android_JellyBean/9-av-play.png" Stretch="Fill" Width="32" Height="32" ToolTip="Resume" />
             </Button>
-            
+
             <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Stretch" Click="Button_Pause_Click">
                 <Image x:Name="btnPause" Source="../Resourse/Android_JellyBean/9-av-pause.png" Stretch="Fill" Width="32" Height="32" ToolTip="Pause" />
             </Button>
@@ -63,7 +90,7 @@
                 <Image Source="../Resourse/Android_JellyBean/12-hardware-gamepad.png" Stretch="Fill" Width="32" Height="32" ToolTip="Take a break" />
             </Button>
         </StackPanel>
-        
+
 
 
     </Grid>

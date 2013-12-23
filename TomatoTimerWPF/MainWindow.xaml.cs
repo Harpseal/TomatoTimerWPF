@@ -140,8 +140,6 @@ namespace TomatoTimerWPF
             m_taSlideOut = taSlideOut;
             m_taSlideIn = taSlideIn;
 
-            
-
             try
             {
                 Rect bounds = Rect.Parse(TomatoTimerWPF.Properties.Settings.Default.WindowRestoreBounds);
@@ -325,13 +323,13 @@ namespace TomatoTimerWPF
 
             m_bIsOverTime = timerSpan.IsNegativeOrZero();
 
-            int progressValue = 100 - (int)((timerSpan.TotalMilliseconds * 100 / modeSpan.TotalMilliseconds));
-            if (progressValue < 0)
-                progressValue = 0;
-            else if (progressValue > 100)
-                progressValue = 100;
+            double progressValue = 100.0 - ((timerSpan.TotalMilliseconds * 100.0 / modeSpan.TotalMilliseconds));
+            if (progressValue < 0.0)
+                progressValue = 0.0;
+            else if (progressValue > 100.0)
+                progressValue = 100.0;
             
-            //Page_Buttons pageButtons = this.Content as Page_Buttons;
+
             Page_Buttons pageButtons = m_pageButtons;//pageTransitionControl.CurrentPage as Page_Buttons;
             if (pageButtons != null)
             {
@@ -379,9 +377,6 @@ namespace TomatoTimerWPF
                     pageButtons.labelTime.Opacity = 1;
                 }
 
-
-
-
                 String info, time;
                 if (m_TimeDateStart.Day != DateTime.Now.Day || m_TimeDateStart.Month != DateTime.Now.Month)
                     info = m_TimeDateStart.ToString("MM/dd H:mm");
@@ -399,10 +394,6 @@ namespace TomatoTimerWPF
                 pageButtons.labelInfo.Content = info;
                 
 
-
-
-
-
                 if (m_mode == TimerMode.MODE_WORK)
                     time = "Work: ";
                 else if (m_mode == TimerMode.MODE_RELAX || m_mode == TimerMode.MODE_RELAX_LONG)
@@ -417,6 +408,8 @@ namespace TomatoTimerWPF
                     time += "{0}:{1:00}".ToFormat(Math.Abs(timerSpan.Minutes), Math.Abs(timerSpan.Seconds));
 
                 pageButtons.labelTime.Content = time;
+                pageButtons.labelTimeWhite.Content = time;
+
                 if (pageButtons.GetIsLongRest())
                     pageButtons.labelTime_small.Content = "Long rest";
                 else
@@ -428,19 +421,27 @@ namespace TomatoTimerWPF
                     pageButtons.pbarTimer.Foreground = System.Windows.Media.Brushes.Green;
                     pageButtons.pbarTimer.IsIndeterminate = true;
                     pageButtons.pbarTimer.Value = progressValue;
+                    pageButtons.labelTimeWhite.Opacity = 0;
                 }
                 else if (m_bIsOverTime)
                 {
                     pageButtons.pbarTimer.Foreground = System.Windows.Media.Brushes.Red;
                     pageButtons.pbarTimer.IsIndeterminate = false;
                     pageButtons.pbarTimer.Value = 100;
+                    pageButtons.labelTimeWhite.Opacity = 1;
                 }
                 else
                 {
                     if (progressValue > 80)
+                    {
                         pageButtons.pbarTimer.Foreground = System.Windows.Media.Brushes.Yellow;
+                        pageButtons.labelTimeWhite.Opacity = 0;
+                    }
                     else
+                    {
                         pageButtons.pbarTimer.Foreground = System.Windows.Media.Brushes.Green;
+                        pageButtons.labelTimeWhite.Opacity = 1;
+                    }
                     pageButtons.pbarTimer.IsIndeterminate = false;
                     pageButtons.pbarTimer.Value = progressValue;
                 }
@@ -512,7 +513,7 @@ namespace TomatoTimerWPF
                         TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Paused);
                     else
                         TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal);
-                    TaskbarManager.Instance.SetProgressValue(progressValue, 100);
+                    TaskbarManager.Instance.SetProgressValue((int)progressValue, 100);
                 }
 
 

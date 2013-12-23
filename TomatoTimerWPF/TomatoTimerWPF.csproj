@@ -73,6 +73,7 @@
     </ApplicationDefinition>
     <Compile Include="Extensions.cs" />
     <Compile Include="GifImage.cs" />
+    <Compile Include="RectConverter.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
