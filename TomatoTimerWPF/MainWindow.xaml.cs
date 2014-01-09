@@ -64,7 +64,7 @@ namespace TomatoTimerWPF
         private TimerMode m_mode = TimerMode.MODE_WORK;
         private int m_OverlayIconLastMin;
         private bool m_bIsSupportTaskbarManager = false;
-        private bool m_bIsOverTime = false;
+        private bool m_bIsOverTime = true;
 
         private System.Media.SoundPlayer m_resumeSound;
         private System.Media.SoundPlayer m_pauseSound;
@@ -282,14 +282,26 @@ namespace TomatoTimerWPF
             this.Content = nextPage;
         }
 
+        public void SavePropertiesAndClose(bool isSaveTimerState)
+        {
+            if (isSaveTimerState)
+            {
+                TomatoTimerWPF.Properties.Settings.Default.TimerRestoreDateTime = m_TimeDateStart.ToString();
+                TomatoTimerWPF.Properties.Settings.Default.TimerRestoreMode = (int)m_mode;
+            }
+            else
+            {
+                TomatoTimerWPF.Properties.Settings.Default.TimerRestoreDateTime = "";
+                TomatoTimerWPF.Properties.Settings.Default.TimerRestoreMode = (int)TimerMode.MODE_WORK;
+            }
+            TomatoTimerWPF.Properties.Settings.Default.WindowRestoreBounds = this.RestoreBounds.ToString();
+            TomatoTimerWPF.Properties.Settings.Default.Save();
+            Close();
+        }
+
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            TomatoTimerWPF.Properties.Settings.Default.WindowRestoreBounds = this.RestoreBounds.ToString();
 
-            TomatoTimerWPF.Properties.Settings.Default.TimerRestoreDateTime = m_TimeDateStart.ToString();
-            TomatoTimerWPF.Properties.Settings.Default.TimerRestoreMode = (int)m_mode;
-
-            TomatoTimerWPF.Properties.Settings.Default.Save();
         }
 
         public void UpdateUI()
@@ -506,7 +518,10 @@ namespace TomatoTimerWPF
                 if (m_bIsPause)
                     TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Indeterminate);
                 else if (m_bIsOverTime)
+                {
                     TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Error);
+                    TaskbarManager.Instance.SetProgressValue(100, 100);
+                }
                 else
                 {
                     if (progressValue > 80)

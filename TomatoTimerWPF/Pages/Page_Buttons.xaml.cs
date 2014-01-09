@@ -142,7 +142,7 @@ namespace TomatoTimerWPF
 
         private void Button_Close_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            m_window.Close();
+            m_window.SavePropertiesAndClose(true);
         }
 
         private void OnButtonMove_MouseDown_1(object sender, MouseButtonEventArgs e)
@@ -285,6 +285,36 @@ namespace TomatoTimerWPF
         private void btnRelax_MouseLeave(object sender, MouseEventArgs e)
         {
             m_bIsMouseDown = false;
+        }
+
+        private void menuClose_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            //MessageBox.Show("menuClose_MouseLeftButtonUp");
+            m_window.SavePropertiesAndClose(true);
+        }
+
+        private void menuCloseDontSave_Click(object sender, RoutedEventArgs e)
+        {
+            //MessageBox.Show("menuCloseDontSave_Click");
+            m_window.SavePropertiesAndClose(false);
+        }
+
+        //private void menuCloseDontSave_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        //{
+        //    MessageBox.Show("menuCloseDontSave_MouseLeftButtonUp");
+        //    m_window.SavePropertiesAndClose(false);
+        //}
+
+        //private void menuCloseDontSave_MouseEnter(object sender, MouseEventArgs e)
+        //{
+        //    //menuClose.ReleaseMouseCapture();
+        //    //MessageBox.Show("menuCloseDontSave_MouseEnter");
+        //}
+
+        private void menuCloseSave_Click(object sender, RoutedEventArgs e)
+        {
+            //MessageBox.Show("menuCloseSave_Click");
+            m_window.SavePropertiesAndClose(true);
         }
     }
 

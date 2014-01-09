@@ -21,6 +21,51 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+
+        <ControlTemplate x:Key="{x:Static MenuItem.TopLevelHeaderTemplateKey}"
+                 TargetType="MenuItem">
+            <Border Name="Border" >
+                <Grid>
+                    <ContentPresenter Margin="1" ContentSource="Header" RecognizesAccessKey="True" />
+                    <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsSubmenuOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade">
+                        <Border Name="SubmenuBorder" SnapsToDevicePixels="True" Background="{x:Null}" BorderBrush="{x:Null}" BorderThickness="1" >
+                            <StackPanel  IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
+                        </Border>
+                    </Popup>
+                </Grid>
+            </Border>
+         </ControlTemplate>
+
+        <Style x:Key="CloseMenuStyle" BasedOn="{StaticResource {x:Static ToolBar.MenuStyleKey}}" TargetType="Menu">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#80FFFFFF"/>
+                    <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="False">
+                    <Setter Property="Background" Value="#00FFFFFF"></Setter>
+                    <Setter Property="BorderBrush" Value="#00FFFFFF"></Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="CloseMenuItemStyle" TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Style.Triggers>
+                <Trigger Property="Role" Value="TopLevelHeader">
+                    <Setter Property="Template" Value="{StaticResource {x:Static MenuItem.TopLevelHeaderTemplateKey}}"/>
+                    <Setter Property="Grid.IsSharedSizeScope" Value="true"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}"/>
+                    <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="False">
+                    <Setter Property="Background" Value="#00FFFFFF"></Setter>
+                    <Setter Property="BorderBrush" Value="#00FFFFFF"></Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
         <localNamespace:RectConverter x:Key="ProgressBarRectConverter"/>
     </UserControl.Resources>
 
@@ -54,44 +99,54 @@
             </Label.Effect>
         </Label>
 
+
         <Button x:Name="btnGotoSetting" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="38" Click="Button_GotoSettings_Click">
             <Image Source="../Resourse/Android_JellyBean/2-action-settings.png" Stretch="Fill" Height="32" Width="32" ToolTip="Settings" />
         </Button>
 
 
-        <StackPanel x:Name="spWindowControlStackPanel" Margin="0" HorizontalAlignment="Right" Orientation="Horizontal" MouseEnter="OnButtonStackPanel_MouseEnter" MouseLeave="OnButtonStackPanel_MouseLeave">
-            <Button x:Name="btnMove" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Top" HorizontalAlignment="Right" Width="20" PreviewMouseLeftButtonDown="OnButtonMove_MouseDown_1" PreviewMouseMove="OnButtonMove_MouseMove_1" Height="20" ToolTip="Drag Move">
-                <Image Source="/TomatoTimerWPF;component/Resourse/Android_JellyBean/9-av-move.png" Stretch="Fill" Height="16" Width="16" />
-            </Button>
-            <ToggleButton IsChecked="True" Style="{StaticResource AlwaysOnTopToggleButtonStyle}" x:Name="btnAlwaysOnTop" VerticalAlignment="Top" HorizontalAlignment="Right" Width="20" Click="btnAlwaysOnTop_Click" Height="20" ToolTip="Always On Top">
-                <Image Source="/TomatoTimerWPF;component/Resourse/Android_JellyBean/9-av-make-available-offline.png" Stretch="Fill" Height="16" Width="16" />
-            </ToggleButton>
-            <Button x:Name="btnClose" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Top" HorizontalAlignment="Right" Width="20" Click="Button_Close_Click" Height="20" ToolTip="Close">
-                <Image Source="../Resourse/Android_JellyBean/1-navigation-cancel.png" Stretch="Fill" Height="16" Width="16" />
-            </Button>
 
-        </StackPanel>
         <StackPanel  Grid.Row="0"  x:Name="spButtonStackPanel" Margin="0" HorizontalAlignment="Center" Orientation="Horizontal" MouseEnter="OnButtonStackPanel_MouseEnter" MouseLeave="OnButtonStackPanel_MouseLeave">
 
-            <Button x:Name="btnReset" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Stretch" Click="Button_Reset_Click">
+            <Button x:Name="btnReset" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="Button_Reset_Click" >
                 <Image Source="../Resourse/Android_JellyBean/9-av-replay.png" Stretch="Fill" Width="32" Height="32" ToolTip="Reset" />
             </Button>
-            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Stretch" Click="Button_Resume_Click">
+            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="Button_Resume_Click">
                 <Image x:Name="btnPlay" Source="../Resourse/Android_JellyBean/9-av-play.png" Stretch="Fill" Width="32" Height="32" ToolTip="Resume" />
             </Button>
 
-            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Stretch" Click="Button_Pause_Click">
+            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="Button_Pause_Click">
                 <Image x:Name="btnPause" Source="../Resourse/Android_JellyBean/9-av-pause.png" Stretch="Fill" Width="32" Height="32" ToolTip="Pause" />
             </Button>
-            <Button x:Name="btnWork" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Stretch" Click="Button_GotoWork_Click">
+            <Button x:Name="btnWork" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="Button_GotoWork_Click">
                 <Image Source="../Resourse/Android_JellyBean/4-collections-view-as-list.png" Stretch="Fill" Height="32" Width="32" RenderTransformOrigin="2.594,0.344" ToolTip="Go to work" />
             </Button>
-            <Button x:Name="btnRelax" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Stretch" Click="Button_GotoRelax_Click" PreviewMouseDown="btnRelax_PreviewMouseDown" MouseLeave="btnRelax_MouseLeave" >
+            <Button x:Name="btnRelax" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="Button_GotoRelax_Click" PreviewMouseDown="btnRelax_PreviewMouseDown" MouseLeave="btnRelax_MouseLeave" >
                 <Image Source="../Resourse/Android_JellyBean/12-hardware-gamepad.png" Stretch="Fill" Width="32" Height="32" ToolTip="Take a break" />
             </Button>
         </StackPanel>
 
+        <StackPanel x:Name="spWindowControlStackPanel" Margin="0" HorizontalAlignment="Right" Orientation="Horizontal" MouseEnter="OnButtonStackPanel_MouseEnter" MouseLeave="OnButtonStackPanel_MouseLeave">
+            <Button x:Name="btnMove" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Top" HorizontalAlignment="Right" Width="20" PreviewMouseLeftButtonDown="OnButtonMove_MouseDown_1" PreviewMouseMove="OnButtonMove_MouseMove_1" Height="20" ToolTip="Drag Move">
+                <Image Source="/TomatoTimerWPF;component/Resourse/Android_JellyBean/9-av-move.png" Stretch="Fill" Height="16" Width="16" />
+            </Button>
+            <ToggleButton IsChecked="True" Style="{StaticResource AlwaysOnTopToggleButtonStyle}" x:Name="btnAlwaysOnTop" VerticalAlignment="Top" HorizontalAlignment="Right" Width="20" Click="btnAlwaysOnTop_Click" Height="20" ToolTip="Always On Top" Panel.ZIndex="1">
+                <Image Source="/TomatoTimerWPF;component/Resourse/Android_JellyBean/9-av-make-available-offline.png" Stretch="Fill" Height="16" Width="16" />
+            </ToggleButton>
+            <Button x:Name="btnClose" Visibility="Collapsed" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Top" HorizontalAlignment="Right" Width="20" Click="Button_Close_Click" Height="20" ToolTip="Close" Margin="0">
+                <Image Source="../Resourse/Android_JellyBean/1-navigation-cancel.png" Stretch="Fill" Height="16" Width="16" />
+            </Button>
 
-
+            <Menu x:Name="menuClose" Style="{StaticResource CloseMenuStyle}" VerticalAlignment="Top" HorizontalAlignment="Right" BorderThickness="1" Background="#00FFFFFF" >
+                <MenuItem Style="{StaticResource CloseMenuItemStyle}">
+                    <MenuItem.Header>
+                        <Image Source="../Resourse/Android_JellyBean/1-navigation-cancel.png" Stretch="Fill" Height="16" Width="16" HorizontalAlignment="Center" PreviewMouseLeftButtonUp="menuClose_MouseLeftButtonUp" VerticalAlignment="Center" />
+                        <!--ContentPresenter Content="Reports" /-->
+                    </MenuItem.Header>
+                    <MenuItem x:Name="menuCloseDontSave" Header="Don't save timer state." Click="menuCloseDontSave_Click" Background="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
+                    <!-- x:Name="menuCloseSave" Header="Save current timer state." Click="menuCloseSave_Click"/-->
+                </MenuItem>
+            </Menu>
+        </StackPanel>
     </Grid>
 </UserControl>
