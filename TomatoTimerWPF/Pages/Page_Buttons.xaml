@@ -111,12 +111,12 @@
             <Button x:Name="btnReset" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="Button_Reset_Click" >
                 <Image Source="../Resourse/Android_JellyBean/9-av-replay.png" Stretch="Fill" Width="32" Height="32" ToolTip="Reset" />
             </Button>
-            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="Button_Resume_Click">
-                <Image x:Name="btnPlay" Source="../Resourse/Android_JellyBean/9-av-play.png" Stretch="Fill" Width="32" Height="32" ToolTip="Resume" />
+            <Button x:Name="btnPlay" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="Button_Resume_Click">
+                <Image Source="../Resourse/Android_JellyBean/9-av-play.png" Stretch="Fill" Width="32" Height="32" ToolTip="Resume" />
             </Button>
 
-            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="Button_Pause_Click">
-                <Image x:Name="btnPause" Source="../Resourse/Android_JellyBean/9-av-pause.png" Stretch="Fill" Width="32" Height="32" ToolTip="Pause" />
+            <Button x:Name="btnPause" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="Button_Pause_Click">
+                <Image Source="../Resourse/Android_JellyBean/9-av-pause.png" Stretch="Fill" Width="32" Height="32" ToolTip="Pause" />
             </Button>
             <Button x:Name="btnWork" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="Button_GotoWork_Click">
                 <Image Source="../Resourse/Android_JellyBean/4-collections-view-as-list.png" Stretch="Fill" Height="32" Width="32" RenderTransformOrigin="2.594,0.344" ToolTip="Go to work" />
