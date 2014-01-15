@@ -93,11 +93,14 @@ namespace TomatoTimerWPF
         ThicknessAnimation m_taSlideOut;
         ThicknessAnimation m_taSlideIn;
 
+        private bool m_isNormalClosingEvent;
+
         public MainWindow()
         {
             InitializeComponent();
 
             m_OverlayIconLastMin = -99999;
+            m_isNormalClosingEvent = false;
 
             m_pageButtons = new Page_Buttons(this);
             m_pageSettings = new Page_Settings(this);
@@ -296,12 +299,19 @@ namespace TomatoTimerWPF
             }
             TomatoTimerWPF.Properties.Settings.Default.WindowRestoreBounds = this.RestoreBounds.ToString();
             TomatoTimerWPF.Properties.Settings.Default.Save();
+            m_isNormalClosingEvent = true;
             Close();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-
+            if (!m_isNormalClosingEvent)
+            {
+                TomatoTimerWPF.Properties.Settings.Default.TimerRestoreDateTime = m_TimeDateStart.ToString();
+                TomatoTimerWPF.Properties.Settings.Default.TimerRestoreMode = (int)m_mode;
+                TomatoTimerWPF.Properties.Settings.Default.WindowRestoreBounds = this.RestoreBounds.ToString();
+                TomatoTimerWPF.Properties.Settings.Default.Save();
+            }
         }
 
         public void UpdateUI()

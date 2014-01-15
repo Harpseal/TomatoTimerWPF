@@ -27,9 +27,9 @@
             <Border Name="Border" >
                 <Grid>
                     <ContentPresenter Margin="1" ContentSource="Header" RecognizesAccessKey="True" />
-                    <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsSubmenuOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade">
-                        <Border Name="SubmenuBorder" SnapsToDevicePixels="True" Background="{x:Null}" BorderBrush="{x:Null}" BorderThickness="1" >
-                            <StackPanel  IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
+                    <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsSubmenuOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade" OpacityMask="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+                        <Border Name="SubmenuBorder" SnapsToDevicePixels="True" BorderBrush="{x:Null}" BorderThickness="1" >
+                            <StackPanel  IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />
                         </Border>
                     </Popup>
                 </Grid>
@@ -60,7 +60,7 @@
                     <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
                 </Trigger>
                 <Trigger Property="IsMouseOver" Value="False">
-                    <Setter Property="Background" Value="#00FFFFFF"></Setter>
+                    <Setter Property="Background" Value="#80FFFFFF"></Setter>
                     <Setter Property="BorderBrush" Value="#00FFFFFF"></Setter>
                 </Trigger>
             </Style.Triggers>
