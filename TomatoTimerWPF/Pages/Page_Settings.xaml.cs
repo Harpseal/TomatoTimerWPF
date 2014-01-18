@@ -269,5 +269,28 @@ namespace TomatoTimerWPF
         {
             SyncUIValueToSettings();    
         }
+
+        private void menuClose_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            //MessageBox.Show("menuClose_MouseLeftButtonUp");
+            m_window.SavePropertiesAndClose(true);
+        }
+
+        private void menuCloseDontSave_Click(object sender, RoutedEventArgs e)
+        {
+            //MessageBox.Show("menuCloseDontSave_Click");
+            m_window.SavePropertiesAndClose(false);
+        }
+
+        private void menuCloseSave_Click(object sender, RoutedEventArgs e)
+        {
+            //MessageBox.Show("menuCloseSave_Click");
+            m_window.SavePropertiesAndClose(true);
+        }
+
+        private void btnGotoSoundSettings_Click(object sender, RoutedEventArgs e)
+        {
+            m_window.SwitchFromSettingToSound();
+        }
     }
 }

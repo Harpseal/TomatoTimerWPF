@@ -113,27 +113,36 @@ namespace TomatoTimerWPF.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream system_notification {
+        internal static System.IO.UnmanagedMemoryStream Bellatrix_Pause {
             get {
-                return ResourceManager.GetStream("system_notification", resourceCulture);
+                return ResourceManager.GetStream("Bellatrix_Pause", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream windows_logon {
+        internal static System.IO.UnmanagedMemoryStream CanisMajor_WorkDone {
             get {
-                return ResourceManager.GetStream("windows_logon", resourceCulture);
+                return ResourceManager.GetStream("CanisMajor_WorkDone", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream windows_user_account {
+        internal static System.IO.UnmanagedMemoryStream Fermium_RestTimeOut {
             get {
-                return ResourceManager.GetStream("windows_user_account", resourceCulture);
+                return ResourceManager.GetStream("Fermium_RestTimeOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream Pollux_Resume {
+            get {
+                return ResourceManager.GetStream("Pollux_Resume", resourceCulture);
             }
         }
     }

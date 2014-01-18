@@ -73,6 +73,9 @@
     </ApplicationDefinition>
     <Compile Include="Extensions.cs" />
     <Compile Include="GifImage.cs" />
+    <Compile Include="Pages\Page_SoundSettings.xaml.cs">
+      <DependentUpon>Page_SoundSettings.xaml</DependentUpon>
+    </Compile>
     <Compile Include="RectConverter.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -91,6 +94,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Page_Settings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Page_SoundSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\UIStyleResource.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -160,9 +171,29 @@
     <Resource Include="Resourse\Android_JellyBean\10-device-access-alarms_shift.png" />
     <Resource Include="Resourse\Android_JellyBean\10-device-access-alarms_big_wbg.ico" />
     <Resource Include="Resourse\Android_JellyBean\9-av-make-available-offline.png" />
+    <Resource Include="Resourse\Android_JellyBean\10-device-access-volume-muted.png" />
+    <Resource Include="Resourse\Android_JellyBean\4-collections-collection.png" />
+    <Resource Include="Resourse\Android_JellyBean\9-av-stop.png" />
+    <Resource Include="Resourse\Android_JellyBean\10-device-access-volume-on.png" />
+    <Resource Include="Resourse\Android_JellyBean\10-device-access-volume-on_white.png" />
+    <None Include="Resourse\Audio\Bellatrix_Pause.wav" />
+    <None Include="Resourse\Audio\CanisMajor_WorkDone.wav" />
+    <None Include="Resourse\Audio\Fermium_RestTimeOut.wav" />
+    <None Include="Resourse\Audio\Pollux_Resume.wav" />
     <Content Include="Resourse\Audio\system notification.wav" />
     <Content Include="Resourse\Audio\windows logon.wav" />
     <Content Include="Resourse\Audio\windows user account.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="WMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

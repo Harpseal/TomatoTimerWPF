@@ -122,6 +122,7 @@ namespace TomatoTimerWPF
         {
             //Switcher.Switch(new Page_Settings());
             m_window.SwitchToSettings();
+            //m_window.SwitchToSoundSettings();
         }
         #endregion
 

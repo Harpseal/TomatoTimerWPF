@@ -19,6 +19,10 @@ using System.Drawing;
 using System.Windows.Interop;
 using System.Windows.Media.Animation;
 
+using WMPLib;
+
+using TomatoTimerWPF.Pages;
+
 namespace TomatoTimerWPF
 {
     using Res = Properties.Resources;
@@ -66,10 +70,6 @@ namespace TomatoTimerWPF
         private bool m_bIsSupportTaskbarManager = false;
         private bool m_bIsOverTime = true;
 
-        private System.Media.SoundPlayer m_resumeSound;
-        private System.Media.SoundPlayer m_pauseSound;
-        private System.Media.SoundPlayer m_endSound;
-
         public IntPtr m_hwnd;
 
         private ThumbnailToolbarButton m_btnReset;
@@ -86,6 +86,7 @@ namespace TomatoTimerWPF
 
         private Page_Buttons m_pageButtons;
         private Page_Settings m_pageSettings;
+        private Page_SoundSettings m_pageSoundSettings;
 
         Storyboard m_sbAniOut;
         Storyboard m_sbAniIn;
@@ -104,6 +105,7 @@ namespace TomatoTimerWPF
 
             m_pageButtons = new Page_Buttons(this);
             m_pageSettings = new Page_Settings(this);
+            m_pageSoundSettings = new Page_SoundSettings(this);
 
             //Initialize animations
             m_sbAniOut = new Storyboard();
@@ -246,9 +248,6 @@ namespace TomatoTimerWPF
 
             }
 
-            m_resumeSound = new System.Media.SoundPlayer(Res.windows_logon);
-            m_endSound = new System.Media.SoundPlayer(Res.windows_user_account);
-            m_pauseSound = new System.Media.SoundPlayer(Res.system_notification);
 
 
             try
@@ -340,7 +339,12 @@ namespace TomatoTimerWPF
             if (!m_bIsOverTime && timerSpan.IsNegativeOrZero())
             {
                 SetWindowFlash(true);
-                m_endSound.Play();
+
+                if (m_mode == TimerMode.MODE_WORK)
+                    m_pageSoundSettings.playSound(Page_SoundSettings.SoundType.WorkDone);
+                else
+                    m_pageSoundSettings.playSound(Page_SoundSettings.SoundType.RestTimeOut);
+                
             }
 
             m_bIsOverTime = timerSpan.IsNegativeOrZero();
@@ -637,7 +641,8 @@ namespace TomatoTimerWPF
             if (m_bIsPause) return;
             if (m_mode == TimerMode.MODE_RELAX_LONG || m_mode == TimerMode.MODE_RELAX)
                 return;
-            m_pauseSound.Play();
+
+            m_pageSoundSettings.playSound(Page_SoundSettings.SoundType.Pause);
             m_bIsPause = true;
             m_TimeSpan = DateTime.Now - m_TimeDateStart;
             m_TimeDatePauseStart = DateTime.Now;
@@ -649,7 +654,7 @@ namespace TomatoTimerWPF
             TimeSpan pauseSpan;
             if (!m_bIsPause) return;
 
-            m_resumeSound.Play();
+            m_pageSoundSettings.playSound(Page_SoundSettings.SoundType.Resume);
             m_bIsPause = false;
             pauseSpan = DateTime.Now - m_TimeDatePauseStart;
             m_TimeDateStart += pauseSpan;
@@ -739,6 +744,27 @@ namespace TomatoTimerWPF
         {
             m_taSlideOut.To = new Thickness(0, -this.Height, 0, 0);
             m_taSlideIn.From = new Thickness(0, this.Height, 0, 0);
+
+            pages.Push(m_pageSettings);
+            m_sbAniOut.Begin(this.Content as UserControl);
+
+        }
+
+        public void SwitchFromSettingToSound()
+        {
+            m_taSlideOut.To = new Thickness(-this.Width, 0, 0, 0);
+            m_taSlideIn.From = new Thickness(this.Width, 0, 0, 0);
+
+            pages.Push(m_pageSoundSettings);
+            m_sbAniOut.Begin(this.Content as UserControl);
+
+        }
+
+
+        public void SwitchFromSoundToSetting()
+        {
+            m_taSlideOut.To = new Thickness(this.Width, 0, 0, 0);
+            m_taSlideIn.From = new Thickness(-this.Width, 0, 0, 0);
 
             pages.Push(m_pageSettings);
             m_sbAniOut.Begin(this.Content as UserControl);

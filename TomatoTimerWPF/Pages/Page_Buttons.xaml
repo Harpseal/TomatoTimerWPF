@@ -8,81 +8,11 @@
       d:DesignHeight="300" d:DesignWidth="300">
 
     <UserControl.Resources>
-
-        <Style x:Key="AlwaysOnTopToggleButtonStyle" BasedOn="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}" TargetType="ToggleButton">
-            <Style.Triggers>
-                <Trigger Property="IsChecked" Value="True">
-                    <Setter Property="Background" Value="#80FFFFFF"></Setter>
-                    <Setter Property="BorderBrush" Value="Black"></Setter>
-                </Trigger>
-                <Trigger Property="IsChecked" Value="False">
-                    <Setter Property="Background" Value="#00FFFFFF"></Setter>
-                    <Setter Property="BorderBrush" Value="#00FFFFFF"></Setter>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-
-        <ControlTemplate x:Key="{x:Static MenuItem.TopLevelHeaderTemplateKey}"
-                 TargetType="MenuItem">
-            <Border Name="Border" >
-                <Grid>
-                    <ContentPresenter Margin="1" ContentSource="Header" RecognizesAccessKey="True" />
-                    <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsSubmenuOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade" OpacityMask="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
-                        <Border Name="SubmenuBorder" SnapsToDevicePixels="True" BorderBrush="{x:Null}" BorderThickness="1" >
-                            <StackPanel  IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />
-                        </Border>
-                    </Popup>
-                </Grid>
-            </Border>
-            <ControlTemplate.Triggers>
-                <Trigger Property="IsSuspendingPopupAnimation" Value="true">
-                    <Setter TargetName="Popup" Property="PopupAnimation" Value="None"/>
-                </Trigger>
-                <Trigger Property="IsHighlighted" Value="true">
-                    <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static SystemColors.GradientInactiveCaptionBrushKey}}"/>
-                    <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
-                </Trigger>
-                <Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="True">
-                    <Setter TargetName="SubmenuBorder" Property="CornerRadius" Value="0,0,4,4"/>
-                    <Setter TargetName="SubmenuBorder" Property="Padding" Value="0,0,0,3"/>
-                </Trigger>
-                <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Foreground" Value="#888888"/>
-                </Trigger>
-            </ControlTemplate.Triggers>
-        </ControlTemplate>
-
-        <Style x:Key="CloseMenuStyle" BasedOn="{StaticResource {x:Static ToolBar.MenuStyleKey}}" TargetType="Menu">
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#80FFFFFF"/>
-                    <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
-                </Trigger>
-                <Trigger Property="IsMouseOver" Value="False">
-                    <Setter Property="Background" Value="#00FFFFFF"></Setter>
-                    <Setter Property="BorderBrush" Value="#00FFFFFF"></Setter>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-        <Style x:Key="CloseMenuItemStyle" TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}">
-            <Setter Property="OverridesDefaultStyle" Value="True"/>
-            <Style.Triggers>
-                <Trigger Property="Role" Value="TopLevelHeader">
-                    <Setter Property="Template" Value="{StaticResource {x:Static MenuItem.TopLevelHeaderTemplateKey}}"/>
-                    <Setter Property="Grid.IsSharedSizeScope" Value="true"/>
-                </Trigger>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}"/>
-                    <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
-                </Trigger>
-                <Trigger Property="IsMouseOver" Value="False">
-                    <Setter Property="Background" Value="#80FFFFFF"></Setter>
-                    <Setter Property="BorderBrush" Value="#00FFFFFF"></Setter>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-        
-        <localNamespace:RectConverter x:Key="ProgressBarRectConverter"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="UIStyleResource.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </UserControl.Resources>
 
     <Grid x:Name="grButtonsGrid" MouseEnter="Grid_MouseEnter_1" MouseLeave="Grid_MouseLeave_1">

@@ -118,15 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="system_notification" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resourse\Audio\system notification.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="windows_logon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resourse\Audio\windows logon.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="windows_user_account" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resourse\Audio\windows user account.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="_12_hardware_gamepad" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resourse\Android_JellyBean\12-hardware-gamepad.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -141,5 +132,17 @@
   </data>
   <data name="_9_av_replay" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resourse\Android_JellyBean\9-av-replay.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Bellatrix_Pause" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resourse\Audio\Bellatrix_Pause.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="CanisMajor_WorkDone" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resourse\Audio\CanisMajor_WorkDone.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Fermium_RestTimeOut" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resourse\Audio\Fermium_RestTimeOut.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Pollux_Resume" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resourse\Audio\Pollux_Resume.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>
