@@ -24,20 +24,13 @@ namespace TomatoTimerWPF.Pages
     public partial class Page_SoundSettings : UserControl
     {
         private MainWindow m_window;
-        private System.Media.SoundPlayer m_resumeSound = null;
-        private System.Media.SoundPlayer m_pauseSound = null;
-        private System.Media.SoundPlayer m_endSound = null;
         private WindowsMediaPlayer m_wmplayer = null;
+        private System.Media.SoundPlayer[] m_ResourcePlayer;
 
         private Button[] m_aBtnPlay;
         private Button[] m_aBtnStop;
         private Button[] m_aBtnOpenFile;
         private Button[] m_aBtnMute;
-
-        private System.Media.SoundPlayer[] m_ResourcePlayer;
-
-
-        
 
         public enum SoundType : int 
         {
@@ -310,7 +303,8 @@ namespace TomatoTimerWPF.Pages
 
             System.Windows.Forms.OpenFileDialog dialog = new System.Windows.Forms.OpenFileDialog();
 
-            dialog.Filter = "Sound files (*.wma;*.mp3;*.wav;*.ogg)|*.wma;*.mp3;*.wav;*.ogg";
+            //dialog.Filter = "Sound files (*.wma;*.mp3;*.wav;*.ogg)|*.wma;*.mp3;*.wav;*.ogg";
+            dialog.Filter = "Sound files (*.wma;*.mp3;*.wav)|*.wma;*.mp3;*.wav";
 
             //設定起始目錄為程式目錄
             dialog.InitialDirectory = System.Windows.Forms.Application.StartupPath;
@@ -361,6 +355,7 @@ namespace TomatoTimerWPF.Pages
                     type = (SoundType)i;
                     m_aSoundState[i] = SoundState.Mute;
                     SyncStateToUI(type, SoundState.Mute);
+                    setSoundPathProperties(type, SoundState.Mute.ToString());
                     return;
                 }
             }
