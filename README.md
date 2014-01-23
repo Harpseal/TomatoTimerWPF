@@ -22,10 +22,9 @@ Pomodoro timer for windows 7/8(Desktop) showing countdown on taskbar by using Ov
 
 ## PreBuild Binary
 ### 01/23/2014
-```
 [TomatoTimerWPF_bin_x64](https://dl.dropboxusercontent.com/u/10430797/Github/TomatoTimerWPF_bin_x64_build140123.7z)
 [TomatoTimerWPF_bin_x86](https://dl.dropboxusercontent.com/u/10430797/Github/TomatoTimerWPF_bin_x86_build140123.7z)
-```
+
 
 ## Attribution
 
