@@ -17,118 +17,121 @@
     </UserControl.Resources>
     
     <Grid>
-        <StackPanel Orientation="Horizontal">
-            <Button x:Name="btnGotoButtons" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Stretch" HorizontalAlignment="Left" Click="Button_GotoButtons_Click">
-                <Image Source="../Resourse/Android_JellyBean/10-device-access-time.png" Stretch="Fill" Width="32" Height="32" ToolTip="Go back" />
-            </Button>
+        <Grid.ColumnDefinitions >
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
         
-            <StackPanel x:Name="spSettingStackPanel" Orientation="Horizontal" Grid.ColumnSpan="3">
+        <Button Grid.Column="0" x:Name="btnGotoButtons" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Stretch" HorizontalAlignment="Left" Click="Button_GotoButtons_Click">
+            <Image Source="../Resource/Android_JellyBean/10-device-access-time.png" Stretch="Fill" Width="32" Height="32" ToolTip="Go back" />
+        </Button>
+        
+        <StackPanel Grid.Column="1" x:Name="spSettingStackPanel" Orientation="Horizontal" Grid.ColumnSpan="3" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Image Source="../Resource/Android_JellyBean/4-collections-view-as-list.png" Stretch="Fill" Height="24" Width="24" ToolTip="Work" />
+            <Border HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" BorderThickness="1">
+                <ComboBox x:Name="cbWorkTimeComboBox" Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}" HorizontalAlignment="Right" Height="26" Margin="0" VerticalAlignment="Center" Width="32" SelectedIndex="0" BorderThickness="0" HorizontalContentAlignment="Center">
+                <ComboBoxItem Content="30"/>
+                <ComboBoxItem Content="25"/>
+                <TextBox Width="32" Text="60" PreviewTextInput="TextBox_PreviewTextInput"/>
+            </ComboBox>
+            </Border>
+            <!--Label HorizontalAlignment="Left" Margin="0,6" VerticalAlignment="Center" Content=" "/-->
 
-
-
-                <!--Label HorizontalAlignment="Left" Margin="0" VerticalAlignment="Center" Content="Work"/-->
-
-
-
-
-                <!--Label HorizontalAlignment="Left" Margin="0" VerticalAlignment="Center" Content="Work"/-->
-                <Image Source="../Resourse/Android_JellyBean/4-collections-view-as-list.png" Stretch="Fill" Height="24" Width="24" ToolTip="Work" />
-                <ComboBox x:Name="cbWorkTimeComboBox" HorizontalAlignment="Right" Height="26" Margin="0" VerticalAlignment="Center" Width="45" SelectedIndex="0" BorderThickness="0">
-                    <ComboBoxItem Content="30"/>
-                    <ComboBoxItem Content="25"/>
-                    <TextBox Width="32" Text="60" PreviewTextInput="TextBox_PreviewTextInput"/>
-                </ComboBox>
-                <!--Label HorizontalAlignment="Left" Margin="0,6" VerticalAlignment="Center" Content=" "/-->
-
-                <!--Label HorizontalAlignment="Left" Margin="0" VerticalAlignment="Center" Content="Relax"/-->
-                <!--Image Source="../Resourse/Android_JellyBean/12-hardware-gamepad.png" Stretch="Fill" Width="24" Height="24" ToolTip="Relax" /-->
-                <Menu Background="{x:Null}" Style="{StaticResource CloseMenuStyle}" VerticalAlignment="Center" HorizontalAlignment="Right">
-                    <MenuItem BorderThickness="0" Margin="0"  Style="{StaticResource CloseMenuItemStyle}">
-                        <MenuItem.Header>
-                            <StackPanel>
-                                <Image Width="24" Height="24" Source="../Resourse/Android_JellyBean/12-hardware-gamepad.png" ToolTip="Rest time" HorizontalAlignment="Left" />
-                                <!--ContentPresenter Content="Reports" /-->
-                            </StackPanel>
-                        </MenuItem.Header>
-                        <StackPanel Orientation="Horizontal" >
-                            <Label Content="Long rest time:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                            <ComboBox  x:Name="cbLongRelaxTimeComboBox" HorizontalAlignment="Right" Height="26" Margin="0,6" VerticalAlignment="Center" Width="45" SelectedIndex="0">
+            <!--Label HorizontalAlignment="Left" Margin="0" VerticalAlignment="Center" Content="Relax"/-->
+            <!--Image Source="../Resource/Android_JellyBean/12-hardware-gamepad.png" Stretch="Fill" Width="24" Height="24" ToolTip="Relax" /-->
+            <Menu Background="{x:Null}" Style="{StaticResource CloseMenuStyle}" VerticalAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Center">
+                <MenuItem BorderThickness="0" Margin="0"  Style="{StaticResource CloseMenuItemStyle}">
+                    <MenuItem.Header>
+                        <StackPanel>
+                            <Image Width="24" Height="24" Source="../Resource/Android_JellyBean/12-hardware-gamepad.png" ToolTip="Rest time" HorizontalAlignment="Left" />
+                            <!--ContentPresenter Content="Reports" /-->
+                        </StackPanel>
+                    </MenuItem.Header>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" >
+                        <Label Content="Long rest time:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                        <Border HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" BorderThickness="1">
+                            <ComboBox  x:Name="cbLongRelaxTimeComboBox" Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}" HorizontalAlignment="Right" VerticalAlignment="Center" Width="32" SelectedIndex="0" HorizontalContentAlignment="Center" BorderThickness="0">
                                 <ComboBoxItem Content="30"/>
                                 <ComboBoxItem Content="15"/>
-                                <TextBox Width="32" Text="20" PreviewTextInput="TextBox_PreviewTextInput"/>
+                                <TextBox Width="32" Text="20" PreviewTextInput="TextBox_PreviewTextInput" TextAlignment="Center"/>
                             </ComboBox>
-                        </StackPanel>
+                        </Border>
+                    </StackPanel>
                     
-                    </MenuItem>
+                </MenuItem>
 
-                </Menu>
-                <ComboBox x:Name="cbRelaxTimeComboBox" HorizontalAlignment="Right" Height="26" Margin="0" VerticalAlignment="Center" Width="45" SelectedIndex="0" ToolTip="Short rest time">
+            </Menu>
+            <Border HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" BorderThickness="1">
+                <ComboBox x:Name="cbRelaxTimeComboBox" Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}" HorizontalAlignment="Right" Height="26" Margin="0" VerticalAlignment="Center" Width="32" SelectedIndex="0" ToolTip="Short rest time" HorizontalContentAlignment="Center">
                     <ComboBoxItem Content="10"/>
                     <ComboBoxItem Content="5"/>
-                    <TextBox Width="32" Text="15" PreviewTextInput="TextBox_PreviewTextInput"/>
+                    <TextBox Width="32" Text="15" PreviewTextInput="TextBox_PreviewTextInput" TextAlignment="Center"/>
                 </ComboBox>
-                <Menu Background="{x:Null}" RenderTransformOrigin="0.578,0.684" VerticalAlignment="Center" HorizontalAlignment="Right"  Style="{StaticResource CloseMenuStyle}">
-                    <MenuItem Style="{StaticResource CloseMenuItemStyle}">
-                        <MenuItem.Header>
-                            <StackPanel>
-                                <Image Width="32" Height="32" Source="/TomatoTimerWPF;component/Resourse/Android_JellyBean/4-collections-go-to-today.png" ToolTip="Calender Settings" />
-                                <!--ContentPresenter Content="Reports" /-->
-                            </StackPanel>
-                        </MenuItem.Header>
-                        <StackPanel Orientation="Horizontal" >
-                            <CheckBox x:Name="cbEnableGCal" VerticalAlignment="Center" Click="CheckBox_Checked" ></CheckBox>
-                            <Label Content="Enable creating Google Calendar Event after the work is done" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+            </Border>
+            <Menu Background="{x:Null}" RenderTransformOrigin="0.578,0.684" VerticalAlignment="Center" HorizontalAlignment="Right"  Style="{StaticResource CloseMenuStyle}" HorizontalContentAlignment="Center">
+                <MenuItem Style="{StaticResource CloseMenuItemStyle}">
+                    <MenuItem.Header>
+                        <StackPanel>
+                            <Image Width="32" Height="32" Source="/TomatoTimerWPF;component/Resource/Android_JellyBean/4-collections-go-to-today.png" ToolTip="Calender Settings" />
+                            <!--ContentPresenter Content="Reports" /-->
+                        </StackPanel>
+                    </MenuItem.Header>
+                    <MenuItem x:Name="cbEnableGCal" Header="Enable creating Google Calendar Event after the work is done" IsCheckable="True" Click="CheckBox_Checked"/>
+                    <Separator />
+                    <!--StackPanel Orientation="Horizontal" >
+                        <CheckBox x:Name="cbEnableGCal1" VerticalAlignment="Center" Click="CheckBox_Checked" ></CheckBox>
+                        <Label Content="Enable creating Google Calendar Event after the work is done" HorizontalAlignment="Right" VerticalAlignment="Top"/>
                         
 
-                        </StackPanel>
-                        <StackPanel x:Name="spGoogleID" Orientation="Horizontal" >
-                            <Label Content="Calendar ID" HorizontalAlignment="Right" VerticalAlignment="Top" Width="80"/>
-                            <TextBox x:Name="tbGoogleCal_src" Width="260" Text=""/>
-                            <Menu Background="{x:Null}" Style="{StaticResource CloseMenuStyle}">
-                                <MenuItem SubmenuOpened="MenuItem_SubmenuOpened" Style="{StaticResource CloseMenuItemStyle}">
-                                    <MenuItem.Header>
-                                        <StackPanel>
-                                            <Image Width="24" Height="24" Source="/TomatoTimerWPF;component/Resourse/Android_JellyBean/2-action-help.png" />
-                                            <!--ContentPresenter Content="Reports" /-->
-                                        </StackPanel>
-                                    </MenuItem.Header>
-                                    <Controls:GifImage x:Name="gifHowToDemo" GifSource="/TomatoTimerWPF;component/Resourse/TomatoTimerWPF_HowToGetCalenderID.gif" AutoStart="True" DurationPerFrameMS="1000"/>
+                    </StackPanel-->
+                    <StackPanel x:Name="spGoogleID" Orientation="Horizontal" >
+                        <Label Content="Calendar ID" HorizontalAlignment="Right" VerticalAlignment="Top" Width="80" Margin="-4,0,0,0"/>
+                        <TextBox x:Name="tbGoogleCal_src" Width="260" Text=""/>
+                        <Menu Background="{x:Null}" Style="{StaticResource CloseMenuStyle}">
+                            <MenuItem SubmenuOpened="MenuItem_SubmenuOpened" Style="{StaticResource CloseMenuItemStyle}">
+                                <MenuItem.Header>
+                                    <StackPanel>
+                                        <Image Width="24" Height="24" Source="/TomatoTimerWPF;component/Resource/Android_JellyBean/2-action-help.png" />
+                                        <!--ContentPresenter Content="Reports" /-->
+                                    </StackPanel>
+                                </MenuItem.Header>
+                                <Controls:GifImage x:Name="gifHowToDemo" GifSource="/TomatoTimerWPF;component/Resource/TomatoTimerWPF_HowToGetCalenderID.gif" AutoStart="True" DurationPerFrameMS="2500"/>
 
-                                    <!--MediaElement x:Name="myGif" MediaEnded="myGif_MediaEnded" UnloadedBehavior="Manual" Source="./TomatoTimerWPF_HowToGetCalenderID.gif" LoadedBehavior="Play" Stretch="None"/-->
+                                <!--MediaElement x:Name="myGif" MediaEnded="myGif_MediaEnded" UnloadedBehavior="Manual" Source="./TomatoTimerWPF_HowToGetCalenderID.gif" LoadedBehavior="Play" Stretch="None"/-->
                               
-                                    <!--local:GifImage Width="571" Height="411" x:Name="gifImage" Stretch="None" Source="/Resourse/demo_cal_ID_4_all_1500.gif"/-->
-                                    <!--local:GifImage GifSource="/Resourse/demo_cal_ID_4_all_1500.gif" /-->
-                                    <!--local:GifImage Width="571" Height="411" x:Name="gifImage" Stretch="None" GifSource="/Resourse/demo_cal_ID_4_all_1500.gif"/-->
-                                    <!--Image Width="571" Height="411" Source="/TomatoTimerWPF;component/Resourse/demo_cal_ID_4_all_1500.gif" /-->
-                                </MenuItem>
+                                <!--local:GifImage Width="571" Height="411" x:Name="gifImage" Stretch="None" Source="/Resource/demo_cal_ID_4_all_1500.gif"/-->
+                                <!--local:GifImage GifSource="/Resource/demo_cal_ID_4_all_1500.gif" /-->
+                                <!--local:GifImage Width="571" Height="411" x:Name="gifImage" Stretch="None" GifSource="/Resource/demo_cal_ID_4_all_1500.gif"/-->
+                                <!--Image Width="571" Height="411" Source="/TomatoTimerWPF;component/Resource/demo_cal_ID_4_all_1500.gif" /-->
+                            </MenuItem>
                             
                             
-                            </Menu>
-                        </StackPanel>
-                        <StackPanel x:Name="spGoogleEventTitle" Orientation="Horizontal" >
-                            <Label Content="Event Title" HorizontalAlignment="Right" VerticalAlignment="Top" Width="80"/>
-                            <TextBox x:Name="tbGoogleCal_text" Text="" Width="260"/>
+                        </Menu>
+                    </StackPanel>
+                    <StackPanel x:Name="spGoogleEventTitle" Orientation="Horizontal" >
+                        <Label Content="Event Title" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Margin="-4,0,0,0"/>
+                        <TextBox x:Name="tbGoogleCal_text" Text="" Width="260"/>
 
-                        </StackPanel>
-                        <MenuItem x:Name="menuTestGoogleCal" Header="Try to create a Google Calendar Event" Click="OnClick_Test_GoogleCalender" Height="32" VerticalAlignment="Center"/>
-                    </MenuItem>
+                    </StackPanel>
+                    <MenuItem x:Name="menuTestGoogleCal" Header="Try to create a Google Calendar Event" Click="OnClick_Test_GoogleCalender" VerticalAlignment="Center"/>
+                </MenuItem>
 
-                </Menu>
-                <Button x:Name="btnGotoSoundSettings" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="btnGotoSoundSettings_Click" >
-                    <Image Source="/TomatoTimerWPF;component/Resourse/Android_JellyBean/10-device-access-volume-on.png" Stretch="Fill" Width="32" Height="32" ToolTip="Sound Settings" />
-                </Button>
-            </StackPanel>
-        </StackPanel>    
+            </Menu>
+            <Button x:Name="btnGotoSoundSettings" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="btnGotoSoundSettings_Click" HorizontalAlignment="Center" >
+                <Image Source="/TomatoTimerWPF;component/Resource/Android_JellyBean/10-device-access-volume-on.png" Stretch="Fill" Width="32" Height="32" ToolTip="Sound Settings" />
+            </Button>
+        </StackPanel>
+   
             
 
-        <Button x:Name="btnClose" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Top" HorizontalAlignment="Right" Width="20" Click="Button_Close_Click" Height="20" ToolTip="Close" Visibility="Collapsed">
-            <Image Source="../Resourse/Android_JellyBean/1-navigation-cancel.png" Stretch="Fill" Height="16" Width="16" />
+        <Button Grid.Row="0" Grid.Column="1" x:Name="btnClose" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Top" HorizontalAlignment="Right" Width="20" Click="Button_Close_Click" Height="20" ToolTip="Close" Visibility="Collapsed">
+            <Image Source="../Resource/Android_JellyBean/1-navigation-cancel.png" Stretch="Fill" Height="16" Width="16" />
         </Button>
 
-        <Menu x:Name="menuClose" Style="{StaticResource CloseMenuStyle}" VerticalAlignment="Top" HorizontalAlignment="Right" BorderThickness="1" Background="#00FFFFFF" >
+        <Menu Grid.Row="0" Grid.Column="1" x:Name="menuClose" Style="{StaticResource CloseMenuStyle}" VerticalAlignment="Top" HorizontalAlignment="Right" BorderThickness="1" Background="#00FFFFFF" >
             <MenuItem Style="{StaticResource CloseMenuItemStyle}">
                 <MenuItem.Header>
-                    <Image Source="../Resourse/Android_JellyBean/1-navigation-cancel.png" Stretch="Fill" Height="16" Width="16" HorizontalAlignment="Center" PreviewMouseLeftButtonUp="menuClose_MouseLeftButtonUp" VerticalAlignment="Center" />
+                    <Image Source="../Resource/Android_JellyBean/1-navigation-cancel.png" Stretch="Fill" Height="16" Width="16" HorizontalAlignment="Center" PreviewMouseLeftButtonUp="menuClose_MouseLeftButtonUp" VerticalAlignment="Center" />
                     <!--ContentPresenter Content="Reports" /-->
                 </MenuItem.Header>
                 <MenuItem x:Name="menuCloseDontSave" Header="Don't save timer state." Click="menuCloseDontSave_Click" Background="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>

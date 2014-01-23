@@ -25,7 +25,7 @@ namespace TomatoTimerWPF.Pages
     {
         private MainWindow m_window;
         private WindowsMediaPlayer m_wmplayer = null;
-        private System.Media.SoundPlayer[] m_ResourcePlayer;
+        //private System.Media.SoundPlayer[] m_ResourcePlayer;
 
         private Button[] m_aBtnPlay;
         private Button[] m_aBtnStop;
@@ -61,11 +61,11 @@ namespace TomatoTimerWPF.Pages
             m_aBtnMute = new Button[4] { btnSoundResumeMute, btnSoundPauseMute, btnSoundWorkMute, btnSoundRestMute };
 
             m_aSoundState = new SoundState[4];
-            m_ResourcePlayer = new System.Media.SoundPlayer[4];
+            //m_ResourcePlayer = new System.Media.SoundPlayer[4];
 
             for (int i = 0; i < 4; i++)
             {
-                m_ResourcePlayer[i] = null;
+                //m_ResourcePlayer[i] = null;
                 m_aSoundState[i] = getSoundState(getSoundPathProperties((SoundType)i));
                 SyncStateToPlayer((SoundType)i, m_aSoundState[i]);
                 SyncStateToUI((SoundType)i, m_aSoundState[i]);
@@ -75,20 +75,20 @@ namespace TomatoTimerWPF.Pages
         private SoundState getSoundState(string path)
         {
             if (path.Length == 0)
-                return SoundState.Resource;
+                return SoundState.Mute;
             else
             {
                 if (path == SoundState.Mute.ToString())
                     return SoundState.Mute;
                 if (path == SoundState.Resource.ToString())
-                    return SoundState.Resource;
+                    return SoundState.Mute;
 
                 if (System.IO.File.Exists(path))
                 {
                     return SoundState.File;
                 }
                 else
-                    return SoundState.Resource;
+                    return SoundState.Mute;
             }
         }
 
@@ -118,24 +118,24 @@ namespace TomatoTimerWPF.Pages
             switch (state)
             {
                 case SoundState.Resource:
-                    if (m_ResourcePlayer[(int)type]==null)
-                    {
-                        switch (type)
-                        {
-                            case SoundType.Pause:
-                                m_ResourcePlayer[(int)type] = new System.Media.SoundPlayer(Res.Bellatrix_Pause);
-                                break;
-                            case SoundType.Resume:
-                                m_ResourcePlayer[(int)type] = new System.Media.SoundPlayer(Res.Pollux_Resume);
-                                break;
-                            case SoundType.WorkDone:
-                                m_ResourcePlayer[(int)type] = new System.Media.SoundPlayer(Res.CanisMajor_WorkDone);
-                                break;
-                            case SoundType.RestTimeOut:
-                                m_ResourcePlayer[(int)type] = new System.Media.SoundPlayer(Res.Fermium_RestTimeOut);
-                                break;
-                        }
-                    }
+                    //if (m_ResourcePlayer[(int)type]==null)
+                    //{
+                    //    switch (type)
+                    //    {
+                    //        case SoundType.Pause:
+                    //            ;//m_ResourcePlayer[(int)type] = new System.Media.SoundPlayer(Res.Bellatrix_Pause);
+                    //            break;
+                    //        case SoundType.Resume:
+                    //            ;//m_ResourcePlayer[(int)type] = new System.Media.SoundPlayer(Res.Pollux_Resume);
+                    //            break;
+                    //        case SoundType.WorkDone:
+                    //            ;//m_ResourcePlayer[(int)type] = new System.Media.SoundPlayer(Res.CanisMajor_WorkDone);
+                    //            break;
+                    //        case SoundType.RestTimeOut:
+                    //            ;//m_ResourcePlayer[(int)type] = new System.Media.SoundPlayer(Res.Fermium_RestTimeOut);
+                    //            break;
+                    //    }
+                    //}
                     break;
 
                 case SoundState.File:
@@ -192,15 +192,10 @@ namespace TomatoTimerWPF.Pages
             if ((WMPLib.WMPPlayState)NewState == WMPLib.WMPPlayState.wmppsStopped ||
                 (WMPLib.WMPPlayState)NewState == WMPLib.WMPPlayState.wmppsMediaEnded)
             {
-                btnSoundPausePlay.Visibility = Visibility.Visible;
-                btnSoundResumePlay.Visibility = Visibility.Visible;
-                btnSoundWorkPlay.Visibility = Visibility.Visible;
-                btnSoundRestPlay.Visibility = Visibility.Visible;
-
-                btnSoundPauseStop.Visibility = Visibility.Collapsed;
-                btnSoundResumeStop.Visibility = Visibility.Collapsed;
-                btnSoundWorkStop.Visibility = Visibility.Collapsed;
-                btnSoundRestStop.Visibility = Visibility.Collapsed;
+                for (int i = 0; i < 4; i++)
+                {
+                    SyncStateToUI((SoundType)i, m_aSoundState[i]);
+                }
             }
             else if ((WMPLib.WMPPlayState)NewState == WMPLib.WMPPlayState.wmppsPlaying)
             {
@@ -228,7 +223,7 @@ namespace TomatoTimerWPF.Pages
                     m_wmplayer.controls.play();
                     break;
                 case SoundState.Resource:
-                    m_ResourcePlayer[(int)type].Play();
+                    //m_ResourcePlayer[(int)type].Play();
                     break;
             }
 
@@ -327,21 +322,21 @@ namespace TomatoTimerWPF.Pages
                     }
                 }
             }
-            else 
-            {
-                for (int i = 0; i < 4; i++)
-                {
-                    if (btnSelf == m_aBtnOpenFile[i])
-                    {
-                        type = (SoundType)i;
-                        m_aSoundState[i] = SoundState.Resource;
-                        SyncStateToUI(type, SoundState.Resource);
-                        setSoundPathProperties(type, SoundState.Resource.ToString());
-                        playSound(type);
-                        return;
-                    }
-                }
-            }
+            //else 
+            //{
+            //    for (int i = 0; i < 4; i++)
+            //    {
+            //        if (btnSelf == m_aBtnOpenFile[i])
+            //        {
+            //            type = (SoundType)i;
+            //            m_aSoundState[i] = SoundState.Mute;
+            //            SyncStateToUI(type, SoundState.Resource);
+            //            setSoundPathProperties(type, SoundState.Resource.ToString());
+            //            playSound(type);
+            //            return;
+            //        }
+            //    }
+            //}
         }
 
         private void btnSoundMute_Click(object sender, RoutedEventArgs e)

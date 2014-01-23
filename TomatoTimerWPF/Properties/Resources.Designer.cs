@@ -109,41 +109,5 @@ namespace TomatoTimerWPF.Properties {
                 return ((System.Drawing.Icon)(obj));
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
-        /// </summary>
-        internal static System.IO.UnmanagedMemoryStream Bellatrix_Pause {
-            get {
-                return ResourceManager.GetStream("Bellatrix_Pause", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
-        /// </summary>
-        internal static System.IO.UnmanagedMemoryStream CanisMajor_WorkDone {
-            get {
-                return ResourceManager.GetStream("CanisMajor_WorkDone", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
-        /// </summary>
-        internal static System.IO.UnmanagedMemoryStream Fermium_RestTimeOut {
-            get {
-                return ResourceManager.GetStream("Fermium_RestTimeOut", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
-        /// </summary>
-        internal static System.IO.UnmanagedMemoryStream Pollux_Resume {
-            get {
-                return ResourceManager.GetStream("Pollux_Resume", resourceCulture);
-            }
-        }
     }
 }

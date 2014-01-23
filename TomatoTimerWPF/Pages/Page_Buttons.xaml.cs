@@ -108,6 +108,8 @@ namespace TomatoTimerWPF
             else
                 labelTimeWhite.Visibility = Visibility.Hidden;
 
+            //labelTimeWhite.Visibility = Visibility.Visible;
+
 
             m_MouseDownTime = DateTime.Now;
         }
@@ -258,13 +260,19 @@ namespace TomatoTimerWPF
             m_window.Reset();
         }
 
-        private void btnRelax_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        private void Button_PreviewMouseDownTime(object sender, MouseButtonEventArgs e)
         {
             m_MouseDownTime = DateTime.Now;
             m_bIsMouseDown = true;
         }
 
-        public bool GetIsLongRest()
+        private void Button_MouseLeaveDownTime(object sender, MouseEventArgs e)
+        {
+            m_bIsMouseDown = false;
+        }
+
+
+        public bool GetIsLongMouseDown()
         {
             return m_bIsMouseDown && !(DateTime.Now - m_MouseDownTime - 2.Seconds()).IsNegativeOrZero();
         }
@@ -283,10 +291,6 @@ namespace TomatoTimerWPF
             }
         }
 
-        private void btnRelax_MouseLeave(object sender, MouseEventArgs e)
-        {
-            m_bIsMouseDown = false;
-        }
 
         private void menuClose_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {

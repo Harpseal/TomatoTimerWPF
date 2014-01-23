@@ -418,28 +418,79 @@ namespace TomatoTimerWPF
                 }
 
                 pageButtons.labelInfo.Content = info;
-                
 
+
+                TextBlock timeText = new TextBlock();
                 if (m_mode == TimerMode.MODE_WORK)
-                    time = "Work: ";
+                {
+                    time = "Work ";
+                    //timeText.Inlines.Add(new Bold(new Run("W")));
+                    timeText.Inlines.Add("Work  ");
+                }
                 else if (m_mode == TimerMode.MODE_RELAX || m_mode == TimerMode.MODE_RELAX_LONG)
-                    time = "Rest: ";
+                {
+                    time = "Rest ";
+                    //timeText.Inlines.Add(new Bold(new Run("R")));
+                    timeText.Inlines.Add("Rest  ");
+                }
                 else
                     time = "";
 
 
                 if (timerSpan.Hours != 0 || timerSpan.Days != 0)
-                    time += "{0}:{1:00}:{2:00}".ToFormat(Math.Abs(timerSpan.Hours + timerSpan.Days * 24), Math.Abs(timerSpan.Minutes), Math.Abs(timerSpan.Seconds));
+                {
+                    if ((timerSpan.Seconds & 0x1) == 0)
+                        time += "{0}:{1:00} {2:00}".ToFormat(Math.Abs(timerSpan.Hours + timerSpan.Days * 24), Math.Abs(timerSpan.Minutes), Math.Abs(timerSpan.Seconds));
+                    else
+                        time += "{0}:{1:00}:{2:00}".ToFormat(Math.Abs(timerSpan.Hours + timerSpan.Days * 24), Math.Abs(timerSpan.Minutes), Math.Abs(timerSpan.Seconds));
+
+                    timeText.Inlines.Add("{0}:{1:00}".ToFormat(Math.Abs(timerSpan.Hours + timerSpan.Days * 24), Math.Abs(timerSpan.Minutes)));
+                    //Run minText = new Run("{0:00}".ToFormat(Math.Abs(timerSpan.Minutes)));
+                    //minText.FontFamily = new System.Windows.Media.FontFamily("/TomatoTimerWPF;component/Resource/#Roboto");
+                    //minText.FontWeight = FontWeights.Black;
+                    //timeText.Inlines.Add(new Bold(minText));
+                    timeText.Inlines.Add((timerSpan.Seconds & 0x1) == 0 ? ":" : " ");
+                    timeText.Inlines.Add("{0:00}".ToFormat(Math.Abs(timerSpan.Seconds)));   
+                }
                 else
-                    time += "{0}:{1:00}".ToFormat(Math.Abs(timerSpan.Minutes), Math.Abs(timerSpan.Seconds));
+                {
+                    if ((timerSpan.Seconds & 0x1)==0)
+                        time += "{0} {1:00}".ToFormat(Math.Abs(timerSpan.Minutes), Math.Abs(timerSpan.Seconds));
+                    else
+                        time += "{0}:{1:00}".ToFormat(Math.Abs(timerSpan.Minutes), Math.Abs(timerSpan.Seconds));
 
-                pageButtons.labelTime.Content = time;
-                pageButtons.labelTimeWhite.Content = time;
+                    Run minText= new Run("{0}".ToFormat(Math.Abs(timerSpan.Minutes)));
+                    minText.FontFamily = new System.Windows.Media.FontFamily("/TomatoTimerWPF;component/Resource/#Roboto");
+                    minText.FontWeight = FontWeights.Black;
+                    timeText.Inlines.Add(new Bold(minText));
+                    timeText.Inlines.Add((timerSpan.Seconds & 0x1)==0?":":" ");
+                    timeText.Inlines.Add("{0:00}".ToFormat(Math.Abs(timerSpan.Seconds)));   
+                }
 
-                if (pageButtons.GetIsLongRest())
-                    pageButtons.labelTime_small.Content = "Long rest";
+                if (pageButtons.labelTimeWhite.Visibility == Visibility.Visible)
+                {
+                    pageButtons.labelTimeWhite.Content = time;
+                    pageButtons.labelTime.Content = time;
+                }
+                else
+                {
+                    pageButtons.labelTime.Content = timeText;
+                }
+
+                
+
+                if (pageButtons.GetIsLongMouseDown())
+                {
+                    if (pageButtons.btnRelax.IsPressed)
+                        pageButtons.labelTime_small.Content = "Long rest";
+                    else if (pageButtons.btnReset.IsPressed && m_mode == TimerMode.MODE_WORK)
+                        pageButtons.labelTime_small.Content = "Skip GCal";
+                    else
+                        pageButtons.labelTime_small.Content = time;
+                }
                 else
                     pageButtons.labelTime_small.Content = time;
+
 
 
                 if (m_bIsPause)
@@ -629,7 +680,7 @@ namespace TomatoTimerWPF
             Page_Buttons pageButtons = this.Content as Page_Buttons;
             if (pageButtons != null)
             {
-                if (pageButtons.GetIsLongRest())
+                if (pageButtons.GetIsLongMouseDown())
                     m_mode = TimerMode.MODE_RELAX_LONG;
             }
             m_bIsPause = false;
@@ -665,7 +716,7 @@ namespace TomatoTimerWPF
 
         public void Reset()
         {
-            if (m_bIsOverTime && m_mode == TimerMode.MODE_WORK &&
+            if (m_bIsOverTime && m_mode == TimerMode.MODE_WORK && !m_pageButtons.GetIsLongMouseDown() &&
                 TomatoTimerWPF.Properties.Settings.Default.EnableGCalEvent)
                 OpenGoogleCalender(m_TimeDateStart, DateTime.Now);
 
