@@ -67,7 +67,7 @@ namespace TomatoTimerWPF
 
             m_window = window;
 
-            btnAlwaysOnTop.IsChecked = TomatoTimerWPF.Properties.Settings.Default.AlwaysOnTop;
+            btnAlwaysOnTop.IsChecked = TomatoTimerWPF.TimerSettings.Default.AlwaysOnTop;
             if (btnAlwaysOnTop.IsChecked == true)
                 this.ToggleAlwaysOnTop();
 
@@ -280,7 +280,7 @@ namespace TomatoTimerWPF
         private void btnAlwaysOnTop_Click(object sender, RoutedEventArgs e)
         {
             this.ToggleAlwaysOnTop();
-            TomatoTimerWPF.Properties.Settings.Default.AlwaysOnTop = this.m_window.Topmost;
+            TomatoTimerWPF.TimerSettings.Default.AlwaysOnTop = this.m_window.Topmost;
         }
 
         private void ToggleAlwaysOnTop()

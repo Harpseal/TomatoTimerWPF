@@ -40,7 +40,7 @@
             <Label x:Name="labelInfo" Content="Start @ 0:00&#xA;Pause: 0:00" Visibility="Collapsed" VerticalContentAlignment="Bottom"  HorizontalAlignment="Left" Margin="0" Width="100" VerticalAlignment="Bottom" FontWeight="Bold" FontFamily="Arial">
             </Label>
         </Grid>
-        <Label x:Name="labelTime_small" Content="Work: 00:00:00" VerticalAlignment="Bottom" HorizontalAlignment="Right" FontSize="12" HorizontalContentAlignment="Right"  FontFamily="/TomatoTimerWPF;component/Resource/#Roboto" FontWeight="Black" Margin="0,-2"/>
+        <Label x:Name="labelTime_small" Content="Work: 00:00:00" VerticalAlignment="Bottom" HorizontalAlignment="Right" FontSize="12" HorizontalContentAlignment="Right"  FontFamily="/TomatoTimerWPF;component/Resource/#Roboto" Margin="0,-2"/>
 
         <Grid>
             <Button Grid.Column="0" x:Name="btnGotoSetting" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="38" Click="Button_GotoSettings_Click">

@@ -153,16 +153,17 @@ namespace TomatoTimerWPF.Pages
 
         private string getSoundPathProperties(SoundType type)
         {
+           
             switch (type)
             {
                 case SoundType.Resume:
-                    return TomatoTimerWPF.Properties.Settings.Default.SoundPathResume;
+                    return TomatoTimerWPF.TimerSettings.Default.SoundPathResume;
                 case SoundType.Pause:
-                    return TomatoTimerWPF.Properties.Settings.Default.SoundPathPause;
+                    return TomatoTimerWPF.TimerSettings.Default.SoundPathPause;
                 case SoundType.WorkDone:
-                    return TomatoTimerWPF.Properties.Settings.Default.SoundPathTimeOutWork;
+                    return TomatoTimerWPF.TimerSettings.Default.SoundPathTimeOutWork;
                 case SoundType.RestTimeOut:
-                    return TomatoTimerWPF.Properties.Settings.Default.SoundPathTimeOutRest;
+                    return TomatoTimerWPF.TimerSettings.Default.SoundPathTimeOutRest;
                 default:
                     return "";
             }
@@ -173,16 +174,16 @@ namespace TomatoTimerWPF.Pages
             switch (type)
             {
                 case SoundType.Resume:
-                    TomatoTimerWPF.Properties.Settings.Default.SoundPathResume = stateString;
+                    TomatoTimerWPF.TimerSettings.Default.SoundPathResume = stateString;
                     break;
                 case SoundType.Pause:
-                    TomatoTimerWPF.Properties.Settings.Default.SoundPathPause = stateString;
+                    TomatoTimerWPF.TimerSettings.Default.SoundPathPause = stateString;
                     break;
                 case SoundType.WorkDone:
-                    TomatoTimerWPF.Properties.Settings.Default.SoundPathTimeOutWork = stateString;
+                    TomatoTimerWPF.TimerSettings.Default.SoundPathTimeOutWork = stateString;
                     break;;
                 case SoundType.RestTimeOut:
-                    TomatoTimerWPF.Properties.Settings.Default.SoundPathTimeOutRest = stateString;
+                    TomatoTimerWPF.TimerSettings.Default.SoundPathTimeOutRest = stateString;
                     break;
             }
         }
@@ -285,8 +286,7 @@ namespace TomatoTimerWPF.Pages
         private void btnSoundStop_Click(object sender, RoutedEventArgs e)
         {
             if (m_wmplayer == null) return;
-            if (m_wmplayer.playState == WMPLib.WMPPlayState.wmppsPlaying)
-                m_wmplayer.controls.stop();
+            m_wmplayer.controls.stop();
                 
         }
 
@@ -294,7 +294,6 @@ namespace TomatoTimerWPF.Pages
         {
             Button btnSelf = sender as Button;
             SoundType type;
-            SoundState state;
 
             System.Windows.Forms.OpenFileDialog dialog = new System.Windows.Forms.OpenFileDialog();
 

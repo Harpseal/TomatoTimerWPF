@@ -18,6 +18,7 @@ using System.Runtime.InteropServices;
 using System.Drawing;
 using System.Windows.Interop;
 using System.Windows.Media.Animation;
+using System.Configuration;
 
 using WMPLib;
 
@@ -26,7 +27,7 @@ using TomatoTimerWPF.Pages;
 namespace TomatoTimerWPF
 {
     using Res = Properties.Resources;
-    using Setting = Properties.Settings;
+    //using Setting = Properties.Settings;
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -61,7 +62,7 @@ namespace TomatoTimerWPF
 
         private System.Windows.Forms.Timer m_timer;
         private bool m_bIsPause = false;
-        private DateTime m_TimeDateStart;
+        private DateTime m_TimeDateStart = DateTime.Now;
         private DateTime m_TimeDatePauseStart;
         private TimeSpan m_TimeSpan;
         private TimeSpan m_TimeSpanPause;
@@ -98,14 +99,20 @@ namespace TomatoTimerWPF
 
         public MainWindow()
         {
-            InitializeComponent();
+
+            InitializeComponent(); 
+
+            //string path = System.Reflection.Assembly.GetExecutingAssembly().Location + ".config";
+            //if (!System.IO.File.Exists(path))
+            //{
+            //    //TomatoTimerWPF.TimerSettings.Default.Save();
+            //    Console.WriteLine("Save setting [" + path + "]");
+            //}
+            //else
+            //    Console.WriteLine("Exists![" + path + "]");
 
             m_OverlayIconLastMin = -99999;
             m_isNormalClosingEvent = false;
-
-            m_pageButtons = new Page_Buttons(this);
-            m_pageSettings = new Page_Settings(this);
-            m_pageSoundSettings = new Page_SoundSettings(this);
 
             //Initialize animations
             m_sbAniOut = new Storyboard();
@@ -147,7 +154,7 @@ namespace TomatoTimerWPF
 
             try
             {
-                Rect bounds = Rect.Parse(TomatoTimerWPF.Properties.Settings.Default.WindowRestoreBounds);
+                Rect bounds = Rect.Parse(TomatoTimerWPF.TimerSettings.Default.WindowRestoreBounds);
                 int iInsideLT, iInsideRB;
                 iInsideLT = iInsideRB = -1;
                 for (int s = 0; s < System.Windows.Forms.Screen.AllScreens.Length;s++ )
@@ -194,9 +201,10 @@ namespace TomatoTimerWPF
                     this.Height = bounds.Height;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                //MessageBox.Show("[" + TomatoTimerWPF.Properties.Settings.Default.WindowRestoreBounds + "]");
+                //MessageBox.Show(e.ToString());
+                //MessageBox.Show("[" + TomatoTimerWPF.TimerSettings.Default.WindowRestoreBounds + "]");
             }
         }
 
@@ -212,6 +220,14 @@ namespace TomatoTimerWPF
         private void Window_Loaded_1(object sender, RoutedEventArgs e)
         {
             m_hwnd = new WindowInteropHelper(this).Handle;
+
+            try {
+                m_bIsSupportTaskbarManager = TaskbarManager.IsPlatformSupported;
+            }
+            catch (System.Exception obj) 
+            {
+                MessageBox.Show(obj.ToString(), "TaskbarManager Error");
+            }
 
             if (!TaskbarManager.IsPlatformSupported)
                 m_bIsSupportTaskbarManager = false;
@@ -239,7 +255,6 @@ namespace TomatoTimerWPF
                     m_btnGoToWork,
                     m_btnGoToRest);
 
-
                 m_btnReset.Visible = false;
                 m_btnPlay.Visible = false;
                 m_btnPause.Visible = false;
@@ -248,21 +263,22 @@ namespace TomatoTimerWPF
 
             }
 
-
-
             try
             {
-                DateTime restoreStart = DateTime.Parse(TomatoTimerWPF.Properties.Settings.Default.TimerRestoreDateTime);
+                DateTime restoreStart = DateTime.Parse(TomatoTimerWPF.TimerSettings.Default.TimerRestoreDateTime);
                 m_TimeDateStart = restoreStart;
                 m_TimeDatePauseStart = restoreStart;
-                m_mode = (TimerMode)TomatoTimerWPF.Properties.Settings.Default.TimerRestoreMode;
+                m_mode = (TimerMode)TomatoTimerWPF.TimerSettings.Default.TimerRestoreMode;
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 m_TimeDateStart = DateTime.Now;
                 m_TimeDatePauseStart = DateTime.Now;
             }
 
+            m_pageButtons = new Page_Buttons(this);
+            m_pageSettings = new Page_Settings(this);
+            m_pageSoundSettings = new Page_SoundSettings(this);
 
             this.Content = m_pageButtons;
             UpdateUI();
@@ -271,7 +287,6 @@ namespace TomatoTimerWPF
             m_timer.Interval = 1000;
             m_timer.Tick += new EventHandler(Timer_Tick);
             m_timer.Start();
-
         }
 
         void Timer_Tick(object sender, EventArgs e)
@@ -288,16 +303,17 @@ namespace TomatoTimerWPF
         {
             if (isSaveTimerState)
             {
-                TomatoTimerWPF.Properties.Settings.Default.TimerRestoreDateTime = m_TimeDateStart.ToString();
-                TomatoTimerWPF.Properties.Settings.Default.TimerRestoreMode = (int)m_mode;
+                TomatoTimerWPF.TimerSettings.Default.TimerRestoreDateTime = m_TimeDateStart.ToString();
+                TomatoTimerWPF.TimerSettings.Default.TimerRestoreMode = (int)m_mode;
             }
             else
             {
-                TomatoTimerWPF.Properties.Settings.Default.TimerRestoreDateTime = "";
-                TomatoTimerWPF.Properties.Settings.Default.TimerRestoreMode = (int)TimerMode.MODE_WORK;
+                TomatoTimerWPF.TimerSettings.Default.TimerRestoreDateTime = "";
+                TomatoTimerWPF.TimerSettings.Default.TimerRestoreMode = (int)TimerMode.MODE_WORK;
             }
-            TomatoTimerWPF.Properties.Settings.Default.WindowRestoreBounds = this.RestoreBounds.ToString();
-            TomatoTimerWPF.Properties.Settings.Default.Save();
+            TomatoTimerWPF.TimerSettings.Default.WindowRestoreBounds = this.RestoreBounds.ToString();
+            TomatoTimerWPF.TimerSettings.Default.Save();
+
             m_isNormalClosingEvent = true;
             Close();
         }
@@ -306,10 +322,10 @@ namespace TomatoTimerWPF
         {
             if (!m_isNormalClosingEvent)
             {
-                TomatoTimerWPF.Properties.Settings.Default.TimerRestoreDateTime = m_TimeDateStart.ToString();
-                TomatoTimerWPF.Properties.Settings.Default.TimerRestoreMode = (int)m_mode;
-                TomatoTimerWPF.Properties.Settings.Default.WindowRestoreBounds = this.RestoreBounds.ToString();
-                TomatoTimerWPF.Properties.Settings.Default.Save();
+                TomatoTimerWPF.TimerSettings.Default.TimerRestoreDateTime = m_TimeDateStart.ToString();
+                TomatoTimerWPF.TimerSettings.Default.TimerRestoreMode = (int)m_mode;
+                TomatoTimerWPF.TimerSettings.Default.WindowRestoreBounds = this.RestoreBounds.ToString();
+                TomatoTimerWPF.TimerSettings.Default.Save();
             }
         }
 
@@ -323,11 +339,11 @@ namespace TomatoTimerWPF
 
             TimeSpan timerSpan, modeSpan;
             if (m_mode == TimerMode.MODE_WORK)
-                modeSpan = TimeSpan.FromMinutes(TomatoTimerWPF.Properties.Settings.Default.Work_Time) + 800.Milliseconds();
+                modeSpan = TimeSpan.FromMinutes(TomatoTimerWPF.TimerSettings.Default.Work_Time) + 800.Milliseconds();
             else if (m_mode == TimerMode.MODE_RELAX)
-                modeSpan = TimeSpan.FromMinutes(TomatoTimerWPF.Properties.Settings.Default.Relax_Time) + 800.Milliseconds();
+                modeSpan = TimeSpan.FromMinutes(TomatoTimerWPF.TimerSettings.Default.Relax_Time) + 800.Milliseconds();
             else if (m_mode == TimerMode.MODE_RELAX_LONG)
-                modeSpan = TimeSpan.FromMinutes(TomatoTimerWPF.Properties.Settings.Default.Relax_Time_Long) + 800.Milliseconds();
+                modeSpan = TimeSpan.FromMinutes(TomatoTimerWPF.TimerSettings.Default.Relax_Time_Long) + 800.Milliseconds();
             else
                 modeSpan = 1.Seconds();
 
@@ -650,8 +666,8 @@ namespace TomatoTimerWPF
 
         public void StartWork()
         {
-            if (m_bIsOverTime && m_mode == TimerMode.MODE_WORK && 
-                TomatoTimerWPF.Properties.Settings.Default.EnableGCalEvent)
+            if (m_bIsOverTime && m_mode == TimerMode.MODE_WORK &&
+                TomatoTimerWPF.TimerSettings.Default.GoogleCal_EnableEvent)
                 OpenGoogleCalender(m_TimeDateStart, DateTime.Now);
 
             SetWindowFlash(false);
@@ -668,7 +684,7 @@ namespace TomatoTimerWPF
         public void StartRelax()
         {
             if (m_bIsOverTime && m_mode == TimerMode.MODE_WORK &&
-                TomatoTimerWPF.Properties.Settings.Default.EnableGCalEvent)
+                TomatoTimerWPF.TimerSettings.Default.GoogleCal_EnableEvent)
                 OpenGoogleCalender(m_TimeDateStart, DateTime.Now);
 
             SetWindowFlash(false);
@@ -717,7 +733,7 @@ namespace TomatoTimerWPF
         public void Reset()
         {
             if (m_bIsOverTime && m_mode == TimerMode.MODE_WORK && !m_pageButtons.GetIsLongMouseDown() &&
-                TomatoTimerWPF.Properties.Settings.Default.EnableGCalEvent)
+                TomatoTimerWPF.TimerSettings.Default.GoogleCal_EnableEvent)
                 OpenGoogleCalender(m_TimeDateStart, DateTime.Now);
 
             SetWindowFlash(false);
@@ -757,20 +773,20 @@ namespace TomatoTimerWPF
             strTimeEnd = String.Format("{0:yyyyMMdd}", dateEndUTC) + "T" + String.Format("{0:HHmmss}", dateEndUTC) + "Z";
 
             gcalUrl = "http://www.google.com/calendar/event?action=TEMPLATE";
-            if (TomatoTimerWPF.Properties.Settings.Default.GoogleCal_text.Length != 0)
+            if (TomatoTimerWPF.TimerSettings.Default.GoogleCal_text.Length != 0)
             {
-                String textUrlEncode = System.Web.HttpUtility.UrlEncode(TomatoTimerWPF.Properties.Settings.Default.GoogleCal_text);
-                //MessageBox.Show("[" +TomatoTimerWPF.Properties.Settings.Default.GoogleCal_text +"]->[" + textUrlEncode +"]");
+                String textUrlEncode = System.Web.HttpUtility.UrlEncode(TomatoTimerWPF.TimerSettings.Default.GoogleCal_text);
+                //MessageBox.Show("[" +TomatoTimerWPF.TimerSettings.Default.GoogleCal_text +"]->[" + textUrlEncode +"]");
                 gcalUrl += "&text=" + textUrlEncode;
             }
-            if (TomatoTimerWPF.Properties.Settings.Default.GoogleCal_src.Length != 0)
+            if (TomatoTimerWPF.TimerSettings.Default.GoogleCal_src.Length != 0)
             {
-                if (TomatoTimerWPF.Properties.Settings.Default.GoogleCal_src.IndexOf("@")!=-1)
+                if (TomatoTimerWPF.TimerSettings.Default.GoogleCal_src.IndexOf("@")!=-1)
                 {
-                    gcalUrl += "&src=" + System.Web.HttpUtility.UrlEncode(TomatoTimerWPF.Properties.Settings.Default.GoogleCal_src);
+                    gcalUrl += "&src=" + System.Web.HttpUtility.UrlEncode(TomatoTimerWPF.TimerSettings.Default.GoogleCal_src);
                 }
                 else
-                    gcalUrl += "&src=" + TomatoTimerWPF.Properties.Settings.Default.GoogleCal_src;
+                    gcalUrl += "&src=" + TomatoTimerWPF.TimerSettings.Default.GoogleCal_src;
             }
                 
             gcalUrl += "&dates=" + strTimeStart + "/" + strTimeEnd;

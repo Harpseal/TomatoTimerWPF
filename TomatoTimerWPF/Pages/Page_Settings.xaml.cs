@@ -33,6 +33,8 @@ namespace TomatoTimerWPF
         {
             InitializeComponent();
 
+            labelVersion_small.Content = "Version: " + System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString();
+
             m_window = window;
             SyncSettingsToUIValue();
             cbRelaxTimeComboBox.SelectionChanged += ComboBox_SelectionChanged;
@@ -61,20 +63,20 @@ namespace TomatoTimerWPF
 
             tbox = cbWorkTimeComboBox.Items[2] as TextBox;
             if (tbox != null)
-                tbox.Text = "" + TomatoTimerWPF.Properties.Settings.Default.WorkTime_Uesr;
+                tbox.Text = "" + TomatoTimerWPF.TimerSettings.Default.WorkTime_Uesr;
 
             tbox = cbRelaxTimeComboBox.Items[2] as TextBox;
             if (tbox != null)
-                tbox.Text = "" + TomatoTimerWPF.Properties.Settings.Default.RelaxTime_Uesr;
+                tbox.Text = "" + TomatoTimerWPF.TimerSettings.Default.RelaxTime_Uesr;
 
             tbox = cbLongRelaxTimeComboBox.Items[2] as TextBox;
             if (tbox != null)
-                tbox.Text = "" + TomatoTimerWPF.Properties.Settings.Default.RelaxTimeLong_User;
+                tbox.Text = "" + TomatoTimerWPF.TimerSettings.Default.Relax_Time_Long_User;
 
 
-            if (TomatoTimerWPF.Properties.Settings.Default.Work_Time == 30)
+            if (TomatoTimerWPF.TimerSettings.Default.Work_Time == 30)
                 cbWorkTimeComboBox.SelectedIndex = 0;
-            else if (TomatoTimerWPF.Properties.Settings.Default.Work_Time == 25)
+            else if (TomatoTimerWPF.TimerSettings.Default.Work_Time == 25)
                 cbWorkTimeComboBox.SelectedIndex = 1;
             else
             {
@@ -82,13 +84,13 @@ namespace TomatoTimerWPF
                 tbox = cbWorkTimeComboBox.Items[2] as TextBox;
                 if (tbox != null)
                 {
-                    tbox.Text = "" + TomatoTimerWPF.Properties.Settings.Default.Work_Time;
+                    tbox.Text = "" + TomatoTimerWPF.TimerSettings.Default.Work_Time;
                 }
             }
 
-            if (TomatoTimerWPF.Properties.Settings.Default.Relax_Time == 10)
+            if (TomatoTimerWPF.TimerSettings.Default.Relax_Time == 10)
                 cbRelaxTimeComboBox.SelectedIndex = 0;
-            else if (TomatoTimerWPF.Properties.Settings.Default.Relax_Time == 5)
+            else if (TomatoTimerWPF.TimerSettings.Default.Relax_Time == 5)
                 cbRelaxTimeComboBox.SelectedIndex = 1;
             else
             {
@@ -96,13 +98,13 @@ namespace TomatoTimerWPF
                 tbox = cbRelaxTimeComboBox.Items[2] as TextBox;
                 if (tbox != null)
                 {
-                    tbox.Text = "" + TomatoTimerWPF.Properties.Settings.Default.Relax_Time;
+                    tbox.Text = "" + TomatoTimerWPF.TimerSettings.Default.Relax_Time;
                 }
             }
 
-            if (TomatoTimerWPF.Properties.Settings.Default.Relax_Time_Long == 30)
+            if (TomatoTimerWPF.TimerSettings.Default.Relax_Time_Long == 30)
                 cbLongRelaxTimeComboBox.SelectedIndex = 0;
-            else if (TomatoTimerWPF.Properties.Settings.Default.Relax_Time_Long == 15)
+            else if (TomatoTimerWPF.TimerSettings.Default.Relax_Time_Long == 15)
                 cbLongRelaxTimeComboBox.SelectedIndex = 1;
             else
             {
@@ -110,13 +112,13 @@ namespace TomatoTimerWPF
                 tbox = cbLongRelaxTimeComboBox.Items[2] as TextBox;
                 if (tbox != null)
                 {
-                    tbox.Text = "" + TomatoTimerWPF.Properties.Settings.Default.Relax_Time_Long;
+                    tbox.Text = "" + TomatoTimerWPF.TimerSettings.Default.Relax_Time_Long;
                 }
             }
 
-            tbGoogleCal_src.Text = TomatoTimerWPF.Properties.Settings.Default.GoogleCal_src;
-            tbGoogleCal_text.Text = TomatoTimerWPF.Properties.Settings.Default.GoogleCal_text;
-            cbEnableGCal.IsChecked = TomatoTimerWPF.Properties.Settings.Default.EnableGCalEvent;
+            tbGoogleCal_src.Text = TomatoTimerWPF.TimerSettings.Default.GoogleCal_src;
+            tbGoogleCal_text.Text = TomatoTimerWPF.TimerSettings.Default.GoogleCal_text;
+            cbEnableGCal.IsChecked = TomatoTimerWPF.TimerSettings.Default.GoogleCal_EnableEvent;
 
             if (cbEnableGCal.IsChecked == true)
             {
@@ -136,62 +138,62 @@ namespace TomatoTimerWPF
         {
             TextBox tbox;
             if (cbRelaxTimeComboBox.SelectedIndex == 0)
-                TomatoTimerWPF.Properties.Settings.Default.Relax_Time = 10;
+                TomatoTimerWPF.TimerSettings.Default.Relax_Time = 10;
             else if (cbRelaxTimeComboBox.SelectedIndex == 1)
-                TomatoTimerWPF.Properties.Settings.Default.Relax_Time = 5;
+                TomatoTimerWPF.TimerSettings.Default.Relax_Time = 5;
             else
             {
                 tbox = cbRelaxTimeComboBox.Items[2] as TextBox;
                 if (tbox != null)
                 {
-                    TomatoTimerWPF.Properties.Settings.Default.Relax_Time = Int32.Parse(tbox.Text);
+                    TomatoTimerWPF.TimerSettings.Default.Relax_Time = Int32.Parse(tbox.Text);
                 }
             }
 
 
             if (cbLongRelaxTimeComboBox.SelectedIndex == 0)
-                TomatoTimerWPF.Properties.Settings.Default.Relax_Time_Long = 30;
+                TomatoTimerWPF.TimerSettings.Default.Relax_Time_Long = 30;
             else if (cbLongRelaxTimeComboBox.SelectedIndex == 1)
-                TomatoTimerWPF.Properties.Settings.Default.Relax_Time_Long = 15;
+                TomatoTimerWPF.TimerSettings.Default.Relax_Time_Long = 15;
             else
             {
                 tbox = cbLongRelaxTimeComboBox.Items[2] as TextBox;
                 if (tbox != null)
                 {
-                    TomatoTimerWPF.Properties.Settings.Default.Relax_Time_Long = Int32.Parse(tbox.Text);
+                    TomatoTimerWPF.TimerSettings.Default.Relax_Time_Long = Int32.Parse(tbox.Text);
                 }
             }
 
             if (cbWorkTimeComboBox.SelectedIndex == 0)
-                TomatoTimerWPF.Properties.Settings.Default.Work_Time = 30;
+                TomatoTimerWPF.TimerSettings.Default.Work_Time = 30;
             else if (cbWorkTimeComboBox.SelectedIndex == 1)
-                TomatoTimerWPF.Properties.Settings.Default.Work_Time = 25;
+                TomatoTimerWPF.TimerSettings.Default.Work_Time = 25;
             else
             {
                 tbox = cbWorkTimeComboBox.Items[2] as TextBox;
                 if (tbox != null)
                 {
-                    TomatoTimerWPF.Properties.Settings.Default.Work_Time = Int32.Parse(tbox.Text);
+                    TomatoTimerWPF.TimerSettings.Default.Work_Time = Int32.Parse(tbox.Text);
                 }
             }
 
 
             tbox = cbWorkTimeComboBox.Items[2] as TextBox;
             if (tbox != null)
-                TomatoTimerWPF.Properties.Settings.Default.WorkTime_Uesr = Int32.Parse(tbox.Text);
+                TomatoTimerWPF.TimerSettings.Default.WorkTime_Uesr = Int32.Parse(tbox.Text);
 
             tbox = cbRelaxTimeComboBox.Items[2] as TextBox;
             if (tbox != null)
-                TomatoTimerWPF.Properties.Settings.Default.RelaxTime_Uesr = Int32.Parse(tbox.Text);
+                TomatoTimerWPF.TimerSettings.Default.RelaxTime_Uesr = Int32.Parse(tbox.Text);
 
             tbox = cbLongRelaxTimeComboBox.Items[2] as TextBox;
             if (tbox != null)
-                TomatoTimerWPF.Properties.Settings.Default.RelaxTimeLong_User = Int32.Parse(tbox.Text);
+                TomatoTimerWPF.TimerSettings.Default.Relax_Time_Long_User = Int32.Parse(tbox.Text);
 
 
-            TomatoTimerWPF.Properties.Settings.Default.GoogleCal_src = tbGoogleCal_src.Text;
-            TomatoTimerWPF.Properties.Settings.Default.GoogleCal_text = tbGoogleCal_text.Text;
-            TomatoTimerWPF.Properties.Settings.Default.EnableGCalEvent = (cbEnableGCal.IsChecked == true);
+            TomatoTimerWPF.TimerSettings.Default.GoogleCal_src = tbGoogleCal_src.Text;
+            TomatoTimerWPF.TimerSettings.Default.GoogleCal_text = tbGoogleCal_text.Text;
+            TomatoTimerWPF.TimerSettings.Default.GoogleCal_EnableEvent = (cbEnableGCal.IsChecked == true);
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -208,10 +210,10 @@ namespace TomatoTimerWPF
 
         private void OnClick_Test_GoogleCalender(object sender, System.Windows.RoutedEventArgs e)
         {
-            TomatoTimerWPF.Properties.Settings.Default.GoogleCal_src = tbGoogleCal_src.Text;
-            TomatoTimerWPF.Properties.Settings.Default.GoogleCal_text = tbGoogleCal_text.Text;
-            m_window.OpenGoogleCalender(DateTime.Now - TimeSpan.FromMinutes(TomatoTimerWPF.Properties.Settings.Default.Work_Time), DateTime.Now);
-            //Switcher.GetBaseWindow().OpenGoogleCalender(DateTime.Now - TimeSpan.FromMinutes(TomatoTimerWPF.Properties.Settings.Default.Work_Time), DateTime.Now);
+            TomatoTimerWPF.TimerSettings.Default.GoogleCal_src = tbGoogleCal_src.Text;
+            TomatoTimerWPF.TimerSettings.Default.GoogleCal_text = tbGoogleCal_text.Text;
+            m_window.OpenGoogleCalender(DateTime.Now - TimeSpan.FromMinutes(TomatoTimerWPF.TimerSettings.Default.Work_Time), DateTime.Now);
+            //Switcher.GetBaseWindow().OpenGoogleCalender(DateTime.Now - TimeSpan.FromMinutes(TomatoTimerWPF.TimerSettings.Default.Work_Time), DateTime.Now);
         }
 
         Regex NumEx = new Regex(@"^-?\d*\.?\d*$");
@@ -255,7 +257,7 @@ namespace TomatoTimerWPF
                 spGoogleID.IsEnabled = false;
                 menuTestGoogleCal.IsEnabled = false;
             }
-            TomatoTimerWPF.Properties.Settings.Default.EnableGCalEvent = (cbEnableGCal.IsChecked == true);
+            TomatoTimerWPF.TimerSettings.Default.GoogleCal_EnableEvent = (cbEnableGCal.IsChecked == true);
         }
 
         private void MenuItem_SubmenuOpened(object sender, RoutedEventArgs e)

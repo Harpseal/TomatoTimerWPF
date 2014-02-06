@@ -15,25 +15,25 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    
+
     <Grid>
         <Grid.ColumnDefinitions >
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        
+
         <Button Grid.Column="0" x:Name="btnGotoButtons" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Stretch" HorizontalAlignment="Left" Click="Button_GotoButtons_Click">
             <Image Source="../Resource/Android_JellyBean/10-device-access-time.png" Stretch="Fill" Width="32" Height="32" ToolTip="Go back" />
         </Button>
-        
+        <Label Grid.Column="1" x:Name="labelVersion_small" Content="Version: 1.0.0.0" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="12" HorizontalContentAlignment="Right"  FontFamily="/TomatoTimerWPF;component/Resource/#Roboto" Foreground="#FF646464" Margin="0,50,0,0"/>
         <StackPanel Grid.Column="1" x:Name="spSettingStackPanel" Orientation="Horizontal" Grid.ColumnSpan="3" VerticalAlignment="Center" HorizontalAlignment="Center">
             <Image Source="../Resource/Android_JellyBean/4-collections-view-as-list.png" Stretch="Fill" Height="24" Width="24" ToolTip="Work" />
             <Border HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" BorderThickness="1">
                 <ComboBox x:Name="cbWorkTimeComboBox" Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}" HorizontalAlignment="Right" Height="26" Margin="0" VerticalAlignment="Center" Width="32" SelectedIndex="0" BorderThickness="0" HorizontalContentAlignment="Center">
-                <ComboBoxItem Content="30"/>
-                <ComboBoxItem Content="25"/>
-                <TextBox Width="32" Text="60" PreviewTextInput="TextBox_PreviewTextInput"/>
-            </ComboBox>
+                    <ComboBoxItem Content="30"/>
+                    <ComboBoxItem Content="25"/>
+                    <TextBox Width="32" Text="60" PreviewTextInput="TextBox_PreviewTextInput"/>
+                </ComboBox>
             </Border>
             <!--Label HorizontalAlignment="Left" Margin="0,6" VerticalAlignment="Center" Content=" "/-->
 
@@ -57,7 +57,7 @@
                             </ComboBox>
                         </Border>
                     </StackPanel>
-                    
+
                 </MenuItem>
 
             </Menu>
@@ -98,14 +98,14 @@
                                 <Controls:GifImage x:Name="gifHowToDemo" GifSource="/TomatoTimerWPF;component/Resource/TomatoTimerWPF_HowToGetCalenderID.gif" AutoStart="True" DurationPerFrameMS="2500"/>
 
                                 <!--MediaElement x:Name="myGif" MediaEnded="myGif_MediaEnded" UnloadedBehavior="Manual" Source="./TomatoTimerWPF_HowToGetCalenderID.gif" LoadedBehavior="Play" Stretch="None"/-->
-                              
+
                                 <!--local:GifImage Width="571" Height="411" x:Name="gifImage" Stretch="None" Source="/Resource/demo_cal_ID_4_all_1500.gif"/-->
                                 <!--local:GifImage GifSource="/Resource/demo_cal_ID_4_all_1500.gif" /-->
                                 <!--local:GifImage Width="571" Height="411" x:Name="gifImage" Stretch="None" GifSource="/Resource/demo_cal_ID_4_all_1500.gif"/-->
                                 <!--Image Width="571" Height="411" Source="/TomatoTimerWPF;component/Resource/demo_cal_ID_4_all_1500.gif" /-->
                             </MenuItem>
-                            
-                            
+
+
                         </Menu>
                     </StackPanel>
                     <StackPanel x:Name="spGoogleEventTitle" Orientation="Horizontal" >
@@ -121,8 +121,8 @@
                 <Image Source="/TomatoTimerWPF;component/Resource/Android_JellyBean/10-device-access-volume-on.png" Stretch="Fill" Width="32" Height="32" ToolTip="Sound Settings" />
             </Button>
         </StackPanel>
-   
-            
+
+
 
         <Button Grid.Row="0" Grid.Column="1" x:Name="btnClose" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Top" HorizontalAlignment="Right" Width="20" Click="Button_Close_Click" Height="20" ToolTip="Close" Visibility="Collapsed">
             <Image Source="../Resource/Android_JellyBean/1-navigation-cancel.png" Stretch="Fill" Height="16" Width="16" />
