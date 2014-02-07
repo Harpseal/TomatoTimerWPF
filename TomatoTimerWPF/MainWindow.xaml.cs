@@ -43,6 +43,16 @@ namespace TomatoTimerWPF
         DllImport("user32.dll", SetLastError = true)]
         static extern uint SetClassLong(HandleRef hWnd, int nIndex, uint dwNewLong);
 
+        private const Int32 GWL_STYLE = -16;
+        private const Int32 WS_MAXIMIZEBOX = 0x00010000;
+        private const Int32 WS_MINIMIZEBOX = 0x00020000;
+
+        [DllImport("User32.dll", EntryPoint = "GetWindowLong")]
+        private extern static Int32 GetWindowLongPtr(IntPtr hWnd, Int32 nIndex);
+
+        [DllImport("User32.dll", EntryPoint = "SetWindowLong")]
+        private extern static Int32 SetWindowLongPtr(IntPtr hWnd, Int32 nIndex, Int32 dwNewLong);
+
         [StructLayout(LayoutKind.Sequential)]
         public struct FLASHWINFO
         {
@@ -220,6 +230,9 @@ namespace TomatoTimerWPF
         private void Window_Loaded_1(object sender, RoutedEventArgs e)
         {
             m_hwnd = new WindowInteropHelper(this).Handle;
+
+            Int32 windowStyle = GetWindowLongPtr(m_hwnd, GWL_STYLE);
+            SetWindowLongPtr(m_hwnd, GWL_STYLE, windowStyle & ~WS_MAXIMIZEBOX);
 
             try {
                 m_bIsSupportTaskbarManager = TaskbarManager.IsPlatformSupported;

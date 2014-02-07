@@ -199,8 +199,15 @@ namespace TomatoTimerWPF
             {
                 // Prevent Click from firing
                 uiCur.ReleaseMouseCapture();
-                m_window.DragMove();
+                //if (m_window.ResizeMode != System.Windows.ResizeMode.NoResize)
+                //{
+                //    m_window.ResizeMode = System.Windows.ResizeMode.NoResize;
+                //    m_window.UpdateLayout();
+                //}
                 m_bIsMouseDown = false;
+                m_window.DragMove();
+                
+
             }
 
             
@@ -278,6 +285,12 @@ namespace TomatoTimerWPF
         private void Button_MouseLeaveDownTime(object sender, MouseEventArgs e)
         {
             m_bIsMouseDown = false;
+            //if (m_window.ResizeMode == System.Windows.ResizeMode.NoResize)
+            //{
+            //    // restore resize grips
+            //    m_window.ResizeMode = System.Windows.ResizeMode.CanResize;
+            //    m_window.UpdateLayout();
+            //}
         }
 
 

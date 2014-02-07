@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Controls="clr-namespace:TomatoTimerWPF"
         Title="TomatoTimer" Height="54" Width="250" WindowStyle="None" TabIndex="1" IsHitTestVisible="True" Closing="Window_Closing" 
-        Icon="Resource/Android_JellyBean/10-device-access-alarms_big_wbg.ico" MinWidth="240" MinHeight="54" Loaded="Window_Loaded_1" MaxWidth="1000" MaxHeight="400">
+        Icon="Resource/Android_JellyBean/10-device-access-alarms_big_wbg.ico" MinWidth="240" MinHeight="54" Loaded="Window_Loaded_1">
     <Grid>
     </Grid>
     
