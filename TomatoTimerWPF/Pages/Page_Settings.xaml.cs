@@ -309,5 +309,19 @@ namespace TomatoTimerWPF
             }
 
         }
+
+
+        private void btnGCal_Click(object sender, RoutedEventArgs e)
+        {
+            Button btnSelf = (sender as Button);
+
+            btnSelf.ContextMenu.IsEnabled = true;
+            btnSelf.ContextMenu.PlacementTarget = btnSelf;
+            btnSelf.ContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
+            //btnSelf.ContextMenu.VerticalOffset = (btnSelf.ActualHeight);
+            //btnSelf.ContextMenu.HorizontalOffset = (btnSelf.ContextMenu.ActualWidth / 2);
+            btnSelf.ContextMenu.IsOpen = true;
+
+        }
     }
 }

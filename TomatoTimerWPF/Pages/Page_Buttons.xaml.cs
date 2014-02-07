@@ -55,7 +55,6 @@ namespace TomatoTimerWPF
         public void SetMainWindow(MainWindow window)
         {
             m_window = window;
-            this.ToggleAlwaysOnTop();
         }
 
         Storyboard m_sbAniOut;
@@ -67,15 +66,11 @@ namespace TomatoTimerWPF
 
             m_window = window;
 
-            btnAlwaysOnTop.IsChecked = TomatoTimerWPF.TimerSettings.Default.AlwaysOnTop;
-            if (btnAlwaysOnTop.IsChecked == true)
-                this.ToggleAlwaysOnTop();
-
             m_MousePosition.X = m_MousePosition.Y = 0;
             
             spButtonStackPanel.Opacity = 0;
             btnGotoSetting.Opacity = 0;
-            spWindowControlStackPanel.Opacity = 0;
+   
             labelTime_small.Opacity = 0;
             grLabelGrid.Opacity = 1;
 
@@ -127,21 +122,6 @@ namespace TomatoTimerWPF
             //m_window.SwitchToSoundSettings();
         }
         #endregion
-
-
-        private void OnButtonStackPanel_MouseEnter(object sender, MouseEventArgs e)
-        {
-            //spButtonStackPanel.Opacity = 1;
-            //grLabelGrid.Opacity = 0;
-       
-
-        }
-
-        private void OnButtonStackPanel_MouseLeave(object sender, MouseEventArgs e)
-        {
-            //spButtonStackPanel.Opacity = 0;
-            //grLabelGrid.Opacity = 1;
-        }
 
         private void Button_Close_Click(object sender, System.Windows.RoutedEventArgs e)
         {
@@ -205,7 +185,14 @@ namespace TomatoTimerWPF
                 //    m_window.UpdateLayout();
                 //}
                 m_bIsMouseDown = false;
+
                 m_window.DragMove();
+                //Rect bounds = m_window.RestoreBounds;
+                Rect bounds = MainWindow.CheckBounds(m_window.RestoreBounds);
+                m_window.Top = bounds.Top;
+                m_window.Left = bounds.Left;
+                m_window.Width = bounds.Width;
+                m_window.Height = bounds.Height;
                 
 
             }
@@ -221,9 +208,8 @@ namespace TomatoTimerWPF
             //spButtonStackPanel.Opacity = 1;
             //labelTime_small.Opacity = 1;
             //grLabelGrid.Opacity = 0;
-
             m_sbAniIn.Begin(btnGotoSetting);
-            m_sbAniIn.Begin(spWindowControlStackPanel);
+            //m_sbAniIn.Begin(m_window.btnAlwaysOnTop);//m_sbAniIn.Begin(m_window.spWindowControlStackPanel);
             m_sbAniIn.Begin(spButtonStackPanel);
             m_sbAniIn.Begin(labelTime_small);
             m_sbAniOut.Begin(grLabelGrid);
@@ -232,7 +218,7 @@ namespace TomatoTimerWPF
         private void Grid_MouseLeave_1(object sender, MouseEventArgs e)
         {
             m_sbAniOut.Begin(btnGotoSetting);
-            m_sbAniOut.Begin(spWindowControlStackPanel);
+            //m_sbAniOut.Begin(m_window.btnAlwaysOnTop);// m_sbAniOut.Begin(m_window.spWindowControlStackPanel);
             m_sbAniOut.Begin(spButtonStackPanel);
             m_sbAniOut.Begin(labelTime_small);
             m_sbAniIn.Begin(grLabelGrid);
@@ -243,7 +229,6 @@ namespace TomatoTimerWPF
             //labelTime_small.Opacity = 0;
             //grLabelGrid.Opacity = 1;
         }
-
 
         private void Button_GotoWork_Click(object sender, System.Windows.RoutedEventArgs e)
         {
@@ -299,50 +284,7 @@ namespace TomatoTimerWPF
             return m_bIsMouseDown && !(DateTime.Now - m_MouseDownTime - 2.Seconds()).IsNegativeOrZero();
         }
 
-        private void btnAlwaysOnTop_Click(object sender, RoutedEventArgs e)
-        {
-            this.ToggleAlwaysOnTop();
-            TomatoTimerWPF.TimerSettings.Default.AlwaysOnTop = this.m_window.Topmost;
-        }
 
-        private void ToggleAlwaysOnTop()
-        {
-            if (this.btnAlwaysOnTop != null && this.m_window != null)
-            {
-                this.m_window.Topmost = btnAlwaysOnTop.IsChecked.HasValue && btnAlwaysOnTop.IsChecked.Value;
-            }
-        }
-
-
-        private void menuClose_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            //MessageBox.Show("menuClose_MouseLeftButtonUp");
-            m_window.SavePropertiesAndClose(true);
-        }
-
-        private void menuCloseDontSave_Click(object sender, RoutedEventArgs e)
-        {
-            //MessageBox.Show("menuCloseDontSave_Click");
-            m_window.SavePropertiesAndClose(false);
-        }
-
-        //private void menuCloseDontSave_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        //{
-        //    MessageBox.Show("menuCloseDontSave_MouseLeftButtonUp");
-        //    m_window.SavePropertiesAndClose(false);
-        //}
-
-        //private void menuCloseDontSave_MouseEnter(object sender, MouseEventArgs e)
-        //{
-        //    //menuClose.ReleaseMouseCapture();
-        //    //MessageBox.Show("menuCloseDontSave_MouseEnter");
-        //}
-
-        private void menuCloseSave_Click(object sender, RoutedEventArgs e)
-        {
-            //MessageBox.Show("menuCloseSave_Click");
-            m_window.SavePropertiesAndClose(true);
-        }
     }
 
 

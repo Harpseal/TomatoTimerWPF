@@ -165,57 +165,71 @@ namespace TomatoTimerWPF
             try
             {
                 Rect bounds = Rect.Parse(TomatoTimerWPF.TimerSettings.Default.WindowRestoreBounds);
-                int iInsideLT, iInsideRB;
-                iInsideLT = iInsideRB = -1;
-                for (int s = 0; s < System.Windows.Forms.Screen.AllScreens.Length;s++ )
-                {
-                    System.Windows.Forms.Screen screen = System.Windows.Forms.Screen.AllScreens[s];
-                    if (bounds.Left >= screen.Bounds.Left && bounds.Top >= screen.Bounds.Top &&
-                        bounds.Left < screen.Bounds.Right && bounds.Top < screen.Bounds.Bottom)
-                    {
-                        iInsideLT = s;
-                    }
-
-                    if (bounds.Right >= screen.Bounds.Left && bounds.Bottom >= screen.Bounds.Top &&
-                        bounds.Right < screen.Bounds.Right && bounds.Bottom < screen.Bounds.Bottom)
-                    {
-                        iInsideRB = s;
-                    }
-                }
-                if (iInsideLT != -1 || iInsideRB != -1)
-                {
-                    int recheckScreen = -1;
-
-                    if (iInsideLT == -1)
-                        recheckScreen = iInsideRB;
-                    else if (iInsideRB == -1)
-                        recheckScreen = iInsideLT;
-                    
-                    if (recheckScreen!=-1)
-                    {
-                        System.Windows.Forms.Screen screen = System.Windows.Forms.Screen.AllScreens[recheckScreen];
-
-                        if (bounds.X < screen.Bounds.Left)
-                            bounds.X = screen.Bounds.Left;
-                        if (bounds.Y < screen.Bounds.Top)
-                            bounds.Y = screen.Bounds.Top;
-                        if (bounds.Right > screen.Bounds.Right)
-                            bounds.X -= bounds.Right - screen.Bounds.Right;
-                        if (bounds.Bottom > screen.Bounds.Bottom)
-                            bounds.Y -= bounds.Bottom - screen.Bounds.Bottom;
-                      
-                    }
-                    this.Top = bounds.Top;
-                    this.Left = bounds.Left;
-                    this.Width = bounds.Width;
-                    this.Height = bounds.Height;
-                }
+                bounds = CheckBounds(bounds);
+                this.Top = bounds.Top;
+                this.Left = bounds.Left;
+                this.Width = bounds.Width;
+                this.Height = bounds.Height;
             }
             catch (Exception)
             {
                 //MessageBox.Show(e.ToString());
                 //MessageBox.Show("[" + TomatoTimerWPF.TimerSettings.Default.WindowRestoreBounds + "]");
             }
+        }
+
+        static public Rect CheckBounds(Rect bounds)
+        {
+            int iInsideLT, iInsideRB;
+            iInsideLT = iInsideRB = -1;
+            for (int s = 0; s < System.Windows.Forms.Screen.AllScreens.Length;s++ )
+            {
+                System.Windows.Forms.Screen screen = System.Windows.Forms.Screen.AllScreens[s];
+                if (bounds.Left >= screen.Bounds.Left && bounds.Top >= screen.Bounds.Top &&
+                    bounds.Left < screen.Bounds.Right && bounds.Top < screen.Bounds.Bottom)
+                {
+                    iInsideLT = s;
+                }
+
+                if (bounds.Right >= screen.Bounds.Left && bounds.Bottom >= screen.Bounds.Top &&
+                    bounds.Right < screen.Bounds.Right && bounds.Bottom < screen.Bounds.Bottom)
+                {
+                    iInsideRB = s;
+                }
+            }
+
+            //if (iInsideLT != -1 || iInsideRB != -1)
+            {
+                int recheckScreen = -1;
+
+                if (iInsideLT == -1 && iInsideRB == -1)
+                    recheckScreen = 0;
+                else if (iInsideLT == -1)
+                    recheckScreen = iInsideRB;
+                else if (iInsideRB == -1)
+                    recheckScreen = iInsideLT;
+
+                if (recheckScreen != -1)
+                {
+                    System.Windows.Forms.Screen screen = System.Windows.Forms.Screen.AllScreens[recheckScreen];
+
+                    if (bounds.X < screen.Bounds.Left)
+                        bounds.X = screen.Bounds.Left;
+                    if (bounds.Y < screen.Bounds.Top)
+                        bounds.Y = screen.Bounds.Top;
+                    if (bounds.Width > screen.Bounds.Width)
+                        bounds.Width = screen.Bounds.Width;
+                    if (bounds.Height > screen.Bounds.Height)
+                        bounds.Height = screen.Bounds.Height;
+
+                    if (bounds.Right > screen.Bounds.Right)
+                        bounds.X -= bounds.Right - screen.Bounds.Right;
+                    if (bounds.Bottom > screen.Bounds.Bottom)
+                        bounds.Y -= bounds.Bottom - screen.Bounds.Bottom;
+
+                }
+            }
+            return bounds;
         }
 
         private ThumbnailToolbarButton CreateToolbarButton(Icon icon, string toolTip, Action onClick)
@@ -293,7 +307,14 @@ namespace TomatoTimerWPF
             m_pageSettings = new Page_Settings(this);
             m_pageSoundSettings = new Page_SoundSettings(this);
 
-            this.Content = m_pageButtons;
+            btnAlwaysOnTop.IsChecked = TomatoTimerWPF.TimerSettings.Default.AlwaysOnTop;
+            if (btnAlwaysOnTop.IsChecked == true)
+                this.ToggleAlwaysOnTop();
+
+            spWindowControlStackPanel.Margin = new Thickness(0, -this.Height, 0, 0);
+            m_sbAniOut.Begin(spWindowControlStackPanel);
+
+            this.ucContent.Children.Add(m_pageButtons);
             UpdateUI();
 
             m_timer = new System.Windows.Forms.Timer();
@@ -305,11 +326,6 @@ namespace TomatoTimerWPF
         void Timer_Tick(object sender, EventArgs e)
         {
             UpdateUI();
-        }
-
-        public void Navigate(UserControl nextPage)
-        {
-            this.Content = nextPage;
         }
 
         public void SavePropertiesAndClose(bool isSaveTimerState)
@@ -706,10 +722,10 @@ namespace TomatoTimerWPF
             m_TimeSpanPause = TimeSpan.FromMinutes(0);
             m_TimeSpan = TimeSpan.FromMinutes(0);
             m_mode = TimerMode.MODE_RELAX;
-            Page_Buttons pageButtons = this.Content as Page_Buttons;
-            if (pageButtons != null)
+
+            if (m_pageButtons != null)
             {
-                if (pageButtons.GetIsLongMouseDown())
+                if (m_pageButtons.GetIsLongMouseDown())
                     m_mode = TimerMode.MODE_RELAX_LONG;
             }
             m_bIsPause = false;
@@ -811,43 +827,64 @@ namespace TomatoTimerWPF
 
         public void SwitchToButtons()
         {
+            if (ucContent.Children.Count == 0)
+                return;
             m_taSlideOut.To = new Thickness(0, this.Height, 0, 0);
             m_taSlideIn.From = new Thickness(0, -this.Height, 0, 0);
 
             pages.Push(m_pageButtons);
-            m_sbAniOut.Begin(this.Content as UserControl);
+            btnAlwaysOnTop.Visibility = Visibility.Visible;
+
+            FrameworkElement ucCurrent = ucContent.Children[0] as FrameworkElement;
+            m_sbAniOut.Begin(ucCurrent);
+
+            
         }
 
         Stack<UserControl> pages = new Stack<UserControl>();
 
         public void SwitchToSettings()
         {
+            if (ucContent.Children.Count == 0)
+                return;
+
             m_taSlideOut.To = new Thickness(0, -this.Height, 0, 0);
             m_taSlideIn.From = new Thickness(0, this.Height, 0, 0);
-
+            
             pages.Push(m_pageSettings);
-            m_sbAniOut.Begin(this.Content as UserControl);
+            btnAlwaysOnTop.Visibility = Visibility.Collapsed;
+
+            FrameworkElement ucCurrent = ucContent.Children[0] as FrameworkElement;
+            m_sbAniOut.Begin(ucCurrent);
 
         }
 
         public void SwitchFromSettingToSound()
         {
+            if (ucContent.Children.Count == 0)
+                return;
+
             m_taSlideOut.To = new Thickness(-this.Width, 0, 0, 0);
             m_taSlideIn.From = new Thickness(this.Width, 0, 0, 0);
 
             pages.Push(m_pageSoundSettings);
-            m_sbAniOut.Begin(this.Content as UserControl);
+            FrameworkElement ucCurrent = ucContent.Children[0] as FrameworkElement;
+            m_sbAniOut.Begin(ucCurrent);
 
         }
 
 
         public void SwitchFromSoundToSetting()
         {
+            if (ucContent.Children.Count == 0)
+                return;
+
             m_taSlideOut.To = new Thickness(this.Width, 0, 0, 0);
             m_taSlideIn.From = new Thickness(-this.Width, 0, 0, 0);
 
             pages.Push(m_pageSettings);
-            m_sbAniOut.Begin(this.Content as UserControl);
+            UserControl ucCurrent = ucContent.Children[0] as UserControl;
+            m_sbAniOut.Begin(ucCurrent);
 
         }
 
@@ -860,10 +897,67 @@ namespace TomatoTimerWPF
                 Page_Buttons pageButtons = page as Page_Buttons;
                 if (pageButtons != null)
                     UpdateUI();
-                this.Content = page;
+                ucContent.Children.Clear();
+                ucContent.Children.Add(page);
 
                 m_sbAniIn.Begin(page);
             }
+        }
+
+
+        private void btnAlwaysOnTop_Click(object sender, RoutedEventArgs e)
+        {
+            this.ToggleAlwaysOnTop();
+            TomatoTimerWPF.TimerSettings.Default.AlwaysOnTop = this.Topmost;
+        }
+
+        private void ToggleAlwaysOnTop()
+        {
+            this.Topmost = btnAlwaysOnTop.IsChecked.HasValue && btnAlwaysOnTop.IsChecked.Value;
+        }
+
+
+        private void menuClose_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            //MessageBox.Show("menuClose_MouseLeftButtonUp");
+            this.SavePropertiesAndClose(true);
+        }
+
+        private void menuCloseDontSave_Click(object sender, RoutedEventArgs e)
+        {
+            //MessageBox.Show("menuCloseDontSave_Click");
+            this.SavePropertiesAndClose(false);
+        }
+
+        //private void menuCloseDontSave_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        //{
+        //    MessageBox.Show("menuCloseDontSave_MouseLeftButtonUp");
+        //    m_window.SavePropertiesAndClose(false);
+        //}
+
+        //private void menuCloseDontSave_MouseEnter(object sender, MouseEventArgs e)
+        //{
+        //    //menuClose.ReleaseMouseCapture();
+        //    //MessageBox.Show("menuCloseDontSave_MouseEnter");
+        //}
+
+        private void menuCloseSave_Click(object sender, RoutedEventArgs e)
+        {
+            //MessageBox.Show("menuCloseSave_Click");
+            this.SavePropertiesAndClose(true);
+        }
+
+        private void Grid_MouseEnter(object sender, MouseEventArgs e)
+        {
+            m_taSlideIn.From = new Thickness(0, 0, 0, 0);
+            m_sbAniIn.Begin(spWindowControlStackPanel);
+
+        }
+
+        private void Grid_MouseLeave(object sender, MouseEventArgs e)
+        {
+            m_taSlideOut.To = new Thickness(0, 0, 0, 0);
+            m_sbAniOut.Begin(spWindowControlStackPanel);
         }
     }
 }

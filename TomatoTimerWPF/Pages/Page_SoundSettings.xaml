@@ -22,139 +22,150 @@
         <Button Grid.Row="0" Grid.Column="0" x:Name="btnGotoSetting" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="38" Click="btnGotoSetting_Click">
             <Image Source="../Resource/Android_JellyBean/2-action-settings.png" Stretch="Fill" Height="32" Width="32" ToolTip="Settings" />
         </Button>
-   
-        <StackPanel Grid.Row="0" Grid.Column="1" Margin="0" HorizontalAlignment="Center" Orientation="Horizontal">
-            <MediaElement x:Name="mediaElementPlayer" Source="../Resource/Audio/Fermium_RestTimeOut.mp3" LoadedBehavior="Manual"></MediaElement>
-
-            <Button x:Name="btnResumeSound" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Center" Click="btnSound_Click" ToolTip="Resume Sound">
-                <Grid>
-                    <Image Source="../Resource/Android_JellyBean/10-device-access-volume-on_white.png" Stretch="Fill" Height="32" Width="32" RenderTransformOrigin="2.594,0.344"/>
-                    <Image Source="../Resource/Android_JellyBean/9-av-play.png" Stretch="Fill" Height="32" Width="32" RenderTransformOrigin="2.594,0.344" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
-                </Grid>
-                <Button.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Style="{StaticResource CloseMenuItemStyle}">
-                            <MenuItem.Header>
-                                <StackPanel Orientation="Horizontal">
-                                    <Button x:Name="btnSoundResumePlay" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="btnSoundPlay_Click">
-                                        <Image Source="../Resource/Android_JellyBean/9-av-play.png" Stretch="Fill" Width="24" Height="24" ToolTip="Play" />
-                                    </Button>
-                                    <Button x:Name="btnSoundResumeStop" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="btnSoundStop_Click">
-                                        <Image Source="/TomatoTimerWPF;component/Resource/Android_JellyBean/9-av-stop.png" Stretch="Fill" Width="24" Height="24" ToolTip="Stop" />
-                                    </Button>
-                                    <Button x:Name="btnSoundResumeOpenFile" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="btnSoundOpenFile_Click">
-                                        <Image Source="/TomatoTimerWPF;component/Resource/Android_JellyBean/4-collections-collection.png" Stretch="Fill" Width="24" Height="24" ToolTip="Open sound file" />
-                                    </Button>
-                                    <Button x:Name="btnSoundResumeMute" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="btnSoundMute_Click">
-                                        <Image Source="/TomatoTimerWPF;component/Resource/Android_JellyBean/10-device-access-volume-muted.png" Stretch="Fill" Width="24" Height="24" ToolTip="Mute" />
-                                    </Button>
-                                </StackPanel>
-                            </MenuItem.Header>
-                        </MenuItem>
-                    </ContextMenu>
-                </Button.ContextMenu>
-            </Button>
-
-            <Button x:Name="btnPauseSound" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Center" Click="btnSound_Click" ToolTip="Pause Sound">
-                <Grid>
-                    <Image Source="../Resource/Android_JellyBean/10-device-access-volume-on_white.png" Stretch="Fill" Height="32" Width="32" RenderTransformOrigin="2.594,0.344" />
-                    <Image Source="../Resource/Android_JellyBean/9-av-pause.png" Stretch="Fill" Height="32" Width="32" RenderTransformOrigin="2.594,0.344" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
-                </Grid>
-                <Button.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Style="{StaticResource CloseMenuItemStyle}">
-                            <MenuItem.Header>
-                                <StackPanel Orientation="Horizontal">
-                                    <Button x:Name="btnSoundPausePlay" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="btnSoundPlay_Click">
-                                        <Image Source="../Resource/Android_JellyBean/9-av-play.png" Stretch="Fill" Width="24" Height="24" ToolTip="Play" />
-                                    </Button>
-                                    <Button x:Name="btnSoundPauseStop" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="btnSoundStop_Click">
-                                        <Image Source="/TomatoTimerWPF;component/Resource/Android_JellyBean/9-av-stop.png" Stretch="Fill" Width="24" Height="24" ToolTip="Stop" />
-                                    </Button>
-                                    <Button x:Name="btnSoundPauseOpenFile" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="btnSoundOpenFile_Click">
-                                        <Image Source="/TomatoTimerWPF;component/Resource/Android_JellyBean/4-collections-collection.png" Stretch="Fill" Width="24" Height="24" ToolTip="Open sound file" />
-                                    </Button>
-                                    <Button x:Name="btnSoundPauseMute" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="btnSoundMute_Click">
-                                        <Image Source="/TomatoTimerWPF;component/Resource/Android_JellyBean/10-device-access-volume-muted.png" Stretch="Fill" Width="24" Height="24" ToolTip="Mute" />
-                                    </Button>
-                                </StackPanel>
-                            </MenuItem.Header>
-                        </MenuItem>
-                    </ContextMenu>
-                </Button.ContextMenu>
-            </Button>
-
-            <Button x:Name="btnWorkDoneSound" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Center" Click="btnSound_Click" ToolTip="WorkDone Sound">
-                <Grid>
-                    <Image Source="../Resource/Android_JellyBean/10-device-access-volume-on_white.png" Stretch="Fill" Height="32" Width="32" RenderTransformOrigin="2.594,0.344"/>
-                    <Image Source="../Resource/Android_JellyBean/4-collections-view-as-list.png" Stretch="Fill" Height="32" Width="32" RenderTransformOrigin="2.594,0.344" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
-                </Grid>
-                <Button.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Style="{StaticResource CloseMenuItemStyle}">
-                            <MenuItem.Header>
-                                <StackPanel Orientation="Horizontal">
-                                    <Button x:Name="btnSoundWorkPlay" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="btnSoundPlay_Click">
-                                        <Image Source="../Resource/Android_JellyBean/9-av-play.png" Stretch="Fill" Width="24" Height="24" ToolTip="Play" />
-                                    </Button>
-                                    <Button x:Name="btnSoundWorkStop" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="btnSoundStop_Click">
-                                        <Image Source="/TomatoTimerWPF;component/Resource/Android_JellyBean/9-av-stop.png" Stretch="Fill" Width="24" Height="24" ToolTip="Stop" />
-                                    </Button>
-                                    <Button x:Name="btnSoundWorkOpenFile" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="btnSoundOpenFile_Click">
-                                        <Image Source="/TomatoTimerWPF;component/Resource/Android_JellyBean/4-collections-collection.png" Stretch="Fill" Width="24" Height="24" ToolTip="Open sound file" />
-                                    </Button>
-                                    <Button x:Name="btnSoundWorkMute" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="btnSoundMute_Click">
-                                        <Image Source="/TomatoTimerWPF;component/Resource/Android_JellyBean/10-device-access-volume-muted.png" Stretch="Fill" Width="24" Height="24" ToolTip="Mute" />
-                                    </Button>
-                                </StackPanel>
-                            </MenuItem.Header>
-                        </MenuItem>
-                    </ContextMenu>
-                </Button.ContextMenu>
-            </Button>
-
-            <Button x:Name="btnRestTimeoutSound" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Center" Click="btnSound_Click" ToolTip="RestTimeOut Sound">
-                <Grid>
-                    <Image Source="../Resource/Android_JellyBean/10-device-access-volume-on_white.png" Stretch="Fill" Height="32" Width="32" RenderTransformOrigin="2.594,0.344"/>
-                    <Image Source="../Resource/Android_JellyBean/12-hardware-gamepad.png" Stretch="Fill" Height="32" Width="32" RenderTransformOrigin="2.594,0.344" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
-                </Grid>
-                <Button.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Style="{StaticResource CloseMenuItemStyle}">
-                            <MenuItem.Header>
-                                <StackPanel Orientation="Horizontal">
-                                    <Button x:Name="btnSoundRestPlay" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="btnSoundPlay_Click">
-                                        <Image Source="../Resource/Android_JellyBean/9-av-play.png" Stretch="Fill" Width="24" Height="24" ToolTip="Play" />
-                                    </Button>
-                                    <Button x:Name="btnSoundRestStop" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="btnSoundStop_Click">
-                                        <Image Source="/TomatoTimerWPF;component/Resource/Android_JellyBean/9-av-stop.png" Stretch="Fill" Width="24" Height="24" ToolTip="Stop" />
-                                    </Button>
-                                    <Button x:Name="btnSoundRestOpenFile" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="btnSoundOpenFile_Click">
-                                        <Image Source="/TomatoTimerWPF;component/Resource/Android_JellyBean/4-collections-collection.png" Stretch="Fill" Width="24" Height="24" ToolTip="Open sound file" />
-                                    </Button>
-                                    <Button x:Name="btnSoundRestMute" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="btnSoundMute_Click">
-                                        <Image Source="/TomatoTimerWPF;component/Resource/Android_JellyBean/10-device-access-volume-muted.png" Stretch="Fill" Width="24" Height="24" ToolTip="Mute" />
-                                    </Button>
-                                </StackPanel>
-                            </MenuItem.Header>
-                        </MenuItem>
-                    </ContextMenu>
-                </Button.ContextMenu>
-            </Button>
-         
-
-        </StackPanel>
 
 
-        <Menu Grid.Row="0" Grid.Column="1" x:Name="menuClose" Style="{StaticResource CloseMenuStyle}" VerticalAlignment="Top" HorizontalAlignment="Right" BorderThickness="1" Background="#00FFFFFF" >
+        <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Disabled"  HorizontalScrollBarVisibility="Auto">
+            <ScrollViewer.Resources>
+                <Style TargetType="ScrollBar">
+                    <Style.Triggers>
+                        <Trigger Property="Orientation" Value="Horizontal">
+                            <Setter Property="Height" Value="12"/>
+                            <Setter Property="MinHeight" Value="12"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ScrollViewer.Resources>
+
+            <StackPanel Grid.Row="0" Grid.Column="1" Margin="0" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Button x:Name="btnResumeSound" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Center" HorizontalAlignment="Center" Click="btnSound_Click" ToolTip="Resume Sound">
+                    <Grid>
+                        <Image Source="../Resource/Android_JellyBean/10-device-access-volume-on_white.png" MaxHeight="32" MaxWidth="32" RenderTransformOrigin="2.594,0.344"/>
+                        <Image Source="../Resource/Android_JellyBean/9-av-play.png" MaxHeight="32" MaxWidth="32" RenderTransformOrigin="2.594,0.344" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+                    </Grid>
+                    <Button.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Style="{StaticResource CloseMenuItemStyle}">
+                                <MenuItem.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button x:Name="btnSoundResumePlay" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="btnSoundPlay_Click">
+                                            <Image Source="../Resource/Android_JellyBean/9-av-play.png" Stretch="Fill" Width="24" Height="24" ToolTip="Play" />
+                                        </Button>
+                                        <Button x:Name="btnSoundResumeStop" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="btnSoundStop_Click">
+                                            <Image Source="/TomatoTimerWPF;component/Resource/Android_JellyBean/9-av-stop.png" Stretch="Fill" Width="24" Height="24" ToolTip="Stop" />
+                                        </Button>
+                                        <Button x:Name="btnSoundResumeOpenFile" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="btnSoundOpenFile_Click">
+                                            <Image Source="/TomatoTimerWPF;component/Resource/Android_JellyBean/4-collections-collection.png" Stretch="Fill" Width="24" Height="24" ToolTip="Open sound file" />
+                                        </Button>
+                                        <Button x:Name="btnSoundResumeMute" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="btnSoundMute_Click">
+                                            <Image Source="/TomatoTimerWPF;component/Resource/Android_JellyBean/10-device-access-volume-muted.png" Stretch="Fill" Width="24" Height="24" ToolTip="Mute" />
+                                        </Button>
+                                    </StackPanel>
+                                </MenuItem.Header>
+                            </MenuItem>
+                        </ContextMenu>
+                    </Button.ContextMenu>
+                </Button>
+
+                <Button x:Name="btnPauseSound" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Center" Click="btnSound_Click" ToolTip="Pause Sound">
+                    <Grid>
+                        <Image Source="../Resource/Android_JellyBean/10-device-access-volume-on_white.png" MaxHeight="32" MaxWidth="32" RenderTransformOrigin="2.594,0.344" />
+                        <Image Source="../Resource/Android_JellyBean/9-av-pause.png" MaxHeight="32" MaxWidth="32" RenderTransformOrigin="2.594,0.344" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+                    </Grid>
+                    <Button.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Style="{StaticResource CloseMenuItemStyle}">
+                                <MenuItem.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button x:Name="btnSoundPausePlay" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="btnSoundPlay_Click">
+                                            <Image Source="../Resource/Android_JellyBean/9-av-play.png" Stretch="Fill" Width="24" Height="24" ToolTip="Play" />
+                                        </Button>
+                                        <Button x:Name="btnSoundPauseStop" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="btnSoundStop_Click">
+                                            <Image Source="/TomatoTimerWPF;component/Resource/Android_JellyBean/9-av-stop.png" Stretch="Fill" Width="24" Height="24" ToolTip="Stop" />
+                                        </Button>
+                                        <Button x:Name="btnSoundPauseOpenFile" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="btnSoundOpenFile_Click">
+                                            <Image Source="/TomatoTimerWPF;component/Resource/Android_JellyBean/4-collections-collection.png" Stretch="Fill" Width="24" Height="24" ToolTip="Open sound file" />
+                                        </Button>
+                                        <Button x:Name="btnSoundPauseMute" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="btnSoundMute_Click">
+                                            <Image Source="/TomatoTimerWPF;component/Resource/Android_JellyBean/10-device-access-volume-muted.png" Stretch="Fill" Width="24" Height="24" ToolTip="Mute" />
+                                        </Button>
+                                    </StackPanel>
+                                </MenuItem.Header>
+                            </MenuItem>
+                        </ContextMenu>
+                    </Button.ContextMenu>
+                </Button>
+
+                <Button x:Name="btnWorkDoneSound" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Center" Click="btnSound_Click" ToolTip="WorkDone Sound">
+                    <Grid>
+                        <Image Source="../Resource/Android_JellyBean/10-device-access-volume-on_white.png" MaxHeight="32" MaxWidth="32" RenderTransformOrigin="2.594,0.344"/>
+                        <Image Source="../Resource/Android_JellyBean/4-collections-view-as-list.png" MaxHeight="32" MaxWidth="32" RenderTransformOrigin="2.594,0.344" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+                    </Grid>
+                    <Button.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Style="{StaticResource CloseMenuItemStyle}">
+                                <MenuItem.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button x:Name="btnSoundWorkPlay" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="btnSoundPlay_Click">
+                                            <Image Source="../Resource/Android_JellyBean/9-av-play.png" Stretch="Fill" Width="24" Height="24" ToolTip="Play" />
+                                        </Button>
+                                        <Button x:Name="btnSoundWorkStop" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="btnSoundStop_Click">
+                                            <Image Source="/TomatoTimerWPF;component/Resource/Android_JellyBean/9-av-stop.png" Stretch="Fill" Width="24" Height="24" ToolTip="Stop" />
+                                        </Button>
+                                        <Button x:Name="btnSoundWorkOpenFile" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="btnSoundOpenFile_Click">
+                                            <Image Source="/TomatoTimerWPF;component/Resource/Android_JellyBean/4-collections-collection.png" Stretch="Fill" Width="24" Height="24" ToolTip="Open sound file" />
+                                        </Button>
+                                        <Button x:Name="btnSoundWorkMute" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="btnSoundMute_Click">
+                                            <Image Source="/TomatoTimerWPF;component/Resource/Android_JellyBean/10-device-access-volume-muted.png" Stretch="Fill" Width="24" Height="24" ToolTip="Mute" />
+                                        </Button>
+                                    </StackPanel>
+                                </MenuItem.Header>
+                            </MenuItem>
+                        </ContextMenu>
+                    </Button.ContextMenu>
+                </Button>
+
+                <Button x:Name="btnRestTimeoutSound" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Center" Click="btnSound_Click" ToolTip="RestTimeOut Sound">
+                    <Grid>
+                        <Image Source="../Resource/Android_JellyBean/10-device-access-volume-on_white.png" MaxHeight="32" MaxWidth="32" RenderTransformOrigin="2.594,0.344"/>
+                        <Image Source="../Resource/Android_JellyBean/12-hardware-gamepad.png" MaxHeight="32" MaxWidth="32" RenderTransformOrigin="2.594,0.344" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+                    </Grid>
+                    <Button.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Style="{StaticResource CloseMenuItemStyle}">
+                                <MenuItem.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button x:Name="btnSoundRestPlay" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="btnSoundPlay_Click">
+                                            <Image Source="../Resource/Android_JellyBean/9-av-play.png" Stretch="Fill" Width="24" Height="24" ToolTip="Play" />
+                                        </Button>
+                                        <Button x:Name="btnSoundRestStop" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="btnSoundStop_Click">
+                                            <Image Source="/TomatoTimerWPF;component/Resource/Android_JellyBean/9-av-stop.png" Stretch="Fill" Width="24" Height="24" ToolTip="Stop" />
+                                        </Button>
+                                        <Button x:Name="btnSoundRestOpenFile" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="btnSoundOpenFile_Click">
+                                            <Image Source="/TomatoTimerWPF;component/Resource/Android_JellyBean/4-collections-collection.png" Stretch="Fill" Width="24" Height="24" ToolTip="Open sound file" />
+                                        </Button>
+                                        <Button x:Name="btnSoundRestMute" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="btnSoundMute_Click">
+                                            <Image Source="/TomatoTimerWPF;component/Resource/Android_JellyBean/10-device-access-volume-muted.png" Stretch="Fill" Width="24" Height="24" ToolTip="Mute" />
+                                        </Button>
+                                    </StackPanel>
+                                </MenuItem.Header>
+                            </MenuItem>
+                        </ContextMenu>
+                    </Button.ContextMenu>
+                </Button>
+
+
+            </StackPanel>
+        </ScrollViewer>
+
+        <!--Menu Grid.Row="0" Grid.Column="1" x:Name="menuClose" Style="{StaticResource CloseMenuStyle}" VerticalAlignment="Top" HorizontalAlignment="Right" BorderThickness="1" Background="#00FFFFFF" >
             <MenuItem Style="{StaticResource CloseMenuItemStyle}">
                 <MenuItem.Header>
                     <Image Source="../Resource/Android_JellyBean/1-navigation-cancel.png" Stretch="Fill" Height="16" Width="16" HorizontalAlignment="Center" PreviewMouseLeftButtonUp="menuClose_MouseLeftButtonUp" VerticalAlignment="Center" />
-                    <!--ContentPresenter Content="Reports" /-->
                 </MenuItem.Header>
                 <MenuItem x:Name="menuCloseDontSave" Header="Don't save timer state." Click="menuCloseDontSave_Click" Background="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
-                <!-- x:Name="menuCloseSave" Header="Save current timer state." Click="menuCloseSave_Click"/-->
             </MenuItem>
-        </Menu>
+        </Menu-->
     </Grid>
 </UserControl>
