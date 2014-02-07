@@ -16,15 +16,17 @@
     </UserControl.Resources>
 
     <Grid x:Name="grButtonsGrid" MouseEnter="Grid_MouseEnter_1" MouseLeave="Grid_MouseLeave_1">
-        <ProgressBar x:Name="pbarTimer" TextBlock.FontWeight="Bold" Margin="0" Value="50"/>
+        <ProgressBar x:Name="pbarTimer" TextBlock.FontWeight="Bold" Margin="0" Value="50" MouseDown="OnButtonMove_MouseDown_1" PreviewMouseMove="OnButtonMove_MouseMove_1" MouseLeave="Button_MouseLeaveDownTime"/>
         <Grid x:Name="grLabelGrid" Opacity="1">
             <Label x:Name="labelTime" Width="{Binding ElementName=pbarTimer, Path=ActualWidth}" Content="Work: 00:00:00" 
-                   VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" HorizontalContentAlignment="Center" FontFamily="/TomatoTimerWPF;component/Resource/#Roboto">
+                   VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" HorizontalContentAlignment="Center" FontFamily="/TomatoTimerWPF;component/Resource/#Roboto"
+                   MouseDown="OnButtonMove_MouseDown_1" PreviewMouseMove="OnButtonMove_MouseMove_1" MouseLeave="Button_MouseLeaveDownTime">
                 
             </Label>
             <Label x:Name="labelTimeWhite" 
                    Width="{Binding ElementName=pbarTimer, Path=ActualWidth}"
-                   Foreground="White" Content="Work: 00:00:00" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" HorizontalContentAlignment="Center" FontFamily="/TomatoTimerWPF;component/Resource/#Roboto" Background="Transparent">
+                   Foreground="White" Content="Work: 00:00:00" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" HorizontalContentAlignment="Center" FontFamily="/TomatoTimerWPF;component/Resource/#Roboto" Background="Transparent"
+                   MouseDown="OnButtonMove_MouseDown_1" PreviewMouseMove="OnButtonMove_MouseMove_1" MouseLeave="Button_MouseLeaveDownTime">
                 <Label.Clip>
                     <RectangleGeometry>
                         <RectangleGeometry.Rect>
@@ -40,10 +42,10 @@
             <Label x:Name="labelInfo" Content="Start @ 0:00&#xA;Pause: 0:00" Visibility="Collapsed" VerticalContentAlignment="Bottom"  HorizontalAlignment="Left" Margin="0" Width="100" VerticalAlignment="Bottom" FontWeight="Bold" FontFamily="Arial">
             </Label>
         </Grid>
-        <Label x:Name="labelTime_small" Content="Work: 00:00:00" VerticalAlignment="Bottom" HorizontalAlignment="Right" FontSize="12" HorizontalContentAlignment="Right"  FontFamily="/TomatoTimerWPF;component/Resource/#Roboto" Margin="0,-2"/>
+        <Label x:Name="labelTime_small" Content="Work: 00:00:00" VerticalAlignment="Bottom" HorizontalAlignment="Right" FontSize="12" HorizontalContentAlignment="Right"  FontFamily="/TomatoTimerWPF;component/Resource/#Roboto" Margin="0,-2" MouseDown="OnButtonMove_MouseDown_1" PreviewMouseMove="OnButtonMove_MouseMove_1" MouseLeave="Button_MouseLeaveDownTime"/>
 
         <Grid>
-            <Button Grid.Column="0" x:Name="btnGotoSetting" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="38" Click="Button_GotoSettings_Click">
+            <Button Grid.Column="0" x:Name="btnGotoSetting" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="38" Click="Button_GotoSettings_Click" PreviewMouseLeftButtonDown="OnButtonMove_MouseDown_1" PreviewMouseMove="OnButtonMove_MouseMove_1" MouseLeave="Button_MouseLeaveDownTime">
                 <Image Source="../Resource/Android_JellyBean/2-action-settings.png" Stretch="Fill" Height="32" Width="32" ToolTip="Settings" />
             </Button>
 
@@ -51,20 +53,20 @@
 
             <StackPanel Grid.Column="1" x:Name="spButtonStackPanel" Margin="0" HorizontalAlignment="Center" Orientation="Horizontal" MouseEnter="OnButtonStackPanel_MouseEnter" MouseLeave="OnButtonStackPanel_MouseLeave">
 
-                <Button x:Name="btnReset" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="Button_Reset_Click" PreviewMouseDown="Button_PreviewMouseDownTime" MouseLeave="Button_MouseLeaveDownTime" >
+                <Button x:Name="btnReset" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="Button_Reset_Click" PreviewMouseLeftButtonDown="OnButtonMove_MouseDown_1" PreviewMouseMove="OnButtonMove_MouseMove_1" MouseLeave="Button_MouseLeaveDownTime" >
                     <Image Source="../Resource/Android_JellyBean/9-av-replay.png" Stretch="Fill" Width="32" Height="32" ToolTip="Reset" />
                 </Button>
-                <Button x:Name="btnPlay" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="Button_Resume_Click">
+                <Button x:Name="btnPlay" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="Button_Resume_Click" PreviewMouseLeftButtonDown="OnButtonMove_MouseDown_1" PreviewMouseMove="OnButtonMove_MouseMove_1" MouseLeave="Button_MouseLeaveDownTime">
                     <Image Source="../Resource/Android_JellyBean/9-av-play.png" Stretch="Fill" Width="32" Height="32" ToolTip="Resume" />
                 </Button>
 
-                <Button x:Name="btnPause" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="Button_Pause_Click">
+                <Button x:Name="btnPause" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="Button_Pause_Click" PreviewMouseLeftButtonDown="OnButtonMove_MouseDown_1" PreviewMouseMove="OnButtonMove_MouseMove_1" MouseLeave="Button_MouseLeaveDownTime">
                     <Image Source="../Resource/Android_JellyBean/9-av-pause.png" Stretch="Fill" Width="32" Height="32" ToolTip="Pause" />
                 </Button>
-                <Button x:Name="btnWork" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="Button_GotoWork_Click">
+                <Button x:Name="btnWork" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="Button_GotoWork_Click" PreviewMouseLeftButtonDown="OnButtonMove_MouseDown_1" PreviewMouseMove="OnButtonMove_MouseMove_1" MouseLeave="Button_MouseLeaveDownTime">
                     <Image Source="../Resource/Android_JellyBean/4-collections-view-as-list.png" Stretch="Fill" Height="32" Width="32" RenderTransformOrigin="2.594,0.344" ToolTip="Go to work" />
                 </Button>
-                <Button x:Name="btnRelax" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="Button_GotoRelax_Click" PreviewMouseDown="Button_PreviewMouseDownTime" MouseLeave="Button_MouseLeaveDownTime" >
+                <Button x:Name="btnRelax" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="Button_GotoRelax_Click" PreviewMouseLeftButtonDown="OnButtonMove_MouseDown_1" PreviewMouseMove="OnButtonMove_MouseMove_1" MouseLeave="Button_MouseLeaveDownTime" >
                     <Image Source="../Resource/Android_JellyBean/12-hardware-gamepad.png" Stretch="Fill" Width="32" Height="32" ToolTip="Take a break" />
                 </Button>
             </StackPanel>

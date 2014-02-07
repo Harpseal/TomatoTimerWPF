@@ -150,8 +150,12 @@ namespace TomatoTimerWPF
 
         private void OnButtonMove_MouseDown_1(object sender, MouseButtonEventArgs e)
         {
-            m_MousePosition = e.GetPosition(btnMove);
-
+            Control uiCur = (sender as Control);
+            if (uiCur == null) return;
+            m_MousePosition = e.GetPosition(uiCur);
+            m_MouseDownTime = DateTime.Now;
+            m_bIsMouseDown = true;
+            
             if (m_window.WindowState == WindowState.Maximized)
             {
                 double borderWidth;
@@ -170,7 +174,7 @@ namespace TomatoTimerWPF
                 m_window.WindowState = WindowState.Normal;
 
                 System.Drawing.Point pointMouse = System.Windows.Forms.Control.MousePosition;
-                Point relativePoint = btnMove.TransformToAncestor(m_window)
+                Point relativePoint = uiCur.TransformToAncestor(m_window)
                                   .Transform(m_MousePosition);
                 m_window.Left = (double)pointMouse.X - relativePoint.X - borderWidth;
                 m_window.Top = (double)pointMouse.Y - relativePoint.Y - borderHeight;
@@ -179,19 +183,24 @@ namespace TomatoTimerWPF
 
         private void OnButtonMove_MouseMove_1(object sender, MouseEventArgs e)
         {
+            
             //MessageBox.Show("MM");
-            var currentPoint = e.GetPosition(btnMove);
+            //SystemParameters.MinimumHorizontalDragDistance
+            Control uiCur = (sender as Control);
+            if (uiCur == null) return;
+            double minDragDis = Math.Min(Math.Min(uiCur.ActualWidth, uiCur.ActualHeight) * 0.25,15);
+            var currentPoint = e.GetPosition(uiCur);
+
             if (e.LeftButton == MouseButtonState.Pressed
                 &&
-                btnMove.IsMouseCaptured &&
-                (Math.Abs(currentPoint.X - m_MousePosition.X) >
-                    SystemParameters.MinimumHorizontalDragDistance ||
-                Math.Abs(currentPoint.Y - m_MousePosition.Y) >
-                    SystemParameters.MinimumVerticalDragDistance))
+                //uiCur.IsMouseCaptured &&
+                (Math.Abs(currentPoint.X - m_MousePosition.X) > minDragDis ||
+                Math.Abs(currentPoint.Y - m_MousePosition.Y) > minDragDis))
             {
                 // Prevent Click from firing
-                btnMove.ReleaseMouseCapture();
+                uiCur.ReleaseMouseCapture();
                 m_window.DragMove();
+                m_bIsMouseDown = false;
             }
 
             

@@ -22,7 +22,7 @@ namespace TomatoTimerWPF
     /// </summary>
     public partial class Page_Settings : UserControl
     {
-        
+        private bool m_bVersionMode;
         private MainWindow m_window;
         public void SetMainWindow(MainWindow window)
         {
@@ -33,6 +33,7 @@ namespace TomatoTimerWPF
         {
             InitializeComponent();
 
+            m_bVersionMode = true;
             labelVersion_small.Content = "Version: " + System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString();
 
             m_window = window;
@@ -293,6 +294,20 @@ namespace TomatoTimerWPF
         private void btnGotoSoundSettings_Click(object sender, RoutedEventArgs e)
         {
             m_window.SwitchFromSettingToSound();
+        }
+
+        private void labelVersion_small_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            m_bVersionMode = !m_bVersionMode;
+            if (m_bVersionMode)
+                labelVersion_small.Content = "Version: " + System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString();
+            else
+            {
+                Version ver = System.Reflection.Assembly.GetEntryAssembly().GetName().Version;
+                var date = new DateTime( 2000, 01, 01 ).AddDays( ver.Build ).AddSeconds( ver.Revision * 2 );
+                labelVersion_small.Content = "Build date: " + date.ToString();
+            }
+
         }
     }
 }
