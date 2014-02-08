@@ -833,7 +833,6 @@ namespace TomatoTimerWPF
             m_taSlideIn.From = new Thickness(0, -this.Height, 0, 0);
 
             pages.Push(m_pageButtons);
-            btnAlwaysOnTop.Visibility = Visibility.Visible;
 
             FrameworkElement ucCurrent = ucContent.Children[0] as FrameworkElement;
             m_sbAniOut.Begin(ucCurrent);
@@ -852,7 +851,6 @@ namespace TomatoTimerWPF
             m_taSlideIn.From = new Thickness(0, this.Height, 0, 0);
             
             pages.Push(m_pageSettings);
-            btnAlwaysOnTop.Visibility = Visibility.Collapsed;
 
             FrameworkElement ucCurrent = ucContent.Children[0] as FrameworkElement;
             m_sbAniOut.Begin(ucCurrent);
@@ -896,7 +894,12 @@ namespace TomatoTimerWPF
 
                 Page_Buttons pageButtons = page as Page_Buttons;
                 if (pageButtons != null)
+                {
                     UpdateUI();
+                    btnAlwaysOnTop.Visibility = Visibility.Visible;
+                }
+                else
+                    btnAlwaysOnTop.Visibility = Visibility.Collapsed;
                 ucContent.Children.Clear();
                 ucContent.Children.Add(page);
 
