@@ -5,6 +5,25 @@
         Title="TomatoTimer" Height="40" Width="236" WindowStyle="None" TabIndex="1" IsHitTestVisible="True" Closing="Window_Closing" ResizeMode="CanResizeWithGrip" AllowsTransparency="True" BorderThickness="1"
         Icon="Resource/Android_JellyBean/10-device-access-alarms_big_wbg.ico" MinWidth="160" MinHeight="40" Loaded="Window_Loaded_1" BorderBrush="#AF959595">
 
+    <Window.TaskbarItemInfo>
+        <TaskbarItemInfo Description="Control your media" ThumbnailClipMargin="5">
+            <TaskbarItemInfo.ThumbButtonInfos>
+                <ThumbButtonInfoCollection>
+                    <ThumbButtonInfo x:Name="ThumbButtonPlay" DismissWhenClicked="False" Description="Play" Click="ThumbButtonPlay_Click"
+                                     ImageSource="Resource/Android_JellyBean/9-av-play.png" />
+                    <ThumbButtonInfo x:Name="ThumbButtonPause" DismissWhenClicked="False" Description="Pause" Click="ThumbButtonPause_Click" 
+                                     ImageSource="Resource/Android_JellyBean/9-av-pause.png" />
+                    <ThumbButtonInfo x:Name="ThumbButtonReset" DismissWhenClicked="False" Description="Reset" Click="ThumbButtonReset_Click"
+                                     ImageSource="Resource/Android_JellyBean/9-av-replay.png" />
+                    <ThumbButtonInfo x:Name="ThumbButtonGoToWork" DismissWhenClicked="False" Description="Go to work" Click="ThumbButtonGoToWork_Click"
+                                     ImageSource="Resource/Android_JellyBean/4-collections-view-as-list.png" />
+                    <ThumbButtonInfo x:Name="ThumbButtonTakeABreak" DismissWhenClicked="False" Description="Take a break" Click="ThumbButtonTakeABreak_Click"
+                                     ImageSource="Resource/Android_JellyBean/12-hardware-gamepad.png" />
+                </ThumbButtonInfoCollection>
+            </TaskbarItemInfo.ThumbButtonInfos>
+        </TaskbarItemInfo>
+    </Window.TaskbarItemInfo>
+
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

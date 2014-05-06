@@ -13,14 +13,11 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using Microsoft.WindowsAPICodePack.Taskbar;
 using System.Runtime.InteropServices;
 using System.Drawing;
 using System.Windows.Interop;
 using System.Windows.Media.Animation;
 using System.Configuration;
-
-using WMPLib;
 
 using TomatoTimerWPF.Pages;
 
@@ -82,18 +79,6 @@ namespace TomatoTimerWPF
         private bool m_bIsOverTime = true;
 
         public IntPtr m_hwnd;
-
-        private ThumbnailToolbarButton m_btnReset;
-        private ThumbnailToolbarButton m_btnPlay;
-        private ThumbnailToolbarButton m_btnPause;
-        private ThumbnailToolbarButton m_btnGoToWork;
-        private ThumbnailToolbarButton m_btnGoToRest;
-
-        public event Action m_ActionPlay = () => { };
-        public event Action m_ActionPause = () => { };
-        public event Action m_ActionReset = () => { };
-        public event Action m_ActionGoToWork = () => { };
-        public event Action m_ActionTakeABreak = () => { };
 
         private Page_Buttons m_pageButtons;
         private Page_Settings m_pageSettings;
@@ -232,15 +217,6 @@ namespace TomatoTimerWPF
             return bounds;
         }
 
-        private ThumbnailToolbarButton CreateToolbarButton(Icon icon, string toolTip, Action onClick)
-        {
-            return new ThumbnailToolbarButton(icon, toolTip)
-            {
-                DismissOnClick = true
-            }
-            .Chain(btn => btn.Click += (o, e) => onClick());
-        }
-
         private void Window_Loaded_1(object sender, RoutedEventArgs e)
         {
             m_hwnd = new WindowInteropHelper(this).Handle;
@@ -248,47 +224,8 @@ namespace TomatoTimerWPF
             Int32 windowStyle = GetWindowLongPtr(m_hwnd, GWL_STYLE);
             SetWindowLongPtr(m_hwnd, GWL_STYLE, windowStyle & ~WS_MAXIMIZEBOX);
 
-            try {
-                m_bIsSupportTaskbarManager = TaskbarManager.IsPlatformSupported;
-            }
-            catch (System.Exception obj) 
-            {
-                MessageBox.Show(obj.ToString(), "TaskbarManager Error");
-            }
-
-            if (!TaskbarManager.IsPlatformSupported)
-                m_bIsSupportTaskbarManager = false;
-            else
-            {
-                m_bIsSupportTaskbarManager = true;
-
-                m_ActionPlay += Resume;
-                m_ActionPause += Pause;
-                m_ActionReset += Reset;
-                m_ActionGoToWork += StartWork;
-                m_ActionTakeABreak += StartRelax;
-
-                m_btnReset = CreateToolbarButton(Res._9_av_replay, "Reset", () => m_ActionReset());
-                m_btnPlay = CreateToolbarButton(Res._9_av_play, "Play", () => m_ActionPlay());
-                m_btnPause = CreateToolbarButton(Res._9_av_pause, "Pause", () => m_ActionPause());
-                m_btnGoToWork = CreateToolbarButton(Res._4_collections_view_as_list, "Go to Work", () => m_ActionGoToWork());
-                m_btnGoToRest = CreateToolbarButton(Res._12_hardware_gamepad, "Take a break", () => m_ActionTakeABreak());
-
-                TaskbarManager.Instance.ThumbnailToolbars.AddButtons(
-                    m_hwnd,
-                    m_btnReset,
-                    m_btnPlay,
-                    m_btnPause,
-                    m_btnGoToWork,
-                    m_btnGoToRest);
-
-                m_btnReset.Visible = false;
-                m_btnPlay.Visible = false;
-                m_btnPause.Visible = false;
-                m_btnGoToWork.Visible = false;
-                m_btnGoToRest.Visible = false;
-
-            }
+            m_bIsSupportTaskbarManager = true;
+            this.TaskbarItemInfo.ThumbnailClipMargin = new Thickness(0, 0, 0, 0);
 
             try
             {
@@ -568,14 +505,7 @@ namespace TomatoTimerWPF
                     pageButtons.pbarTimer.Value = progressValue;
                 }
 
-
-                //var v = VisualTreeHelper.GetOffset(pageButtons.pbarTimer);
-
-                //TaskbarManager.Instance.TabbedThumbnail.SetThumbnailClip(
-                //    new WindowInteropHelper(this).Handle,
-                //    new System.Drawing.Rectangle((int)v.X, (int)v.Y, (int)pageButtons.pbarTimer.RenderSize.Width, (int)pageButtons.pbarTimer.RenderSize.Height));
-
-                
+                                  
             }
 
 
@@ -619,72 +549,53 @@ namespace TomatoTimerWPF
                         else
                             g.DrawString("{0:00}".ToFormat(Math.Abs(timerSpan.Minutes)), new Font("Courier New", 9), new SolidBrush(System.Drawing.Color.White), -1, 0);
 
-                        TaskbarManager.Instance.SetOverlayIcon(System.Drawing.Icon.FromHandle(bmp.GetHicon()), "icon");
+                        this.TaskbarItemInfo.Overlay = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
+                                                       bmp.GetHbitmap(),
+                                                       IntPtr.Zero,
+                                                       System.Windows.Int32Rect.Empty,
+                                                       BitmapSizeOptions.FromWidthAndHeight(bmp.Width, bmp.Height));
                     }
                     m_OverlayIconLastMin = (tMin == 0 ? timerSpan.Seconds : tMin) + (timerSpan.IsNegativeOrZero() ? 1 : 0) + (m_bIsPause ? 3 : 1);
                 }
 
 
                 if (m_bIsPause)
-                    TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Indeterminate);
+                {
+                    this.TaskbarItemInfo.ProgressState = System.Windows.Shell.TaskbarItemProgressState.Indeterminate;
+                    this.TaskbarItemInfo.ProgressValue = 1;
+                }
                 else if (m_bIsOverTime)
                 {
-                    TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Error);
-                    TaskbarManager.Instance.SetProgressValue(100, 100);
+                    this.TaskbarItemInfo.ProgressState = System.Windows.Shell.TaskbarItemProgressState.Error;
+                    this.TaskbarItemInfo.ProgressValue = 1;
                 }
                 else
                 {
                     if (progressValue > 80)
-                        TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Paused);
+                        this.TaskbarItemInfo.ProgressState = System.Windows.Shell.TaskbarItemProgressState.Paused;
                     else
-                        TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal);
-                    TaskbarManager.Instance.SetProgressValue((int)progressValue, 100);
+                        this.TaskbarItemInfo.ProgressState = System.Windows.Shell.TaskbarItemProgressState.Normal;
+                    this.TaskbarItemInfo.ProgressValue = progressValue / 100;
                 }
 
 
                 if (m_mode == TimerMode.MODE_WORK)
                 {
 
-                    m_btnGoToWork.Visible = m_btnGoToWork.Enabled = false;
-                    //pageButtons.btnWork.Visibility = false.ToVisibility();
-
-                    m_btnGoToRest.Visible = m_btnGoToRest.Enabled = true;
-                    //pageButtons.btnRelax.Visibility = true.ToVisibility();
-
-                    m_btnPause.Visible = m_btnPause.Enabled = !m_bIsPause;
-                    //pageButtons.btnPause.Visibility = (!m_bIsPause).ToVisibility();
-
-                    m_btnPlay.Visible = m_btnPlay.Enabled = m_bIsPause;
-                    //pageButtons.btnPlay.Visibility = (m_bIsPause).ToVisibility();
-                    //pageButtons.labelTime.Opacity = m_bIsPause ? 0.5 : 1;
+                    ThumbButtonGoToWork.Visibility = Visibility.Hidden;
+                    ThumbButtonTakeABreak.Visibility = Visibility.Visible;
+                    ThumbButtonPause.Visibility = !m_bIsPause ? Visibility.Visible : Visibility.Hidden;
+                    ThumbButtonPlay.Visibility = m_bIsPause ? Visibility.Visible : Visibility.Hidden;
 
                 }
                 else
                 {
-                    m_btnGoToWork.Visible = m_btnGoToWork.Enabled = true;
-                    //pageButtons.btnWork.Visibility = true.ToVisibility();
-
-                    m_btnGoToRest.Visible = m_btnGoToRest.Enabled = false;
-                    //pageButtons.btnRelax.Visibility = false.ToVisibility();
-
-                    m_btnPause.Visible = m_btnPause.Enabled = false;
-                    //pageButtons.btnPause.Visibility = false.ToVisibility();
-
-                    m_btnPlay.Visible = m_btnPlay.Enabled = false;
-                    //pageButtons.btnPlay.Visibility = false.ToVisibility();
-                    //pageButtons.labelTime.Opacity = 1;
+                    ThumbButtonGoToWork.Visibility = Visibility.Visible;
+                    ThumbButtonTakeABreak.Visibility = Visibility.Hidden;
+                    ThumbButtonPause.Visibility = Visibility.Hidden;
+                    ThumbButtonPlay.Visibility = Visibility.Hidden;
                 }
-
-                //TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Indeterminate);
-                
             }
-
-
-
-
-
-
-
         }
 
         private int GetPercentageComplete(TimeSpan elapsed, TimeSpan total)
@@ -961,6 +872,31 @@ namespace TomatoTimerWPF
         {
             m_taSlideOut.To = new Thickness(0, 0, 0, 0);
             m_sbAniOut.Begin(spWindowControlStackPanel);
+        }
+
+        private void ThumbButtonPlay_Click(object sender, EventArgs e)
+        {
+            Resume();           
+        }
+
+        private void ThumbButtonPause_Click(object sender, EventArgs e)
+        {
+            Pause();
+        }
+
+        private void ThumbButtonReset_Click(object sender, EventArgs e)
+        {
+            Reset();
+        }
+
+        private void ThumbButtonGoToWork_Click(object sender, EventArgs e)
+        {
+            StartWork();
+        }
+
+        private void ThumbButtonTakeABreak_Click(object sender, EventArgs e)
+        {
+            StartRelax();
         }
     }
 }

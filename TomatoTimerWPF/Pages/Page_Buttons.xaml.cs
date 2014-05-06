@@ -186,13 +186,20 @@ namespace TomatoTimerWPF
                 //}
                 m_bIsMouseDown = false;
 
-                m_window.DragMove();
+                try
+                {
+                    m_window.DragMove();
+                }
+                catch (System.InvalidOperationException)
+                {
+
+                }
                 //Rect bounds = m_window.RestoreBounds;
-                Rect bounds = MainWindow.CheckBounds(m_window.RestoreBounds);
-                m_window.Top = bounds.Top;
-                m_window.Left = bounds.Left;
-                m_window.Width = bounds.Width;
-                m_window.Height = bounds.Height;
+                //Rect bounds = MainWindow.CheckBounds(m_window.RestoreBounds);
+                //m_window.Top = bounds.Top;
+                //m_window.Left = bounds.Left;
+                //m_window.Width = bounds.Width;
+                //m_window.Height = bounds.Height;
                 
 
             }
