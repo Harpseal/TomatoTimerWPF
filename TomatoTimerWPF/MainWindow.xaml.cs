@@ -60,6 +60,8 @@ namespace TomatoTimerWPF
             public Int32 dwTimeout;
         }
 
+        [System.Runtime.InteropServices.DllImport("gdi32.dll")]
+        public static extern bool DeleteObject(IntPtr hObject);
 
         enum TimerMode{
             MODE_WORK,
@@ -549,11 +551,14 @@ namespace TomatoTimerWPF
                         else
                             g.DrawString("{0:00}".ToFormat(Math.Abs(timerSpan.Minutes)), new Font("Courier New", 9), new SolidBrush(System.Drawing.Color.White), -1, 0);
 
+                        IntPtr hBitmap = bmp.GetHbitmap();
                         this.TaskbarItemInfo.Overlay = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
-                                                       bmp.GetHbitmap(),
+                                                       hBitmap,
                                                        IntPtr.Zero,
                                                        System.Windows.Int32Rect.Empty,
                                                        BitmapSizeOptions.FromWidthAndHeight(bmp.Width, bmp.Height));
+
+                        DeleteObject(hBitmap);
                     }
                     m_OverlayIconLastMin = (tMin == 0 ? timerSpan.Seconds : tMin) + (timerSpan.IsNegativeOrZero() ? 1 : 0) + (m_bIsPause ? 3 : 1);
                 }
