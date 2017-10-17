@@ -18,12 +18,12 @@ Pomodoro timer for windows 7/8(Desktop) showing countdown on taskbar by using Ov
 ```
 
 ## Buliding Prerequisites & Dependencies
-- Microsoft Visual Studio 2012/2013 (Express version is enough)
+- [Microsoft Visual Studio](https://www.visualstudio.com/) (Community version is enough)
+- [.NET Framework 4.5](https://www.microsoft.com/zh-tw/download/details.aspx?id=30653)
 
 ## PreBuild Binary
 ### 17/10/2017
-- [TomatoTimerWPF_bin_x86_x64](https://drive.google.com/open?id=0B7Vs3vf9XIJzUzllUVdNb2lDUjg)
-
+- [TomatoTimerWPF_bin_x86_x64](https://drive.google.com/open?id=0B7Vs3vf9XIJzUzllUVdNb2lDUjg)  (compiled by visual studio 2017)
 
 
 ## Attribution
