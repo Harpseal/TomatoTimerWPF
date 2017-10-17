@@ -44,10 +44,12 @@
             <ToggleButton IsChecked="True" Style="{StaticResource AlwaysOnTopToggleButtonStyle}" x:Name="btnAlwaysOnTop" VerticalAlignment="Top" HorizontalAlignment="Right" Width="20" Click="btnAlwaysOnTop_Click" Height="20" ToolTip="Always On Top" Panel.ZIndex="1">
                 <Image Source="/TomatoTimerWPF;component/Resource/Android_JellyBean/9-av-make-available-offline.png" Stretch="Fill" Height="16" Width="16" />
             </ToggleButton>
-            <!--Button x:Name="btnClose" Visibility="Collapsed" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Top" HorizontalAlignment="Right" Width="20" Click="Button_Close_Click" Height="20" ToolTip="Close" Margin="0">
+            
+            <Button x:Name="btnClose" Visibility="Collapsed" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Top" HorizontalAlignment="Right" Width="20" Click="menuCloseSave_Click" Height="20" ToolTip="Close" Margin="0" Padding="0">
                 <Image Source="Resource/Android_JellyBean/1-navigation-cancel.png" Stretch="Fill" Height="16" Width="16" />
-            </Button-->
+            </Button>
 
+            
             <Menu x:Name="menuClose" Style="{StaticResource CloseMenuStyle}" VerticalAlignment="Top" HorizontalAlignment="Right" BorderThickness="1" Background="#00FFFFFF" >
                 <MenuItem Style="{StaticResource CloseMenuItemStyle}">
                     <MenuItem.Header>

@@ -64,7 +64,7 @@
                     <Image Source="../Resource/Android_JellyBean/9-av-pause.png" Stretch="Fill" Width="32" Height="32" ToolTip="Pause" />
                 </Button>
                 <Button x:Name="btnWork" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="Button_GotoWork_Click" PreviewMouseLeftButtonDown="OnButtonMove_MouseDown_1" PreviewMouseMove="OnButtonMove_MouseMove_1" MouseLeave="Button_MouseLeaveDownTime">
-                    <Image Source="../Resource/Android_JellyBean/4-collections-view-as-list.png" Stretch="Fill" Height="32" Width="32" RenderTransformOrigin="2.594,0.344" ToolTip="Go to work" />
+                    <Image Source="../Resource/work_bag-32_alpha.png" Stretch="Fill" Height="32" Width="32" RenderTransformOrigin="2.594,0.344" ToolTip="Go to work" />
                 </Button>
                 <Button x:Name="btnRelax" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" VerticalAlignment="Stretch" Click="Button_GotoRelax_Click" PreviewMouseLeftButtonDown="OnButtonMove_MouseDown_1" PreviewMouseMove="OnButtonMove_MouseMove_1" MouseLeave="Button_MouseLeaveDownTime" >
                     <Image Source="../Resource/Android_JellyBean/12-hardware-gamepad.png" Stretch="Fill" Width="32" Height="32" ToolTip="Take a break" />
