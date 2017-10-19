@@ -600,18 +600,18 @@ namespace TomatoTimerWPF
                 if (m_mode == TimerMode.MODE_WORK)
                 {
 
-                    ThumbButtonGoToWork.Visibility = Visibility.Hidden;
+                    ThumbButtonGoToWork.Visibility = Visibility.Collapsed;
                     ThumbButtonTakeABreak.Visibility = Visibility.Visible;
-                    ThumbButtonPause.Visibility = !m_bIsPause ? Visibility.Visible : Visibility.Hidden;
-                    ThumbButtonPlay.Visibility = m_bIsPause ? Visibility.Visible : Visibility.Hidden;
+                    ThumbButtonPause.Visibility = !m_bIsPause ? Visibility.Visible : Visibility.Collapsed;
+                    ThumbButtonPlay.Visibility = m_bIsPause ? Visibility.Visible : Visibility.Collapsed;
 
                 }
                 else
                 {
                     ThumbButtonGoToWork.Visibility = Visibility.Visible;
-                    ThumbButtonTakeABreak.Visibility = Visibility.Hidden;
-                    ThumbButtonPause.Visibility = Visibility.Hidden;
-                    ThumbButtonPlay.Visibility = Visibility.Hidden;
+                    ThumbButtonTakeABreak.Visibility = Visibility.Collapsed;
+                    ThumbButtonPause.Visibility = Visibility.Collapsed;
+                    ThumbButtonPlay.Visibility = Visibility.Collapsed;
                 }
             }
         }
