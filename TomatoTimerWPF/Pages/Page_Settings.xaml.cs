@@ -246,19 +246,26 @@ namespace TomatoTimerWPF
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            if (cbEnableGCal.IsChecked == true)
+            if (sender == cbEnableGCal)
             {
-                spGoogleEventTitle.IsEnabled = true;
-                spGoogleID.IsEnabled = true;
-                menuTestGoogleCal.IsEnabled = true;
-            }
-            else
+                if (cbEnableGCal.IsChecked == true)
+                {
+                    spGoogleEventTitle.IsEnabled = true;
+                    spGoogleID.IsEnabled = true;
+                    menuTestGoogleCal.IsEnabled = true;
+                }
+                else
+                {
+                    spGoogleEventTitle.IsEnabled = false;
+                    spGoogleID.IsEnabled = false;
+                    menuTestGoogleCal.IsEnabled = false;
+                }
+                TomatoTimerWPF.TimerSettings.Default.GoogleCal_EnableEvent = (cbEnableGCal.IsChecked == true);
+            }//
+            else if (sender == cbCopyLinkToClipBoard)
             {
-                spGoogleEventTitle.IsEnabled = false;
-                spGoogleID.IsEnabled = false;
-                menuTestGoogleCal.IsEnabled = false;
+                TomatoTimerWPF.TimerSettings.Default.GoogleCal_CopyToClipboard = (cbCopyLinkToClipBoard.IsChecked == true);
             }
-            TomatoTimerWPF.TimerSettings.Default.GoogleCal_EnableEvent = (cbEnableGCal.IsChecked == true);
         }
 
         private void MenuItem_SubmenuOpened(object sender, RoutedEventArgs e)

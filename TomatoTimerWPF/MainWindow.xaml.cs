@@ -78,7 +78,7 @@ namespace TomatoTimerWPF
         private TimerMode m_mode = TimerMode.MODE_WORK;
         private int m_OverlayIconLastMin;
         private bool m_bIsSupportTaskbarManager = false;
-        private bool m_bIsOverTime = true;
+        private bool m_bIsOverTime = false;
 
         public IntPtr m_hwnd;
 
@@ -583,7 +583,10 @@ namespace TomatoTimerWPF
                 }
                 else if (m_bIsOverTime)
                 {
-                    this.TaskbarItemInfo.ProgressState = System.Windows.Shell.TaskbarItemProgressState.Error;
+                    if (m_mode == TimerMode.MODE_WORK)
+                        this.TaskbarItemInfo.ProgressState = System.Windows.Shell.TaskbarItemProgressState.Paused;
+                    else
+                        this.TaskbarItemInfo.ProgressState = System.Windows.Shell.TaskbarItemProgressState.Error;
                     if (this.TaskbarItemInfo.ProgressValue != 1)
                         this.TaskbarItemInfo.ProgressValue = 1;
                 }
@@ -749,7 +752,8 @@ namespace TomatoTimerWPF
             strTimeStart = String.Format("{0:yyyyMMdd}", dateStartUTC) + "T" + String.Format("{0:HHmmss}", dateStartUTC) + "Z";
             strTimeEnd = String.Format("{0:yyyyMMdd}", dateEndUTC) + "T" + String.Format("{0:HHmmss}", dateEndUTC) + "Z";
 
-            gcalUrl = "http://www.google.com/calendar/event?action=TEMPLATE";
+            //gcalUrl = "http://www.google.com/calendar/event?action=TEMPLATE";
+            gcalUrl = "https://calendar.google.com/calendar/r/eventedit?action=TEMPLATE";
             if (TomatoTimerWPF.TimerSettings.Default.GoogleCal_text.Length != 0)
             {
                 String textUrlEncode = System.Web.HttpUtility.UrlEncode(TomatoTimerWPF.TimerSettings.Default.GoogleCal_text);
@@ -768,6 +772,10 @@ namespace TomatoTimerWPF
                 
             gcalUrl += "&dates=" + strTimeStart + "/" + strTimeEnd;
             //MessageBox.Show(gcalUrl);
+            if (TomatoTimerWPF.TimerSettings.Default.GoogleCal_CopyToClipboard)
+            {
+                System.Windows.Clipboard.SetText(gcalUrl);
+            }
 
             System.Diagnostics.Process.Start(gcalUrl);
         }
@@ -934,6 +942,12 @@ namespace TomatoTimerWPF
         private void ThumbButtonTakeABreak_Click(object sender, EventArgs e)
         {
             StartRelax();
+        }
+
+        private void Window_Activated(object sender, EventArgs e)
+        {
+            if (m_bIsOverTime && m_mode == TimerMode.MODE_WORK)
+                SetWindowFlash(false);
         }
     }
 }

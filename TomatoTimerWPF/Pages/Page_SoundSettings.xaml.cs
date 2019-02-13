@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using WMPLib;
+//using WMPLib;
 
 namespace TomatoTimerWPF.Pages
 {
@@ -24,8 +24,10 @@ namespace TomatoTimerWPF.Pages
     public partial class Page_SoundSettings : UserControl
     {
         private MainWindow m_window;
-        private WindowsMediaPlayer m_wmplayer = null;
+        //private WindowsMediaPlayer m_wmplayer = null;
         //private System.Media.SoundPlayer[] m_ResourcePlayer;
+
+        private MediaPlayer m_mediaPlayer = null;
 
         private Button[] m_aBtnPlay;
         private Button[] m_aBtnStop;
@@ -139,16 +141,30 @@ namespace TomatoTimerWPF.Pages
                     break;
 
                 case SoundState.File:
-                    if (m_wmplayer == null)
+                    //if (m_wmplayer == null)
+                    //{
+                    //    m_wmplayer = new WMPLib.WindowsMediaPlayer();
+                    //    m_wmplayer.PlayStateChange += 
+                    //        new WMPLib._WMPOCXEvents_PlayStateChangeEventHandler(Player_PlayStateChange);
+                    //}
+                    if (m_mediaPlayer == null)
                     {
-                        m_wmplayer = new WMPLib.WindowsMediaPlayer();
-                        m_wmplayer.PlayStateChange += 
-                            new WMPLib._WMPOCXEvents_PlayStateChangeEventHandler(Player_PlayStateChange);
+                        m_mediaPlayer = new MediaPlayer();
+                        m_mediaPlayer.MediaEnded += MediaPlayer_MediaEnded;
                     }
+
                     break;
 
             }
 
+        }
+
+        private void MediaPlayer_MediaEnded(object sender, EventArgs e)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                SyncStateToUI((SoundType)i, m_aSoundState[i]);
+            }
         }
 
         private string getSoundPathProperties(SoundType type)
@@ -188,29 +204,29 @@ namespace TomatoTimerWPF.Pages
             }
         }
 
-        private void Player_PlayStateChange(int NewState)
-        {
-            if ((WMPLib.WMPPlayState)NewState == WMPLib.WMPPlayState.wmppsStopped ||
-                (WMPLib.WMPPlayState)NewState == WMPLib.WMPPlayState.wmppsMediaEnded)
-            {
-                for (int i = 0; i < 4; i++)
-                {
-                    SyncStateToUI((SoundType)i, m_aSoundState[i]);
-                }
-            }
-            else if ((WMPLib.WMPPlayState)NewState == WMPLib.WMPPlayState.wmppsPlaying)
-            {
-                btnSoundPausePlay.Visibility = Visibility.Collapsed;
-                btnSoundResumePlay.Visibility = Visibility.Collapsed;
-                btnSoundWorkPlay.Visibility = Visibility.Collapsed;
-                btnSoundRestPlay.Visibility = Visibility.Collapsed;
+        //private void Player_PlayStateChange(int NewState)
+        //{
+        //    if ((WMPLib.WMPPlayState)NewState == WMPLib.WMPPlayState.wmppsStopped ||
+        //        (WMPLib.WMPPlayState)NewState == WMPLib.WMPPlayState.wmppsMediaEnded)
+        //    {
+        //        for (int i = 0; i < 4; i++)
+        //        {
+        //            SyncStateToUI((SoundType)i, m_aSoundState[i]);
+        //        }
+        //    }
+        //    else if ((WMPLib.WMPPlayState)NewState == WMPLib.WMPPlayState.wmppsPlaying)
+        //    {
+        //        btnSoundPausePlay.Visibility = Visibility.Collapsed;
+        //        btnSoundResumePlay.Visibility = Visibility.Collapsed;
+        //        btnSoundWorkPlay.Visibility = Visibility.Collapsed;
+        //        btnSoundRestPlay.Visibility = Visibility.Collapsed;
 
-                btnSoundPauseStop.Visibility = Visibility.Visible;
-                btnSoundResumeStop.Visibility = Visibility.Visible;
-                btnSoundWorkStop.Visibility = Visibility.Visible;
-                btnSoundRestStop.Visibility = Visibility.Visible;
-            }
-        }
+        //        btnSoundPauseStop.Visibility = Visibility.Visible;
+        //        btnSoundResumeStop.Visibility = Visibility.Visible;
+        //        btnSoundWorkStop.Visibility = Visibility.Visible;
+        //        btnSoundRestStop.Visibility = Visibility.Visible;
+        //    }
+        //}
 
         public void playSound(SoundType type)
         {
@@ -220,8 +236,21 @@ namespace TomatoTimerWPF.Pages
             switch (m_aSoundState[(int)type])
             { 
                 case SoundState.File:
-                    m_wmplayer.URL = getSoundPathProperties(type);
-                    m_wmplayer.controls.play();
+                    //m_wmplayer.URL = getSoundPathProperties(type);
+                    //m_wmplayer.controls.play();
+                    m_mediaPlayer.Open(new Uri(getSoundPathProperties(type)));
+                    m_mediaPlayer.Play();
+
+                    btnSoundPausePlay.Visibility = Visibility.Collapsed;
+                    btnSoundResumePlay.Visibility = Visibility.Collapsed;
+                    btnSoundWorkPlay.Visibility = Visibility.Collapsed;
+                    btnSoundRestPlay.Visibility = Visibility.Collapsed;
+
+                    btnSoundPauseStop.Visibility = Visibility.Visible;
+                    btnSoundResumeStop.Visibility = Visibility.Visible;
+                    btnSoundWorkStop.Visibility = Visibility.Visible;
+                    btnSoundRestStop.Visibility = Visibility.Visible;
+
                     break;
                 case SoundState.Resource:
                     //m_ResourcePlayer[(int)type].Play();
@@ -245,8 +274,10 @@ namespace TomatoTimerWPF.Pages
 
         private void btnGotoSetting_Click(object sender, RoutedEventArgs e)
         {
-            if (m_wmplayer != null && m_wmplayer.playState == WMPLib.WMPPlayState.wmppsPlaying)
-                m_wmplayer.controls.stop();
+            //if (m_wmplayer != null && m_wmplayer.playState == WMPLib.WMPPlayState.wmppsPlaying)
+            //    m_wmplayer.controls.stop();
+            if (m_mediaPlayer != null)
+                m_mediaPlayer.Stop();
             m_window.SwitchFromSoundToSetting();
         }
 
@@ -285,9 +316,11 @@ namespace TomatoTimerWPF.Pages
 
         private void btnSoundStop_Click(object sender, RoutedEventArgs e)
         {
-            if (m_wmplayer == null) return;
-            m_wmplayer.controls.stop();
-                
+            //if (m_wmplayer == null) return;
+            //m_wmplayer.controls.stop();
+            if (m_mediaPlayer == null) return;
+            m_mediaPlayer.Stop();
+
         }
 
         private void btnSoundOpenFile_Click(object sender, RoutedEventArgs e)

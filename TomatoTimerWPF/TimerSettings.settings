@@ -5,7 +5,7 @@
     <Setting Name="Work_Time" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">30</Value>
     </Setting>
-	<Setting Name="WorkTime_Uesr" Type="System.Int32" Scope="User">
+    <Setting Name="WorkTime_Uesr" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">35</Value>
     </Setting>
     <Setting Name="Relax_Time" Type="System.Int32" Scope="User">
@@ -20,7 +20,7 @@
     <Setting Name="Relax_Time_Long_User" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">20</Value>
     </Setting>
-	<Setting Name="GoogleCal_src" Type="System.String" Scope="User">
+    <Setting Name="GoogleCal_src" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="GoogleCal_text" Type="System.String" Scope="User">
@@ -52,6 +52,9 @@
     </Setting>
     <Setting Name="SoundPathResume" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="GoogleCal_CopyToClipboard" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>
 </SettingsFile>

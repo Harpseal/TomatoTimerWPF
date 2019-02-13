@@ -92,6 +92,7 @@
                             
 
                             <MenuItem x:Name="cbEnableGCal" Header="Enable creating Google Calendar Event after the work is done" IsCheckable="True" Click="CheckBox_Checked"/>
+                            <MenuItem x:Name="cbCopyLinkToClipBoard" Header="Copy GCal link to clipboard before creating event" IsCheckable="True" Click="CheckBox_Checked"/>
                             <Separator />
                             <!--StackPanel Orientation="Horizontal" >
                     <CheckBox x:Name="cbEnableGCal1" VerticalAlignment="Center" Click="CheckBox_Checked" ></CheckBox>
