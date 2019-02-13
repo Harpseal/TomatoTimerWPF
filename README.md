@@ -23,11 +23,6 @@ Pomodoro timer for windows 7/8(Desktop) showing countdown on taskbar by using Ov
 ## Dependencies
 - [.NET Framework 4.5](https://www.microsoft.com/zh-tw/download/details.aspx?id=30653)
 
-## PreBuild Binary
-### 2017/10/20
-- [TomatoTimerWPF_bin_x86_x64](https://drive.google.com/open?id=0B7Vs3vf9XIJzamxmMDhVYlN1amc)  (compiled by visual studio 2017)
-
-
 ## Attribution
 
 All icons and sounds used in this project are made by android team and downloaded from [deviantart](http://palhaiz.deviantart.com/art/Android-4-1-Jelly-Bean-Icon-Set-311741892). Thanks for their hard work. :)
