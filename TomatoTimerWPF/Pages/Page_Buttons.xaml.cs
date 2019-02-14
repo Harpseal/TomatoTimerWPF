@@ -286,6 +286,20 @@ namespace TomatoTimerWPF
         }
 
 
+        public double GetLongMouseDownPercentage()
+        {
+            if (!m_bIsMouseDown) return 0;
+            TimeSpan timeDown = DateTime.Now - m_MouseDownTime;
+            double percentage = timeDown.TotalSeconds / 2.0 * 100;
+            if (percentage > 100) percentage = 100;
+            return percentage;
+        }
+
+        public bool GetIsMouseDown()
+        {
+            return m_bIsMouseDown;
+        }
+
         public bool GetIsLongMouseDown()
         {
             return m_bIsMouseDown && !(DateTime.Now - m_MouseDownTime - 2.Seconds()).IsNegativeOrZero();

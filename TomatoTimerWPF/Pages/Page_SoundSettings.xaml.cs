@@ -320,6 +320,10 @@ namespace TomatoTimerWPF.Pages
             //m_wmplayer.controls.stop();
             if (m_mediaPlayer == null) return;
             m_mediaPlayer.Stop();
+            for (int i = 0; i < 4; i++)
+            {
+                SyncStateToUI((SoundType)i, m_aSoundState[i]);
+            }
 
         }
 
@@ -332,11 +336,7 @@ namespace TomatoTimerWPF.Pages
 
             //dialog.Filter = "Sound files (*.wma;*.mp3;*.wav;*.ogg)|*.wma;*.mp3;*.wav;*.ogg";
             dialog.Filter = "Sound files (*.wma;*.mp3;*.wav)|*.wma;*.mp3;*.wav";
-
-            //設定起始目錄為程式目錄
-            dialog.InitialDirectory = System.Windows.Forms.Application.StartupPath;
-
-            //設定dialog的Title
+            //dialog.InitialDirectory = System.Windows.Forms.Application.StartupPath;
             dialog.Title = "Select a sound file";
 
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -373,6 +373,8 @@ namespace TomatoTimerWPF.Pages
 
         private void btnSoundMute_Click(object sender, RoutedEventArgs e)
         {
+            if (m_mediaPlayer != null)
+                m_mediaPlayer.Stop();
             Button btnSelf = sender as Button;
             SoundType type;
             for (int i = 0; i < 4; i++)

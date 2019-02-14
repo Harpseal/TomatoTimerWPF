@@ -473,13 +473,18 @@ namespace TomatoTimerWPF
                 }
 
                 
-
-                if (pageButtons.GetIsLongMouseDown())
+                if (pageButtons.GetIsMouseDown())
                 {
                     if (pageButtons.btnRelax.IsPressed)
-                        pageButtons.labelTime_small.Content = "Long rest";
+                    {
+                        progressValue = pageButtons.GetLongMouseDownPercentage();
+                        pageButtons.labelTime_small.Content = progressValue >= 100 ? "Long rest" : time;
+                    }
                     else if (pageButtons.btnReset.IsPressed && m_mode == TimerMode.MODE_WORK)
-                        pageButtons.labelTime_small.Content = "Skip GCal";
+                    {
+                        progressValue = pageButtons.GetLongMouseDownPercentage();
+                        pageButtons.labelTime_small.Content = progressValue >= 100 ? "Skip GCal" : time;
+                    }
                     else
                         pageButtons.labelTime_small.Content = time;
                 }
@@ -640,11 +645,11 @@ namespace TomatoTimerWPF
             m_bIsPause = false;
 
 
-            if (menuClose.Visibility == System.Windows.Visibility.Collapsed)
-            {
-                menuClose.Visibility = System.Windows.Visibility.Visible;
-                btnClose.Visibility = System.Windows.Visibility.Collapsed;
-            }
+            //if (menuClose.Visibility == System.Windows.Visibility.Collapsed)
+            //{
+            //    menuClose.Visibility = System.Windows.Visibility.Visible;
+            //    btnClose.Visibility = System.Windows.Visibility.Collapsed;
+            //}
 
             UpdateUI();
            
@@ -670,11 +675,11 @@ namespace TomatoTimerWPF
             }
             m_bIsPause = false;
 
-            if (menuClose.Visibility == System.Windows.Visibility.Visible)
-            {
-                menuClose.Visibility = System.Windows.Visibility.Collapsed;
-                btnClose.Visibility = System.Windows.Visibility.Visible;
-            }
+            //if (menuClose.Visibility == System.Windows.Visibility.Visible)
+            //{
+            //    menuClose.Visibility = System.Windows.Visibility.Collapsed;
+            //    btnClose.Visibility = System.Windows.Visibility.Visible;
+            //}
 
             UpdateUI();
         }
@@ -908,6 +913,7 @@ namespace TomatoTimerWPF
 
         private void Grid_MouseEnter(object sender, MouseEventArgs e)
         {
+            m_timer.Interval = 50;
             m_taSlideIn.From = new Thickness(0, 0, 0, 0);
             m_sbAniIn.Begin(spWindowControlStackPanel);
 
@@ -915,6 +921,7 @@ namespace TomatoTimerWPF
 
         private void Grid_MouseLeave(object sender, MouseEventArgs e)
         {
+            m_timer.Interval = 1000;
             m_taSlideOut.To = new Thickness(0, 0, 0, 0);
             m_sbAniOut.Begin(spWindowControlStackPanel);
         }

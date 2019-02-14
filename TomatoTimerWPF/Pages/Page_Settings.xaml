@@ -89,8 +89,6 @@
                     </Grid>
                     <Button.ContextMenu>
                         <ContextMenu>
-                            
-
                             <MenuItem x:Name="cbEnableGCal" Header="Enable creating Google Calendar Event after the work is done" IsCheckable="True" Click="CheckBox_Checked"/>
                             <MenuItem x:Name="cbCopyLinkToClipBoard" Header="Copy GCal link to clipboard before creating event" IsCheckable="True" Click="CheckBox_Checked"/>
                             <Separator />
@@ -102,7 +100,7 @@
                 </StackPanel-->
                             <StackPanel x:Name="spGoogleID" Orientation="Horizontal" >
                                 <Label Content="Calendar ID" HorizontalAlignment="Right" VerticalAlignment="Top" Width="80" Margin="-4,0,0,0"/>
-                                <TextBox x:Name="tbGoogleCal_src" Width="260" Text=""/>
+                                <TextBox x:Name="tbGoogleCal_src" Width="260" Text="" VerticalAlignment="Center"/>
                                 <Menu Background="{x:Null}" Style="{StaticResource CloseMenuStyle}">
                                     <MenuItem SubmenuOpened="MenuItem_SubmenuOpened" Style="{StaticResource CloseMenuItemStyle}">
                                         <MenuItem.Header>
@@ -126,7 +124,7 @@
                             </StackPanel>
                             <StackPanel x:Name="spGoogleEventTitle" Orientation="Horizontal" >
                                 <Label Content="Event Title" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Margin="-4,0,0,0"/>
-                                <TextBox x:Name="tbGoogleCal_text" Text="" Width="260"/>
+                                <TextBox x:Name="tbGoogleCal_text" Text="" Width="260" VerticalAlignment="Center"/>
 
                             </StackPanel>
                             <MenuItem x:Name="menuTestGoogleCal" Header="Try to create a Google Calendar Event" Click="OnClick_Test_GoogleCalender" VerticalAlignment="Center"/>
